@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Appbar from "./Components/Partials/Appbar";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import "./App.css";
+import Empty from "./Components/Empty";
+import { Todoitem } from "./Components/Todoitem";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Appbar />
+      <Fab color="primary" aria-label="add" className="fab">
+        <AddIcon />
+      </Fab>
+      <Todoitem />
+      <Todoitem />
+      <Todoitem />
+      <Todoitem />
     </div>
   );
 }
