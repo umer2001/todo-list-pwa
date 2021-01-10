@@ -14,9 +14,6 @@ function App() {
         <AddIcon />
       </Fab>
       <Todoitem />
-      <Todoitem />
-      <Todoitem />
-      <Todoitem />
     </div>
   );
 }
