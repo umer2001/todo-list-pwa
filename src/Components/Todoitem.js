@@ -24,7 +24,11 @@ export const Todoitem = () => {
           icon={<CircleUnchecked />}
           checkedIcon={<CircleCheckedFilled />}
         />
-        <ListItemText primary="Photos" secondary={<Secondries />} />
+        <ListItemText
+          disableTypography
+          primary="Photos"
+          secondary={<Secondries />}
+        />
       </ListItem>
     </List>
   );
