@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Quickcomment from "../Quickcomment";
+import Priority from "../Priority";
+import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -7,9 +10,10 @@ import AddIcon from "@material-ui/icons/Add";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
-import Chip from "@material-ui/core/Chip";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 import LocalLaundryServiceOutlinedIcon from "@material-ui/icons/LocalLaundryServiceOutlined";
+import AccessAlarmRoundedIcon from "@material-ui/icons/AccessAlarmRounded";
+import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,14 +71,31 @@ export const Addtodo = () => {
         label="Naked input"
         inputProps={{ "aria-label": "naked" }}
       />
+      <Button
+        size="small"
+        variant="outlined"
+        color="primary"
+        startIcon={<LocalLaundryServiceOutlinedIcon />}
+      >
+        Today
+      </Button>
+      <Button
+        size="small"
+        variant="outlined"
+        color="secondary"
+        startIcon={<InboxOutlinedIcon />}
+      >
+        Inbox
+      </Button>
       <div>
-        <ChatBubbleOutlineIcon />
-        <Chip
-          label="yesterday"
-          icon={<LocalLaundryServiceOutlinedIcon />}
-          size="small"
-          variant="outlined"
-        />
+        <IconButton color="inherit">
+          <LocalOfferOutlinedIcon />
+        </IconButton>
+        <Priority />
+        <IconButton color="inherit">
+          <AccessAlarmRoundedIcon />
+        </IconButton>
+        <Quickcomment />
         <IconButton
           color="inherit"
           style={{ float: "right" }}
