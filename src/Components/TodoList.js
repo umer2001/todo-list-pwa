@@ -23,7 +23,7 @@ export const TodoList = () => {
   useEffect(() => {
     const getTodos = async () => {
       try {
-        const res = await fetch("/api/getTodos");
+        const res = await fetch("/.netlify/functions/getTodos");
         const todos = await res.json();
         dispatch({
           type: "SET_TODOS",

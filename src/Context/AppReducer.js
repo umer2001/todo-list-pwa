@@ -25,7 +25,7 @@ export default (state, action) => {
 
     case "DELETE_TODO":
       try {
-        fetch("/api/deleteTodo", {
+        fetch("/.netlify/functions/deleteTodo", {
           method: "DELETE",
           body: JSON.stringify({
             id: action.payload,
@@ -44,7 +44,7 @@ export default (state, action) => {
       };
     case "ADD_TODO":
       try {
-        fetch("/api/createTodo", {
+        fetch("/.netlify/functions/createTodo", {
           method: "POST",
           body: JSON.stringify(action.payload),
         })
