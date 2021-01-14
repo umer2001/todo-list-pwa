@@ -1,35 +1,20 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
-import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 import { Secondries } from "./Secondries";
+import TodoCheckbox from "./TodoCheckbox";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
-
-export const Todoitem = () => {
-  const classes = useStyles();
+export const TodoItem = ({ todo }) => {
   return (
-    <List width="100%" className={classes.root}>
-      <ListItem>
-        <Checkbox
-          icon={<CircleUnchecked />}
-          checkedIcon={<CircleCheckedFilled />}
-        />
-        <ListItemText
-          disableTypography
-          primary="Photos"
-          secondary={<Secondries />}
-        />
-      </ListItem>
-    </List>
+    <ListItem button>
+      <TodoCheckbox id={todo._id} priority={todo.priority} />
+      <ListItemText
+        disableTypography
+        primary={todo.todo}
+        secondary={<Secondries comments={todo.comments} date={todo.date} />}
+      />
+    </ListItem>
   );
 };
+
+export default TodoItem;

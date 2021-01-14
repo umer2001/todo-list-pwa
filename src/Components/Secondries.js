@@ -20,14 +20,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Secondries = () => {
+export const Secondries = ({ comments, date }) => {
+  const displayWhat = (udate) => {
+    const dateToday = new Date();
+    const testDate = new Date(udate);
+    if (
+      testDate.getMonth() === dateToday.getMonth() &&
+      testDate.getFullYear() === dateToday.getFullYear()
+    ) {
+      if (testDate.getDate() === dateToday.getDate()) {
+        return "Today";
+      } else if (testDate.getDate() === dateToday.getDate() - 1) {
+        return "Yesterday";
+      } else {
+        return `${testDate.toLocaleString("default", {
+          month: "short",
+        })} ${testDate.getDate()}`;
+      }
+    } else {
+      // jan 10
+      return `${testDate.toLocaleString("default", {
+        month: "short",
+      })} ${testDate.getDate()}`;
+    }
+  };
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <ChatBubbleOutlineIcon style={{ fontSize: 15 }} />
-      <Typography className={classes.number}>1</Typography>
+      {comments.length ? (
+        <>
+          <ChatBubbleOutlineIcon style={{ fontSize: 18 }} />
+          <Typography className={classes.number}>{comments.length}</Typography>
+        </>
+      ) : (
+        ""
+      )}
+
       <Chip
-        label="yesterday"
+        label={displayWhat(date)}
         icon={<LocalLaundryServiceOutlinedIcon />}
         size="small"
         variant="outlined"

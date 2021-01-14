@@ -7,7 +7,25 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FlagOutlinedIcon from "@material-ui/icons/FlagOutlined";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function Priority() {
+export default function Priority({ onPrioritySelection }) {
+  const priorities = [
+    {
+      name: "P1",
+      color: "#b71c1c",
+    },
+    {
+      name: "P2",
+      color: "#ffd600",
+    },
+    {
+      name: "P3",
+      color: "blue",
+    },
+    {
+      name: "P4",
+      color: "inherit",
+    },
+  ];
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -41,30 +59,20 @@ export default function Priority() {
         }}
       >
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <FlagOutlinedIcon style={{ color: "#b71c1c" }} />
-            </ListItemIcon>
-            <ListItemText primary="Proirity 1" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <FlagOutlinedIcon style={{ color: "#ffd600" }} />
-            </ListItemIcon>
-            <ListItemText primary="Proirity 2" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <FlagOutlinedIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Proirity 3" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <FlagOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Proirity 4" />
-          </ListItem>
+          {priorities.map((priority, index) => (
+            <ListItem
+              button
+              onClick={() => {
+                onPrioritySelection(priority.name);
+                handleClose();
+              }}
+            >
+              <ListItemIcon>
+                <FlagOutlinedIcon style={{ color: priority.color }} />
+              </ListItemIcon>
+              <ListItemText primary={`Proirity ${index + 1}`} />
+            </ListItem>
+          ))}
         </List>
       </Popover>
     </>

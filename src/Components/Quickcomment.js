@@ -9,8 +9,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function Quickcomment() {
+export default function Quickcomment({ onComment }) {
   const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,6 +19,7 @@ export default function Quickcomment() {
 
   const handleClose = () => {
     setOpen(false);
+    onComment(comment);
   };
 
   return (
@@ -42,6 +44,7 @@ export default function Quickcomment() {
             label="Comment"
             type="email"
             fullWidth
+            onChange={(e) => setComment(e.target.value)}
           />
         </DialogContent>
         <DialogActions>

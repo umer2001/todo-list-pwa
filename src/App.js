@@ -1,16 +1,21 @@
 import React from "react";
 import Appbar from "./Components/Partials/Appbar";
+import GlobalProvider from "./Context/GlobalContext";
 import "./App.css";
-import { Todoitem } from "./Components/Todoitem";
+import TodoList from "./Components/TodoList";
 import Addtodo from "./Components/Partials/Addtodo";
+import Toast from "./Components/Toast";
 
 function App() {
   return (
     <div className="App">
       <Appbar />
-      <Addtodo />
-      <Todoitem />
-      <Addtodo />
+      <GlobalProvider>
+        <Addtodo />
+        <TodoList />
+        <Addtodo />
+        <Toast />
+      </GlobalProvider>
     </div>
   );
 }

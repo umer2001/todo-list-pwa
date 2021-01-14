@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Quickcomment from "../Quickcomment";
 import Priority from "../Priority";
 import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
+import { GlobalDispatchContext } from "../../Context/GlobalContext";
 import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import InputBase from "@material-ui/core/InputBase";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import IconButton from "@material-ui/core/IconButton";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
@@ -44,67 +46,90 @@ const useStyles = makeStyles((theme) => ({
 export const Addtodo = () => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
+  const [todo, setTodo] = useState("");
+  const [priority, setPriority] = useState("P4");
+  const [comments, setComments] = useState([]);
+  const [reminders, setReminders] = useState([]);
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
+  const dispatch = useContext(GlobalDispatchContext);
+
+  const createTodo = async () => {
+    dispatch({
+      type: "ADD_TODO",
+      payload: {
+        todo,
+        priority,
+        reminders,
+        comments,
+        _id: Math.random(),
+      },
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createTodo();
+    setIsOpen(false);
   };
 
   const todoform = (anchor) => (
-    <div
-      className={clsx(classes.todoform, {
-        [classes.fullList]: anchor === "top" || anchor === "bottom",
-      })}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <InputBase
-        className={classes.margin}
-        fullWidth
-        placeholder="Placeholder"
-        label="Naked input"
-        inputProps={{ "aria-label": "naked" }}
-      />
-      <Button
-        size="small"
-        variant="outlined"
-        color="primary"
-        startIcon={<LocalLaundryServiceOutlinedIcon />}
+    <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+      <div
+        className={clsx(classes.todoform, {
+          [classes.fullList]: anchor === "top" || anchor === "bottom",
+        })}
+        role="presentation"
       >
-        Today
-      </Button>
-      <Button
-        size="small"
-        variant="outlined"
-        color="secondary"
-        startIcon={<InboxOutlinedIcon />}
-      >
-        Inbox
-      </Button>
-      <div>
-        <IconButton color="inherit">
-          <LocalOfferOutlinedIcon />
-        </IconButton>
-        <Priority />
-        <IconButton color="inherit">
-          <AccessAlarmRoundedIcon />
-        </IconButton>
-        <Quickcomment />
-        <IconButton
-          color="inherit"
-          style={{ float: "right" }}
-          onClick={() => setIsOpen(false)}
-        >
-          <SendRoundedIcon />
-        </IconButton>
+        <form onSubmit={handleSubmit}>
+          <InputBase
+            className={classes.margin}
+            fullWidth
+            autoFocus
+            placeholder="Placeholder"
+            label="Naked input"
+            inputProps={{ "aria-label": "naked" }}
+            onChange={(e) => setTodo(e.target.value)}
+          />
+          <Button
+            size="small"
+            variant="outlined"
+            color="primary"
+            startIcon={<LocalLaundryServiceOutlinedIcon />}
+          >
+            Today
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            color="secondary"
+            startIcon={<InboxOutlinedIcon />}
+          >
+            Inbox
+          </Button>
+          <div>
+            <IconButton color="inherit">
+              <LocalOfferOutlinedIcon />
+            </IconButton>
+            <Priority
+              onPrioritySelection={(priorityType) => setPriority(priorityType)}
+            />
+            <IconButton color="inherit">
+              <AccessAlarmRoundedIcon />
+            </IconButton>
+            <Quickcomment
+              onComment={(comment) => setComments([...comments, comment])}
+            />
+            <IconButton
+              type="submit"
+              color="inherit"
+              style={{ float: "right" }}
+            >
+              <SendRoundedIcon />
+            </IconButton>
+          </div>
+        </form>
       </div>
-    </div>
+    </ClickAwayListener>
   );
 
   return (
