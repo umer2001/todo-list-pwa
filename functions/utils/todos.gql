@@ -1,0 +1,22 @@
+enum Priority {
+  P1
+  P2
+  P3
+  P4
+}
+
+type Todo {
+  todo: String!
+  description: String!
+  status: Boolean!
+  date: String!
+  priority: Priority
+  uid: ID!
+  subtodos: [Todo!]
+  comments: [String!]
+  reminders: [String!]
+}
+
+type Query {
+  allTodos: [Todo!]!
+}
