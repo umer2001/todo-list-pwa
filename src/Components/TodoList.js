@@ -34,6 +34,8 @@ export const TodoList = () => {
       }
     };
     getTodos();
+    //TODO: eslint
+    // eslint-disable-next-line
   }, []);
 
   return (

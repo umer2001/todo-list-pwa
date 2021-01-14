@@ -49,6 +49,8 @@ export const Addtodo = () => {
   const [todo, setTodo] = useState("");
   const [priority, setPriority] = useState("P4");
   const [comments, setComments] = useState([]);
+  //TODO: eslint
+  // eslint-disable-next-line
   const [reminders, setReminders] = useState([]);
 
   const dispatch = useContext(GlobalDispatchContext);
