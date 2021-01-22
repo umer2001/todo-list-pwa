@@ -4,7 +4,6 @@ import {
   GlobalStateContext,
 } from "../Context/GlobalContext";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
