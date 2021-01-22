@@ -16,6 +16,7 @@ import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 import LocalLaundryServiceOutlinedIcon from "@material-ui/icons/LocalLaundryServiceOutlined";
 import AccessAlarmRoundedIcon from "@material-ui/icons/AccessAlarmRounded";
 import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
+import QuickReminder from "../QuickReminder";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,17 +50,16 @@ export const Addtodo = () => {
   const [todo, setTodo] = useState("");
   const [priority, setPriority] = useState("P4");
   const [comments, setComments] = useState([]);
-  //TODO: eslint
-  // eslint-disable-next-line
   const [reminders, setReminders] = useState([]);
 
   const dispatch = useContext(GlobalDispatchContext);
 
-  const createTodo = async () => {
+  const createTodo = () => {
     dispatch({
       type: "ADD_TODO",
       payload: {
         todo,
+        date: new Date(),
         priority,
         reminders,
         comments,
@@ -84,7 +84,6 @@ export const Addtodo = () => {
       >
         <form onSubmit={handleSubmit}>
           <InputBase
-            className={classes.margin}
             fullWidth
             autoFocus
             placeholder="Placeholder"
@@ -115,9 +114,9 @@ export const Addtodo = () => {
             <Priority
               onPrioritySelection={(priorityType) => setPriority(priorityType)}
             />
-            <IconButton color="inherit">
-              <AccessAlarmRoundedIcon />
-            </IconButton>
+            <QuickReminder
+              onReminder={(reminder) => setReminders([...reminders, reminder])}
+            />
             <Quickcomment
               onComment={(comment) => setComments([...comments, comment])}
             />

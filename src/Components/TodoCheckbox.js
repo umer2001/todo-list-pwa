@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
 import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 
-export const TodoCheckbox = ({ id, priority }) => {
+export const TodoCheckbox = ({ id, priority, todo }) => {
   const priorities = {
     P1: "#b71c1c",
     P2: "#ffd600",
@@ -15,7 +15,6 @@ export const TodoCheckbox = ({ id, priority }) => {
   const dispatch = useContext(GlobalDispatchContext);
 
   const checkboxClicked = (e) => {
-    console.log(e.target.checked);
     if (e.target.checked) {
       //TODO: Hide that to item
       dispatch({
@@ -25,7 +24,7 @@ export const TodoCheckbox = ({ id, priority }) => {
 
       dispatch({
         type: "DELETE_TODO_TMP",
-        payload: id,
+        payload: todo,
       });
     }
   };

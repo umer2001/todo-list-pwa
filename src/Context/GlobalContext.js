@@ -3,12 +3,21 @@ import AppReducer from "./AppReducer";
 
 //initial state
 const initialState = {
-  todos: [],
+  todos: {},
+  todoDetailDrawer: {
+    open: false,
+    id: null,
+  },
+  rightDrawer: {
+    open: false,
+    type: null,
+    id: null,
+  },
   toast: {
     show: false,
     id: 0,
   },
-  lastTodosState: [],
+  lastTodosState: {},
 };
 
 //create context

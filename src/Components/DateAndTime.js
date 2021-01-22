@@ -12,8 +12,9 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: "absolute",
+    position: "fixed",
     bottom: 0,
+    backgroundColor: "#fff",
     paddingRight: theme.spacing(1),
     paddingLeft: theme.spacing(1),
   },
@@ -74,7 +75,7 @@ export const DateAndTime = () => {
         <IconButton
           type="submit"
           color="inherit"
-          style={{ float: "right", marginTop: "20px" }}
+          style={{ float: "right", marginTop: "24px" }}
         >
           <SendRoundedIcon />
         </IconButton>

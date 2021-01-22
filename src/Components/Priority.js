@@ -7,25 +7,25 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FlagOutlinedIcon from "@material-ui/icons/FlagOutlined";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function Priority({ onPrioritySelection }) {
-  const priorities = [
-    {
+export default function Priority({ onPrioritySelection, priority }) {
+  const priorities = {
+    P1: {
       name: "P1",
       color: "#b71c1c",
     },
-    {
+    P2: {
       name: "P2",
       color: "#ffd600",
     },
-    {
+    P3: {
       name: "P3",
       color: "blue",
     },
-    {
+    P4: {
       name: "P4",
       color: "inherit",
     },
-  ];
+  };
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -41,8 +41,10 @@ export default function Priority({ onPrioritySelection }) {
 
   return (
     <>
-      <IconButton color="inherit" onClick={handleClick}>
-        <FlagOutlinedIcon />
+      <IconButton onClick={handleClick}>
+        <FlagOutlinedIcon
+          style={{ color: priorities[priority ? priority : "P1"].color }}
+        />
       </IconButton>
       <Popover
         id={id}
@@ -59,8 +61,9 @@ export default function Priority({ onPrioritySelection }) {
         }}
       >
         <List>
-          {priorities.map((priority, index) => (
+          {Object.keys(priorities).map((priority, index) => (
             <ListItem
+              key={index}
               button
               onClick={() => {
                 onPrioritySelection(priority.name);
@@ -68,7 +71,9 @@ export default function Priority({ onPrioritySelection }) {
               }}
             >
               <ListItemIcon>
-                <FlagOutlinedIcon style={{ color: priority.color }} />
+                <FlagOutlinedIcon
+                  style={{ color: priorities[priority].color }}
+                />
               </ListItemIcon>
               <ListItemText primary={`Proirity ${index + 1}`} />
             </ListItem>

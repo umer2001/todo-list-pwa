@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalStateContext } from "../Context/GlobalContext";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -9,24 +10,38 @@ import IconButton from "@material-ui/core/IconButton";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import DateAndTime from "./DateAndTime";
+import { displayTime } from "../Context/helperFunctions";
 
-export const ReminderContent = () => {
+export const ReminderContent = ({ id }) => {
+  const { todos } = useContext(GlobalStateContext);
+  const reminders = todos[id].reminders;
   return (
     <>
-      <List>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <AccessTimeIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Thursday 9:00AM" />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="delete">
-              <MoreIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
+      <List style={{ paddingBottom: "4em" }}>
+        {reminders.map((reminder, index) => {
+          const reminderObj = new Date(reminder);
+          const month = reminderObj.toLocaleString("default", {
+            month: "short",
+          });
+          const date = reminderObj.getDate();
+          return (
+            <ListItem key={index}>
+              <ListItemAvatar>
+                <Avatar>
+                  <AccessTimeIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={`${month} ${date} ${displayTime(reminder)}`}
+              />
+              <ListItemSecondaryAction>
+                <IconButton edge="end" aria-label="delete">
+                  <MoreIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
       </List>
       <DateAndTime />
     </>

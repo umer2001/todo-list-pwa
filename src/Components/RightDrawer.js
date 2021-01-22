@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import {
+  GlobalDispatchContext,
+  GlobalStateContext,
+} from "../Context/GlobalContext";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,6 +12,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ReminderContent from "./ReminderContent";
+import CommentContent from "./CommentContent";
+import { displayWhat, displayTime } from "../Context/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,51 +52,80 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const DrawerContent = () => {
+export const DrawerContent = ({ type, id, todo, date }) => {
   const classes = useStyles();
+  const dispatch = useContext(GlobalDispatchContext);
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="close drawer"
+            onClick={() =>
+              dispatch({
+                type: "CLOSE_RIGHT_DRAWER",
+              })
+            }
           >
             <ArrowBackIcon />
           </IconButton>
           <Typography className={classes.title} variant="h5">
-            Reminder
+            {type === "commentContent"
+              ? "Comments "
+              : type === "reminderContent"
+              ? "Reminders"
+              : ""}
           </Typography>
         </Toolbar>
         <Typography className={classes.todo} variant="h6">
-          hig !!
+          {todo}
         </Typography>
         <div className={classes.details}>
-          <Typography variant="captions" className={classes.detailText}>
-            Today 3:24PM
+          <Typography variant="caption" className={classes.detailText}>
+            {`${displayWhat(date)} ${displayTime(date)}`}
           </Typography>
-          <Typography variant="captions" className={classes.detailText}>
+          <Typography variant="caption" className={classes.detailText}>
             Inbox
           </Typography>
         </div>
       </AppBar>
-      {/* TODO: display remainderContent or CommentContent */}
-      <ReminderContent />
+      {type === "commentContent" ? (
+        <CommentContent id={id} />
+      ) : type === "reminderContent" ? (
+        <ReminderContent id={id} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
 
 export const RightDrawer = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const {
+    rightDrawer: { open, type, id },
+    todos,
+  } = useContext(GlobalStateContext);
+  const dispatch = useContext(GlobalDispatchContext);
   return (
-    <>
-      <Button onClick={() => setIsOpen(true)}>LEFT</Button>
-      <Drawer anchor="right" open={isOpen} onClose={() => setIsOpen(false)}>
-        <DrawerContent />
-      </Drawer>
-    </>
+    <Drawer
+      anchor="right"
+      open={open}
+      onClose={() =>
+        dispatch({
+          type: "CLOSE_RIGHT_DRAWER",
+        })
+      }
+    >
+      <DrawerContent
+        type={type}
+        id={id}
+        todo={todos[id] ? todos[id].todo : ""}
+        date={todos[id] ? todos[id].date : ""}
+      />
+    </Drawer>
   );
 };
 

@@ -1,3 +1,4 @@
+import { addToObject } from "./helperFunctions";
 //TODO: eslint
 // eslint-disable-next-line
 export default (state, action) => {
@@ -8,21 +9,22 @@ export default (state, action) => {
         todos: action.payload,
       };
     case "DELETE_TODO_TMP":
-      var todoCpy = state.todos;
-      const filteredList = state.todos.filter(
-        (todo) => todo._id !== action.payload
+      delete state.todos[action.payload._id];
+      return {
+        ...state,
+        todos: state.todos,
+        lastTodosState: action.payload,
+      };
+    case "RE_ADD_TODO_TO_STATE":
+      const reAddedList = addToObject(
+        state.todos,
+        state.lastTodosState._id,
+        state.lastTodosState
       );
       return {
         ...state,
-        todos: filteredList,
-        lastTodosState: todoCpy,
+        todos: reAddedList,
       };
-    case "RE_ADD_TODO_TO_STATE":
-      return {
-        ...state,
-        todos: state.lastTodosState,
-      };
-
     case "DELETE_TODO":
       try {
         fetch("/.netlify/functions/deleteTodo", {
@@ -38,9 +40,10 @@ export default (state, action) => {
       } catch (err) {
         console.log(err);
       }
+      delete state.todos[action.payload];
       return {
         ...state,
-        todos: state.todos.filter((todo) => todo._id !== action.payload),
+        todos: state.todos,
       };
     case "ADD_TODO":
       try {
@@ -55,9 +58,10 @@ export default (state, action) => {
       } catch (err) {
         console.log(err);
       }
+      state.todos[action.payload._id] = action.payload;
       return {
         ...state,
-        todos: [...state.todos, action.payload],
+        todos: state.todos,
       };
     case "SHOW_TOAST":
       return {
@@ -74,6 +78,39 @@ export default (state, action) => {
         toast: {
           ...state.toast,
           show: false,
+        },
+      };
+    case "OPEN_TODO_DETAIL":
+      return {
+        ...state,
+        todoDetailDrawer: {
+          open: true,
+          id: action.payload,
+        },
+      };
+    case "CLOSE_TODO_DETAIL":
+      return {
+        ...state,
+        todoDetailDrawer: {
+          ...state.todoDetailDrawer,
+          open: false,
+        },
+      };
+    case "OPEN_RIGHT_DRAWER":
+      return {
+        ...state,
+        rightDrawer: {
+          open: true,
+          type: action.payload.type,
+          id: action.payload.id,
+        },
+      };
+    case "CLOSE_RIGHT_DRAWER":
+      return {
+        ...state,
+        rightDrawer: {
+          ...state.rightDrawer,
+          open: false,
         },
       };
     default:
