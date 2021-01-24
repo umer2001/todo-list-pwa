@@ -55,7 +55,7 @@ export const CommentContent = ({ id }) => {
         {comments.map((comment, index) => (
           <ListItem
             key={index}
-            ref={index === comments.length - 1 ? lastComment : ""}
+            ref={index === comments.length - 1 ? lastComment : null}
           >
             <p {...longPressEvent} className={classes.comment}>
               {comment}
