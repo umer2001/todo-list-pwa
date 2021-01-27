@@ -4,11 +4,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Secondries } from "./Secondries";
 import TodoCheckbox from "./TodoCheckbox";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 export const TodoItem = ({ todo }) => {
   const dispatch = useContext(GlobalDispatchContext);
 
   const openTodoDetail = () => {
+    console.log("not to click");
     dispatch({
       type: "OPEN_TODO_DETAIL",
       payload: todo._id,
@@ -16,11 +18,11 @@ export const TodoItem = ({ todo }) => {
   };
 
   return (
-    <ListItem button>
-      <TodoCheckbox id={todo._id} priority={todo.priority} todo={todo} />
+    <ListItem button onClick={openTodoDetail}>
       <ListItemText
         disableTypography
         primary={todo.todo}
+        style={{ paddingLeft: "45px" }}
         secondary={
           <Secondries
             date={todo.date}
@@ -28,8 +30,10 @@ export const TodoItem = ({ todo }) => {
             numberOfReminders={todo.reminders.length}
           />
         }
-        onClick={openTodoDetail}
       />
+      <ListItemSecondaryAction style={{ width: "min-content", left: "10px" }}>
+        <TodoCheckbox id={todo._id} priority={todo.priority} todo={todo} />
+      </ListItemSecondaryAction>
     </ListItem>
   );
 };
