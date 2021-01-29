@@ -10,7 +10,6 @@ export const TodoItem = ({ todo }) => {
   const dispatch = useContext(GlobalDispatchContext);
 
   const openTodoDetail = () => {
-    console.log("not to click");
     dispatch({
       type: "OPEN_TODO_DETAIL",
       payload: todo._id,

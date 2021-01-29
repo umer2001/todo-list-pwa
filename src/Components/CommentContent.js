@@ -63,7 +63,7 @@ export const CommentContent = ({ id }) => {
           </ListItem>
         ))}
       </List>
-      <AddComment />
+      <AddComment id={id} />
       <Dialog
         open={isdeleteDialogOpen}
         onClose={() => setIsdeleteDialogOpen(false)}

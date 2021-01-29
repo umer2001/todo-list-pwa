@@ -23,6 +23,7 @@ import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 import FilterListRoundedIcon from "@material-ui/icons/FilterListRounded";
 import AddIcon from "@material-ui/icons/Add";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   listItem: {
-    paddingLeft: "60px",
+    marginLeft: "60px",
+    width: "auto",
   },
   addIcon: {
     margin: theme.spacing(0, 1),
@@ -61,7 +63,9 @@ export const Details = ({
   subTodos,
 }) => {
   const classes = useStyles();
+  const { todos } = useContext(GlobalStateContext);
   const dispatch = useContext(GlobalDispatchContext);
+
   return (
     <div className={classes.root}>
       <Typography variant="subtitle1" gutterBottom className={classes.catHead}>
@@ -133,17 +137,47 @@ export const Details = ({
         <h4>Sub-tasks</h4>
       </div>
       <List className={classes.subTaskList}>
-        {subTodos.map((todo) => (
-          <>
-            <Divider variant="inset" component="li" />
-            <ListItem button component="li" className={classes.listItem}>
-              <TodoCheckbox />
-              <ListItemText disableTypography primary={todo.todo} />
+        {subTodos.map((todo) => {
+          return todos[todo._id] !== undefined ? (
+            <ListItem
+              button
+              divider
+              key={todo._id}
+              className={classes.listItem}
+              onClick={() =>
+                dispatch({
+                  type: "OPEN_TODO_DETAIL",
+                  payload: todo._id,
+                })
+              }
+            >
+              <ListItemText
+                disableTypography
+                style={{ marginLeft: "50px" }}
+                primary={todos[todo._id].todo}
+              />
+              <ListItemSecondaryAction
+                style={{ width: "min-content", left: "75px" }}
+              >
+                <TodoCheckbox
+                  id={todos[todo._id]._id}
+                  parentId={id}
+                  todo={todos[todo._id]}
+                  priority={todos[todo._id].priority}
+                />
+              </ListItemSecondaryAction>
             </ListItem>
-          </>
-        ))}
+          ) : (
+            ""
+          );
+        })}
         <Divider variant="inset" component="li" />
-        <ListItem button component="li" className={classes.listItem}>
+        <ListItem
+          button
+          component="li"
+          className={classes.listItem}
+          onClick={() => dispatch({ type: "OPEN_BOTTOM_DRAWER", payload: id })}
+        >
           <AddIcon className={classes.addIcon} />
           <ListItemText primary="Add sub-task" />
         </ListItem>

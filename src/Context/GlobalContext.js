@@ -4,6 +4,11 @@ import AppReducer from "./AppReducer";
 //initial state
 const initialState = {
   todos: {},
+  bottomDrawer: {
+    open: false,
+    subTodo: false,
+    id: null,
+  },
   todoDetailDrawer: {
     open: false,
     id: null,
@@ -15,9 +20,14 @@ const initialState = {
   },
   toast: {
     show: false,
-    id: 0,
+    id: null,
+    parentId: null,
   },
   lastTodosState: {},
+  lastSubTodosState: {
+    parentId: null,
+    subTodos: [],
+  },
 };
 
 //create context

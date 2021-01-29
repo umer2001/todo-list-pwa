@@ -40,9 +40,11 @@ export const TodoList = () => {
 
   return (
     <List width="100%" className={classes.root}>
-      {Object.keys(todos).map((todo) => (
-        <TodoItem key={todo} todo={todos[todo]} />
-      ))}
+      {Object.keys(todos).map((todo) => {
+        if (!todos[todo].status) {
+          return <TodoItem key={todo} todo={todos[todo]} />;
+        }
+      })}
     </List>
   );
 };

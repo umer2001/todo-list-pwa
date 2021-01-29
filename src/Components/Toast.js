@@ -16,9 +16,15 @@ export const Toast = () => {
     dispatch({
       type: "HIDE_TOAST",
     });
-    dispatch({
-      type: "RE_ADD_TODO_TO_STATE",
-    });
+    if (toast.parentId) {
+      dispatch({
+        type: "RE_ADD_SUB_TODO_TO_STATE",
+      });
+    } else {
+      dispatch({
+        type: "RE_ADD_TODO_TO_STATE",
+      });
+    }
   };
 
   const handleClose = (event, reason) => {
@@ -26,10 +32,20 @@ export const Toast = () => {
     // setIsSnackOpen(false);
     console.log("reason : ", reason);
     if (reason === "timeout" || reason === "clickaway") {
-      dispatch({
-        type: "DELETE_TODO",
-        payload: toast.id,
-      });
+      if (toast.parentId) {
+        dispatch({
+          type: "DELETE_SUB_TODO",
+          payload: {
+            id: toast.id,
+            parentId: toast.parentId,
+          },
+        });
+      } else {
+        dispatch({
+          type: "DELETE_TODO",
+          payload: toast.id,
+        });
+      }
     }
 
     dispatch({

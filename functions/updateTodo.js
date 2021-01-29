@@ -1,32 +1,39 @@
-const { CREATE_TODO } = require("./utils/todoQuries");
+const { UPDATE_TODO } = require("./utils/todoQuries");
 const sendQuery = require("./utils/sendQuries");
 const formattedResponse = require("./utils/formattedResponse");
 
 exports.handler = async (event) => {
+  if (event.httpMethod !== "PUT") {
+    return formattedResponse(405, { err: "Method not supported" });
+  }
+  console.log(event.body);
   const {
+    _id: id,
     todo,
     description,
     status,
+    date,
     priority,
     subtodos,
     comments,
     reminders,
   } = JSON.parse(event.body);
   const variables = {
+    id,
     todo,
     description: "",
     uid: `${Math.random()}`,
     status,
-    date: new Date(),
+    date,
     priority,
     subtodos,
     comments,
     reminders,
   };
   try {
-    const { createTodo: createdTodo } = await sendQuery(CREATE_TODO, variables);
+    const { updateTodo: updatedTodo } = await sendQuery(UPDATE_TODO, variables);
 
-    return formattedResponse(200, createdTodo);
+    return formattedResponse(200, updatedTodo);
   } catch (err) {
     console.error(err);
     return formattedResponse(500, { err: "Something went wrong" });

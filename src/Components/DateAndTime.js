@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { GlobalDispatchContext } from "../Context/GlobalContext";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -24,12 +25,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const DateAndTime = () => {
+export const DateAndTime = ({ id }) => {
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = useState(
-    // new Date("2014-08-18T21:11:54")
-    null
-  );
+  const [selectedDate, setSelectedDate] = useState(null);
+  const dispatch = useContext(GlobalDispatchContext);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -37,7 +36,17 @@ export const DateAndTime = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submitted");
+    if (selectedDate !== null) {
+      dispatch({
+        type: "UPDATE_TODO_LOCAL",
+        payload: {
+          _id: id,
+          property: "reminders",
+          data: selectedDate,
+        },
+      });
+    }
+    setSelectedDate(null);
   };
 
   return (

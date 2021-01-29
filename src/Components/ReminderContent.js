@@ -43,7 +43,7 @@ export const ReminderContent = ({ id }) => {
           );
         })}
       </List>
-      <DateAndTime />
+      <DateAndTime id={id} />
     </>
   );
 };

@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
-import Quickcomment from "../Quickcomment";
-import Priority from "../Priority";
+import Quickcomment from "./Quickcomment";
+import Priority from "./Priority";
 import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { GlobalDispatchContext } from "../../Context/GlobalContext";
+import {
+  GlobalStateContext,
+  GlobalDispatchContext,
+} from "../Context/GlobalContext";
 import Drawer from "@material-ui/core/Drawer";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
 import InputBase from "@material-ui/core/InputBase";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,7 +16,7 @@ import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 import LocalLaundryServiceOutlinedIcon from "@material-ui/icons/LocalLaundryServiceOutlined";
 import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
-import QuickReminder from "../QuickReminder";
+import QuickReminder from "./QuickReminder";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,38 +44,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Addtodo = () => {
+export const AddTodoDrawer = () => {
   const classes = useStyles();
-  const [isOpen, setIsOpen] = useState(false);
   const [todo, setTodo] = useState("");
   const [priority, setPriority] = useState("P4");
   const [comments, setComments] = useState([]);
   const [reminders, setReminders] = useState([]);
 
+  const {
+    bottomDrawer: { open, subTodo, id },
+  } = useContext(GlobalStateContext);
   const dispatch = useContext(GlobalDispatchContext);
 
   const createTodo = () => {
-    dispatch({
-      type: "ADD_TODO",
-      payload: {
-        todo,
-        date: new Date(),
-        priority,
-        reminders,
-        comments,
-        _id: Math.random(),
-      },
-    });
+    var newTodo = {
+      todo,
+      date: new Date(),
+      priority,
+      reminders,
+      comments,
+      subtodos: [],
+      _id: Math.random(),
+    };
+    if (subTodo) {
+      newTodo.status = true;
+      dispatch({
+        type: "ADD_SUB_TODO",
+        payload: {
+          newTodo,
+          parentId: id,
+        },
+      });
+    } else {
+      newTodo.status = false;
+      dispatch({
+        type: "ADD_TODO",
+        payload: newTodo,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createTodo();
-    setIsOpen(false);
+    if (todo !== "") {
+      createTodo();
+    }
+    dispatch({ type: "CLOSE_BOTTOM_DRAWER" });
   };
 
   const todoform = (anchor) => (
-    <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+    <ClickAwayListener
+      onClickAway={() => dispatch({ type: "CLOSE_BOTTOM_DRAWER" })}
+    >
       <div
         className={clsx(classes.todoform, {
           [classes.fullList]: anchor === "top" || anchor === "bottom",
@@ -134,17 +155,9 @@ export const Addtodo = () => {
 
   return (
     <>
-      <Fab
-        color="primary"
-        aria-label="add"
-        className="fab"
-        onClick={() => setIsOpen(true)}
-      >
-        <AddIcon />
-      </Fab>
       <Drawer
-        anchor={"bottom"}
-        open={isOpen}
+        anchor="bottom"
+        open={open}
         // onClose={toggleDrawer("bottom", false)}
       >
         {todoform("bottom")}
@@ -153,4 +166,4 @@ export const Addtodo = () => {
   );
 };
 
-export default Addtodo;
+export default AddTodoDrawer;

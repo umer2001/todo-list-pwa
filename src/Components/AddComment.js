@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { GlobalDispatchContext } from "../Context/GlobalContext";
 import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,12 +18,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AddComment = () => {
+export const AddComment = ({ id }) => {
   const classes = useStyles();
+  const [comment, setComment] = useState("");
+  const dispatch = useContext(GlobalDispatchContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submitted");
+    if (comment !== "") {
+      dispatch({
+        type: "UPDATE_TODO_LOCAL",
+        payload: {
+          _id: id,
+          property: "comments",
+          data: comment,
+        },
+      });
+    }
+
+    setComment("");
   };
 
   return (
@@ -31,10 +45,11 @@ export const AddComment = () => {
         <InputBase
           className={classes.margin}
           autoFocus
-          placeholder="Placeholder"
+          placeholder="Add comment"
           label="Naked input"
           inputProps={{ "aria-label": "naked" }}
-          //   onChange={(e) => setTodo(e.target.value)}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
         />
         <IconButton type="submit" color="inherit" style={{ float: "right" }}>
           <SendRoundedIcon />
