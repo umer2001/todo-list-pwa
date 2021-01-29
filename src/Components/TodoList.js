@@ -43,6 +43,8 @@ export const TodoList = () => {
       {Object.keys(todos).map((todo) => {
         if (!todos[todo].status) {
           return <TodoItem key={todo} todo={todos[todo]} />;
+        } else {
+          return "";
         }
       })}
     </List>
