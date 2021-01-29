@@ -30,6 +30,7 @@ export const TodoItem = ({ todo }) => {
         secondary={
           <Secondries
             date={todo.date}
+            numberOfSubTodos={todo.subtodos.length}
             numberOfComments={todo.comments.length}
             numberOfReminders={todo.reminders.length}
           />

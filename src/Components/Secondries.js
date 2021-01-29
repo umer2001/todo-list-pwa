@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
+import FilterListRoundedIcon from "@material-ui/icons/FilterListRounded";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import AccessAlarmRoundedIcon from "@material-ui/icons/AccessAlarmRounded";
 import LocalLaundryServiceOutlinedIcon from "@material-ui/icons/LocalLaundryServiceOutlined";
@@ -23,7 +24,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Secondries = ({ date, numberOfComments, numberOfReminders }) => {
+export const Secondries = ({
+  date,
+  numberOfSubTodos,
+  numberOfComments,
+  numberOfReminders,
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -33,6 +39,14 @@ export const Secondries = ({ date, numberOfComments, numberOfReminders }) => {
         size="small"
         variant="outlined"
       />
+      {numberOfSubTodos ? (
+        <>
+          <FilterListRoundedIcon style={{ fontSize: 18 }} />
+          <Typography className={classes.number}>{numberOfSubTodos}</Typography>
+        </>
+      ) : (
+        ""
+      )}
       {numberOfComments ? (
         <>
           <ChatBubbleOutlineIcon style={{ fontSize: 18 }} />
