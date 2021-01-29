@@ -12,6 +12,7 @@ const initialState = {
   todoDetailDrawer: {
     open: false,
     id: null,
+    detailsChanged: false,
   },
   rightDrawer: {
     open: false,

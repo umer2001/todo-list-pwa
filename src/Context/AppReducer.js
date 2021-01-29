@@ -140,18 +140,24 @@ export default (state, action) => {
             [property]: [...state.todos[_id][property], data],
           },
         },
+        todoDetailDrawer: {
+          ...state.todoDetailDrawer,
+          detailsChanged: true,
+        },
       };
     }
     case "UPDATE_TODO": {
       try {
-        fetch("/.netlify/functions/updateTodo", {
-          method: "PUT",
-          body: JSON.stringify(action.payload),
-        })
-          .then((res) => res.json())
-          .then((todo) => {
-            console.log(todo);
-          });
+        if (state.todoDetailDrawer.detailsChanged) {
+          fetch("/.netlify/functions/updateTodo", {
+            method: "PUT",
+            body: JSON.stringify(action.payload),
+          })
+            .then((res) => res.json())
+            .then((todo) => {
+              console.log(todo);
+            });
+        }
       } catch (err) {
         console.log(err);
       }
@@ -159,6 +165,10 @@ export default (state, action) => {
       return {
         ...state,
         todos: state.todos,
+        todoDetailDrawer: {
+          ...state.todoDetailDrawer,
+          detailsChanged: false,
+        },
       };
     }
     case "SHOW_TOAST": {
