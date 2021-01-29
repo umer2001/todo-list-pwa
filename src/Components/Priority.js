@@ -43,7 +43,9 @@ export default function Priority({ onPrioritySelection, priority }) {
     <>
       <IconButton onClick={handleClick}>
         <FlagIcon
-          style={{ color: priorities[priority ? priority : "P1"].color }}
+          style={{
+            color: priorities[priority].color,
+          }}
         />
       </IconButton>
       <Popover
@@ -66,7 +68,7 @@ export default function Priority({ onPrioritySelection, priority }) {
               key={index}
               button
               onClick={() => {
-                onPrioritySelection(priority.name);
+                onPrioritySelection(priorities[priority].name);
                 handleClose();
               }}
             >

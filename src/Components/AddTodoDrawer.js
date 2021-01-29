@@ -132,6 +132,7 @@ export const AddTodoDrawer = () => {
               <LocalOfferOutlinedIcon />
             </IconButton>
             <Priority
+              priority={priority}
               onPrioritySelection={(priorityType) => setPriority(priorityType)}
             />
             <QuickReminder
