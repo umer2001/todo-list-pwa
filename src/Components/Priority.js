@@ -4,7 +4,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import FlagOutlinedIcon from "@material-ui/icons/FlagOutlined";
+import FlagIcon from "@material-ui/icons/Flag";
 import IconButton from "@material-ui/core/IconButton";
 
 export default function Priority({ onPrioritySelection, priority }) {
@@ -42,7 +42,7 @@ export default function Priority({ onPrioritySelection, priority }) {
   return (
     <>
       <IconButton onClick={handleClick}>
-        <FlagOutlinedIcon
+        <FlagIcon
           style={{ color: priorities[priority ? priority : "P1"].color }}
         />
       </IconButton>
@@ -71,9 +71,7 @@ export default function Priority({ onPrioritySelection, priority }) {
               }}
             >
               <ListItemIcon>
-                <FlagOutlinedIcon
-                  style={{ color: priorities[priority].color }}
-                />
+                <FlagIcon style={{ color: priorities[priority].color }} />
               </ListItemIcon>
               <ListItemText primary={`Proirity ${index + 1}`} />
             </ListItem>
