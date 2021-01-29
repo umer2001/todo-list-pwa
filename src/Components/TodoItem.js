@@ -20,7 +20,7 @@ export const TodoItem = ({ todo }) => {
     <ListItem
       button
       divider
-      style={{ paddingLeft: "16px" }}
+      style={{ paddingRight: "16px" }}
       onClick={openTodoDetail}
     >
       <ListItemText
