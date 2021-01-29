@@ -17,7 +17,12 @@ export const TodoItem = ({ todo }) => {
   };
 
   return (
-    <ListItem button divider onClick={openTodoDetail}>
+    <ListItem
+      button
+      divider
+      style={{ paddingLeft: "16px" }}
+      onClick={openTodoDetail}
+    >
       <ListItemText
         disableTypography
         primary={todo.todo}
