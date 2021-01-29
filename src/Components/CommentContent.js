@@ -32,7 +32,9 @@ export const CommentContent = ({ id }) => {
   const [isdeleteDialogOpen, setIsdeleteDialogOpen] = useState(false);
 
   useEffect(() => {
-    lastComment.current.scrollIntoView();
+    if (lastComment.current !== null) {
+      lastComment.current.scrollIntoView();
+    }
   }, []);
 
   const onLongPress = (e) => {
