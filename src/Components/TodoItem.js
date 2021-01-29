@@ -17,7 +17,7 @@ export const TodoItem = ({ todo }) => {
   };
 
   return (
-    <ListItem button onClick={openTodoDetail}>
+    <ListItem button divider onClick={openTodoDetail}>
       <ListItemText
         disableTypography
         primary={todo.todo}
