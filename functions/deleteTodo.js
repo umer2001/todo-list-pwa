@@ -1,4 +1,4 @@
-const { DELETE_TODO } = require("./utils/todoQuries");
+const { DELETE_TODO, GET_TODO_BY_ID } = require("./utils/todoQuries");
 const sendQuery = require("./utils/sendQuries");
 const formattedResponse = require("./utils/formattedResponse");
 
@@ -10,6 +10,10 @@ exports.handler = async (event) => {
   const { id } = JSON.parse(event.body);
   const variables = { id };
   try {
+    const { findTodoByID: Todo } = await sendQuery(GET_TODO_BY_ID, variables);
+    Todo.subtodos.forEach((subTodo) => {
+      sendQuery(DELETE_TODO, { id: subTodo._id });
+    });
     const { deleteTodo: deletedTodo } = await sendQuery(DELETE_TODO, variables);
     return formattedResponse(200, deletedTodo);
   } catch (err) {
