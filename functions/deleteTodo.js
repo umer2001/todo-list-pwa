@@ -1,4 +1,8 @@
-const { DELETE_TODO, GET_TODO_BY_ID } = require("./utils/todoQuries");
+const {
+  UPDATE_TODO,
+  DELETE_TODO,
+  GET_TODO_BY_ID,
+} = require("./utils/todoQuries");
 const sendQuery = require("./utils/sendQuries");
 const formattedResponse = require("./utils/formattedResponse");
 
@@ -24,8 +28,25 @@ async function recursiveDelete(id) {
 
 exports.handler = async (event, context, callback) => {
   try {
-    const { id } = JSON.parse(event.body);
-    console.log("got : ", id);
+    const { id, parentId } = JSON.parse(event.body);
+    console.log(`got :  ${id}\tparent id : ${parentId}`);
+    // if sub delete refrence from parent
+    if (parentId) {
+      const { findTodoByID: parentTodo } = await sendQuery(GET_TODO_BY_ID, {
+        id: parentId,
+      });
+      var formatedSubTodos = parentTodo.subtodos
+        .filter((subTodo) => subTodo._id !== id)
+        .map((subTodo) => subTodo._id);
+      var updatedTodo = parentTodo;
+      updatedTodo.subtodos = formatedSubTodos;
+      updatedTodo.id = parentId;
+      const { updateTodo: finalUpdatedTodo } = await sendQuery(
+        UPDATE_TODO,
+        updatedTodo
+      );
+    }
+    // delete todo and all its sub todos
     await recursiveDelete(id);
     return formattedResponse(200, { body: "deleting..." });
   } catch (err) {
