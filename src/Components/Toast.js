@@ -32,20 +32,13 @@ export const Toast = () => {
     // setIsSnackOpen(false);
     console.log("reason : ", reason);
     if (reason === "timeout" || reason === "clickaway") {
-      if (toast.parentId) {
-        dispatch({
-          type: "DELETE_SUB_TODO",
-          payload: {
-            id: toast.id,
-            parentId: toast.parentId,
-          },
-        });
-      } else {
-        dispatch({
-          type: "DELETE_TODO",
-          payload: toast.id,
-        });
-      }
+      dispatch({
+        type: "DELETE_TODO",
+        payload: {
+          id: toast.id,
+          parentId: toast.parentId ? toast.parentId : null,
+        },
+      });
     }
 
     dispatch({

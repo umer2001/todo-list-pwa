@@ -32,9 +32,7 @@ export default (state, action) => {
       try {
         fetch("/.netlify/functions/deleteTodo", {
           method: "DELETE",
-          body: JSON.stringify({
-            id: action.payload,
-          }),
+          body: JSON.stringify(action.payload),
         })
           .then((res) => res.json())
           .then((todo) => {
@@ -43,7 +41,7 @@ export default (state, action) => {
       } catch (err) {
         console.log(err);
       }
-      delete state.todos[action.payload];
+      delete state.todos[action.payload.id];
       return {
         ...state,
         todos: state.todos,
@@ -89,25 +87,6 @@ export default (state, action) => {
           parentId: null,
           subTodos: [],
         },
-      };
-    }
-    case "DELETE_SUB_TODO": {
-      try {
-        fetch("/.netlify/functions/deleteSubTodo", {
-          method: "DELETE",
-          body: JSON.stringify(action.payload),
-        })
-          .then((res) => res.json())
-          .then((todo) => {
-            console.log(todo);
-          });
-      } catch (err) {
-        console.log(err);
-      }
-      delete state.todos[action.payload.id];
-      return {
-        ...state,
-        todos: state.todos,
       };
     }
     case "ADD_TODO": {
