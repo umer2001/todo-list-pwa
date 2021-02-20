@@ -36,6 +36,7 @@ query {
         date
         status
         _id
+        uid
         priority
         description
         subtodos {

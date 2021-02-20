@@ -19,4 +19,5 @@ type Todo {
 
 type Query {
   allTodos: [Todo!]!
+  findTodoByUid(uid: ID!): Todo!
 }
