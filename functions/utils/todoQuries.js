@@ -6,7 +6,7 @@ mutation(
         $date:  String!,
         $uid:  ID!,
         $priority: Priority,
-        $subtodos: [ID!],
+        $subtodos: [TodoInput!],
         $comments: [String!],
         $reminders: [String!]
     ) {
@@ -57,7 +57,7 @@ mutation(
     $date:  String!,
     $uid:  ID!,
     $priority: Priority,
-    $subtodos: [ID!],
+    $subtodos: [TodoInput!],
     $comments: [String!],
     $reminders: [String!]
   ) {
@@ -78,11 +78,18 @@ mutation(
 }`;
 
 const DELETE_TODO = `
-mutation($id: ID!) {
-    deleteTodo(id: $id) {
-        todo
-        _id
-    }
+mutation($uid: ID!) {
+  deleteTodo(id: $uid) {
+    todo
+    _id
+  }
+}`;
+
+const DELETE_SUB_TODO = `
+mutation($uid: ID!, $parentUid: ID) {
+  deleteTodo(id: $uid, parentId: $parentUid) {
+    uid
+  }
 }`;
 
 const GET_TODO_BY_ID = `
@@ -139,5 +146,6 @@ module.exports = {
   GET_ALLTODOS,
   UPDATE_TODO,
   DELETE_TODO,
+  DELETE_SUB_TODO,
   GET_TODO_BY_ID,
 };
