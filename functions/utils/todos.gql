@@ -17,7 +17,24 @@ type Todo {
   reminders: [String!]
 }
 
+input TodoInput {
+  todo: String!
+  description: String!
+  status: Boolean!
+  date: String!
+  priority: Priority
+  uid: ID!
+  subtodos: [TodoInput!]
+  comments: [String!]
+  reminders: [String!]
+}
+
 type Query {
   allTodos: [Todo!]!
   findTodoByUid(uid: ID!): Todo!
+}
+
+type Mutation {
+  createSubTodo(parentId: ID!, newData: TodoInput!): Todo!
+    @resolver(name: "create_sub_todo")
 }
