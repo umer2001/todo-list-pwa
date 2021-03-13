@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Details = ({
   todo,
-  id,
+  uid,
   priority,
   numberOfComments,
   numberOfReminders,
@@ -100,7 +100,7 @@ export const Details = ({
               type: "OPEN_RIGHT_DRAWER",
               payload: {
                 type: "reminderContent",
-                id: id,
+                uid,
               },
             })
           }
@@ -117,7 +117,7 @@ export const Details = ({
               type: "OPEN_RIGHT_DRAWER",
               payload: {
                 type: "commentContent",
-                id: id,
+                uid,
               },
             })
           }
@@ -138,32 +138,32 @@ export const Details = ({
       </div>
       <List className={classes.subTaskList}>
         {subTodos.map((todo) => {
-          return todos[todo._id] !== undefined ? (
+          return todos[todo.uid] !== undefined ? (
             <ListItem
               button
               divider
-              key={todo._id}
+              key={todo.uid}
               className={classes.listItem}
               onClick={() =>
                 dispatch({
                   type: "OPEN_TODO_DETAIL",
-                  payload: todo._id,
+                  payload: todo.uid,
                 })
               }
             >
               <ListItemText
                 disableTypography
                 style={{ marginLeft: "50px" }}
-                primary={todos[todo._id].todo}
+                primary={todos[todo.uid].todo}
               />
               <ListItemSecondaryAction
                 style={{ width: "min-content", left: "75px" }}
               >
                 <TodoCheckbox
-                  id={todos[todo._id]._id}
-                  parentId={id}
-                  todo={todos[todo._id]}
-                  priority={todos[todo._id].priority}
+                  uid={todos[todo.uid].uid}
+                  parentId={uid}
+                  todo={todos[todo.uid]}
+                  priority={todos[todo.uid].priority}
                 />
               </ListItemSecondaryAction>
             </ListItem>
@@ -176,7 +176,7 @@ export const Details = ({
           button
           component="li"
           className={classes.listItem}
-          onClick={() => dispatch({ type: "OPEN_BOTTOM_DRAWER", payload: id })}
+          onClick={() => dispatch({ type: "OPEN_BOTTOM_DRAWER", payload: uid })}
         >
           <AddIcon className={classes.addIcon} />
           <ListItemText primary="Add sub-task" />
@@ -188,7 +188,7 @@ export const Details = ({
 
 export const TodoDetailDrawer = () => {
   const {
-    todoDetailDrawer: { open, id },
+    todoDetailDrawer: { open, uid },
     todos,
   } = useContext(GlobalStateContext);
   const dispatch = useContext(GlobalDispatchContext);
@@ -199,19 +199,19 @@ export const TodoDetailDrawer = () => {
     });
     dispatch({
       type: "UPDATE_TODO",
-      payload: todos[id],
+      payload: todos[uid],
     });
   };
   return (
     <Drawer anchor="bottom" open={open} onClose={closeTodoDetailDrawer}>
-      {id !== null ? (
+      {uid !== null ? (
         <Details
-          todo={todos[id].todo}
-          priority={todos[id].priority}
-          numberOfComments={todos[id].comments.length}
-          numberOfReminders={todos[id].reminders.length}
-          subTodos={todos[id].subtodos}
-          id={id}
+          todo={todos[uid].todo}
+          priority={todos[uid].priority}
+          numberOfComments={todos[uid].comments.length}
+          numberOfReminders={todos[uid].reminders.length}
+          subTodos={todos[uid].subtodos}
+          uid={uid}
         />
       ) : (
         "unknown item"

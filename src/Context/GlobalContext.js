@@ -11,17 +11,17 @@ const initialState = {
   },
   todoDetailDrawer: {
     open: false,
-    id: null,
+    uid: null,
     detailsChanged: false,
   },
   rightDrawer: {
     open: false,
     type: null,
-    id: null,
+    uid: null,
   },
   toast: {
     show: false,
-    id: null,
+    uid: null,
     parentId: null,
   },
   lastTodosState: {},
