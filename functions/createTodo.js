@@ -6,6 +6,7 @@ exports.handler = async (event) => {
   const {
     todo,
     description,
+    uid,
     status,
     priority,
     subtodos,
@@ -15,7 +16,7 @@ exports.handler = async (event) => {
   const variables = {
     todo,
     description: "",
-    uid: `${Math.random()}`,
+    uid,
     status,
     date: new Date(),
     priority,
