@@ -1,0 +1,58 @@
+{
+    ref: Function("create_sub_todo"),
+    ts: 1615637819620000,
+    name: "create_sub_todo",
+    data: {
+      gql: {
+        ts: Time("2021-03-09T11:42:49.341122Z"),
+        meta: {
+          location: "Mutation",
+          field: {
+            name: "createSubTodo",
+            directives: [
+              {
+                name: "resolver",
+                args: { name: "create_sub_todo", paginated: false }
+              }
+            ],
+            type: { NotNull: { Named: "Todo" } },
+            arguments: [
+              { name: "parentId", type: { NotNull: { Named: "ID" } } },
+              { name: "newData", type: { NotNull: { Named: "TodoInput" } } }
+            ]
+          }
+        }
+      }
+    },
+    body: Query(
+      Lambda(
+        ["parentUid", "subTodoData"],
+        Let(
+          {
+            parentTodo: Select(
+              [0, "data"],
+              Call(Function("findByUid"), Var("parentUid"))
+            ),
+            parentTodoId: Select(
+              [0, "ref", "id"],
+              Call(Function("findByUid"), Var("parentUid"))
+            ),
+            parentSubTodos: Select(["subtodos"], Var("parentTodo"), []),
+            newSubTodo: Create(Collection("Todo"), { data: Var("subTodoData") }),
+            newSubTodoRef: Select(["ref"], Var("newSubTodo")),
+            newParentSubTodoArray: Append(
+              Var("newSubTodoRef"),
+              Var("parentSubTodos")
+            ),
+            newParentTodo: Merge(Var("parentTodo"), {
+              subtodos: Var("newParentSubTodoArray")
+            }),
+            updateresponse: Update(Ref(Collection("Todo"), Var("parentTodoId")), {
+              data: Var("newParentTodo")
+            })
+          },
+          Var("newSubTodo")
+        )
+      )
+    )
+  }

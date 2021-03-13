@@ -1,0 +1,49 @@
+{
+  ref: Function("deleteTodo"),
+  ts: 1615638507990000,
+  name: "deleteTodo",
+  body: Query(
+    Lambda(
+      ["uId", "parentUid"],
+      Let(
+        {
+          todoId: Select(
+            ["data", 0, "ref", "id"],
+            Call(Function("findByUid"), Var("uId"))
+          ),
+          parentTodoId: Select(
+            ["data", 0, "ref", "id"],
+            Call(Function("findByUid"), [Var("parentUid")]),
+            0
+          )
+        },
+        If(
+          Equals(Var("parentTodoId"), 0),
+          Call(Function("recursiveDelete"), Var("todoId")),
+          Let(
+            {
+              parentSubTodos: Select(
+                ["data", "subtodos"],
+                Get(Ref(Collection("Todo"), Var("parentTodoId"))),
+                []
+              ),
+              parentData: Select(
+                ["data"],
+                Get(Ref(Collection("Todo"), Var("parentTodoId")))
+              )
+            },
+            Do(
+              Update(Ref(Collection("Todo"), Var("parentTodoId")), {
+                data: Merge(Var("parentData"), {
+                  subtodos: Difference(Var("parentSubTodos"), [Var("todoId")])
+                })
+              }),
+              Call(Function("recursiveDelete"), Var("todoId")),
+              Get(Ref(Collection("Todo"), Var("parentTodoId")))
+            )
+          )
+        )
+      )
+    )
+  )
+}
