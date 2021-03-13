@@ -1,8 +1,4 @@
-const {
-  CREATE_TODO,
-  GET_TODO_BY_ID,
-  UPDATE_TODO,
-} = require("./utils/todoQuries");
+const { CREATE_SUB_TODO } = require("./utils/todoQuries");
 const sendQuery = require("./utils/sendQuries");
 const formattedResponse = require("./utils/formattedResponse");
 
@@ -11,6 +7,7 @@ exports.handler = async (event) => {
   const {
     todo,
     description,
+    uid,
     status,
     priority,
     subtodos,
@@ -18,9 +15,10 @@ exports.handler = async (event) => {
     reminders,
   } = newTodo;
   const variables = {
+    parentId,
     todo,
     description: "",
-    uid: `${Math.random()}`,
+    uid,
     status,
     date: new Date(),
     priority,
@@ -29,20 +27,12 @@ exports.handler = async (event) => {
     reminders,
   };
   try {
-    const { createTodo: createdTodo } = await sendQuery(CREATE_TODO, variables);
-    const { findTodoByID: parentTodo } = await sendQuery(GET_TODO_BY_ID, {
-      id: parentId,
-    });
-    var formatedSubTodos = parentTodo.subtodos.map((subTodo) => subTodo._id);
-    formatedSubTodos.push(createdTodo._id);
-    var updatedTodo = parentTodo;
-    updatedTodo.subtodos = formatedSubTodos;
-    updatedTodo.id = parentId;
-    const { updateTodo: finalUpdatedTodo } = await sendQuery(
-      UPDATE_TODO,
-      updatedTodo
+    const { createSubTodo: createdSubTodo } = await sendQuery(
+      CREATE_SUB_TODO,
+      variables
     );
-    return formattedResponse(200, createdTodo);
+
+    return formattedResponse(200, createdSubTodo);
   } catch (err) {
     console.error(err);
     return formattedResponse(500, { err: "Something went wrong" });
