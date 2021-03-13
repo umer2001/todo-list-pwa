@@ -37,4 +37,5 @@ type Query {
 type Mutation {
   createSubTodo(parentId: ID!, newData: TodoInput!): Todo!
     @resolver(name: "create_sub_todo")
+  deleteTodo(id: ID!, parentId: ID): Todo! @resolver(name: "deleteTodo")
 }
