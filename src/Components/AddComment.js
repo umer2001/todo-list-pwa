@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AddComment = ({ id }) => {
+export const AddComment = ({ uid }) => {
   const classes = useStyles();
   const [comment, setComment] = useState("");
   const dispatch = useContext(GlobalDispatchContext);
@@ -29,7 +29,7 @@ export const AddComment = ({ id }) => {
       dispatch({
         type: "UPDATE_TODO_LOCAL",
         payload: {
-          _id: id,
+          uid,
           property: "comments",
           data: comment,
         },
