@@ -6,8 +6,8 @@ export const addToObject = (stateObject, id, property) => {
   for (var prop in stateObject) {
     if (stateObject.hasOwnProperty(prop)) {
       // If the indexes match, add the new item
-      if (id < Number(prop)) {
-        temp[id] = property;
+      if (id < Number(stateObject[prop]._id)) {
+        temp[property.uid] = property;
         found = true;
       }
       // Add the current item in the loop to the temp obj
@@ -16,7 +16,7 @@ export const addToObject = (stateObject, id, property) => {
   }
   //If no index, add to the end
   if (!found) {
-    temp[id] = property;
+    temp[property.uid] = property;
   }
   return temp;
 };
