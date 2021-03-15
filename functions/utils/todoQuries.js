@@ -57,7 +57,6 @@ mutation(
     $date:  String!,
     $uid:  ID!,
     $priority: Priority,
-    $subtodos: [TodoInput!],
     $comments: [String!],
     $reminders: [String!]
   ) {
@@ -68,7 +67,6 @@ mutation(
       date: $date,
       uid: $uid,
       priority: $priority,
-      subtodos: $subtodos,
       comments: $comments,
       reminders: $reminders 
     }) {
