@@ -73,7 +73,7 @@ export const Details = ({
         hello jani
       </Typography>
       <Typography variant="h5" gutterBottom>
-        <TodoCheckbox />
+        <TodoCheckbox uid={uid} priority={priority} todo={{ uid }} />
         {todo}
       </Typography>
       <Button

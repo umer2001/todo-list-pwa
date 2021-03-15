@@ -33,14 +33,20 @@ export const TodoCheckbox = ({ uid, parentId, priority, todo }) => {
         });
       } else {
         dispatch({
-          type: "SHOW_TOAST",
-          payload: uid,
+          type: "CLOSE_TODO_DETAIL",
         });
 
-        dispatch({
-          type: "DELETE_TODO_TMP",
-          payload: todo,
-        });
+        setTimeout(() => {
+          dispatch({
+            type: "SHOW_TOAST",
+            payload: uid,
+          });
+
+          dispatch({
+            type: "DELETE_TODO_TMP",
+            payload: todo,
+          });
+        }, 200);
       }
     }
   };

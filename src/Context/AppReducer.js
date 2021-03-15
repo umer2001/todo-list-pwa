@@ -10,7 +10,8 @@ export default (state, action) => {
       };
     }
     case "DELETE_TODO_TMP": {
-      delete state.todos[action.payload._id];
+      action.payload = state.todos[action.payload.uid];
+      delete state.todos[action.payload.uid];
       return {
         ...state,
         todos: state.todos,
@@ -23,6 +24,7 @@ export default (state, action) => {
         state.lastTodosState._id,
         state.lastTodosState
       );
+
       return {
         ...state,
         todos: reAddedList,
@@ -102,21 +104,21 @@ export default (state, action) => {
       } catch (err) {
         console.log(err);
       }
-      state.todos[action.payload._id] = action.payload;
+      state.todos[action.payload.uid] = action.payload;
       return {
         ...state,
         todos: state.todos,
       };
     }
     case "UPDATE_TODO_LOCAL": {
-      const { _id, property, data } = action.payload;
+      const { uid, property, data } = action.payload;
       return {
         ...state,
         todos: {
           ...state.todos,
-          [_id]: {
-            ...state.todos[_id],
-            [property]: [...state.todos[_id][property], data],
+          [uid]: {
+            ...state.todos[uid],
+            [property]: [...state.todos[uid][property], data],
           },
         },
         todoDetailDrawer: {
@@ -241,6 +243,7 @@ export default (state, action) => {
         todoDetailDrawer: {
           ...state.todoDetailDrawer,
           open: false,
+          uid: null,
         },
       };
     }
