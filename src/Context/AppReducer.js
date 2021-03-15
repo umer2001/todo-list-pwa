@@ -118,7 +118,10 @@ export default (state, action) => {
           ...state.todos,
           [uid]: {
             ...state.todos[uid],
-            [property]: [...state.todos[uid][property], data],
+            [property]:
+              property === "priority"
+                ? data
+                : [...state.todos[uid][property], data],
           },
         },
         todoDetailDrawer: {

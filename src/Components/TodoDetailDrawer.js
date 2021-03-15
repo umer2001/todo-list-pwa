@@ -91,7 +91,16 @@ export const Details = ({
         </IconButton>
         <Priority
           priority={priority}
-          //   onPrioritySelection={(priorityType) => setPriority(priorityType)}
+          onPrioritySelection={(priorityType) =>
+            dispatch({
+              type: "UPDATE_TODO_LOCAL",
+              payload: {
+                uid,
+                property: "priority",
+                data: priorityType,
+              },
+            })
+          }
         />
         <IconButton
           color="inherit"
