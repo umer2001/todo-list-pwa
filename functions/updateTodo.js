@@ -26,7 +26,6 @@ exports.handler = async (event) => {
     status,
     date,
     priority,
-    subtodos: subtodos.map((subTodo) => subTodo._id),
     comments,
     reminders,
   };

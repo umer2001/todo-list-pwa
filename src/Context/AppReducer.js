@@ -10,7 +10,8 @@ export default (state, action) => {
       };
     }
     case "DELETE_TODO_TMP": {
-      delete state.todos[action.payload._id];
+      action.payload = state.todos[action.payload.uid];
+      delete state.todos[action.payload.uid];
       return {
         ...state,
         todos: state.todos,
@@ -23,6 +24,7 @@ export default (state, action) => {
         state.lastTodosState._id,
         state.lastTodosState
       );
+
       return {
         ...state,
         todos: reAddedList,
@@ -48,7 +50,7 @@ export default (state, action) => {
       };
     }
     case "DELETE_SUB_TODO_TMP": {
-      const { parentId, id } = action.payload;
+      const { parentId, uid } = action.payload;
       var subTodos;
       try {
         subTodos = state.todos[parentId].subtodos;
@@ -61,7 +63,7 @@ export default (state, action) => {
             [parentId]: {
               ...state.todos[parentId],
               subtodos: state.todos[parentId].subtodos.filter(
-                (subTodo) => subTodo._id !== id
+                (subTodo) => subTodo.uid !== uid
               ),
             },
           },
@@ -102,21 +104,24 @@ export default (state, action) => {
       } catch (err) {
         console.log(err);
       }
-      state.todos[action.payload._id] = action.payload;
+      state.todos[action.payload.uid] = action.payload;
       return {
         ...state,
         todos: state.todos,
       };
     }
     case "UPDATE_TODO_LOCAL": {
-      const { _id, property, data } = action.payload;
+      const { uid, property, data } = action.payload;
       return {
         ...state,
         todos: {
           ...state.todos,
-          [_id]: {
-            ...state.todos[_id],
-            [property]: [...state.todos[_id][property], data],
+          [uid]: {
+            ...state.todos[uid],
+            [property]:
+              property === "priority"
+                ? data
+                : [...state.todos[uid][property], data],
           },
         },
         todoDetailDrawer: {
@@ -127,6 +132,7 @@ export default (state, action) => {
     }
     case "UPDATE_TODO": {
       try {
+        console.log("updating");
         if (state.todoDetailDrawer.detailsChanged) {
           fetch("/.netlify/functions/updateTodo", {
             method: "PUT",
@@ -140,7 +146,7 @@ export default (state, action) => {
       } catch (err) {
         console.log(err);
       }
-      state.todos[action.payload._id] = action.payload;
+      state.todos[action.payload.uid] = action.payload;
       return {
         ...state,
         todos: state.todos,
@@ -156,7 +162,7 @@ export default (state, action) => {
         toast: {
           ...state.toast,
           show: true,
-          id: action.payload.id ? action.payload.id : action.payload,
+          uid: action.payload.uid ? action.payload.uid : action.payload,
           parentId: action.payload.parentId ? action.payload.parentId : null,
         },
       };
@@ -178,7 +184,7 @@ export default (state, action) => {
           bottomDrawer: {
             open: true,
             subTodo: true,
-            id: action.payload,
+            uid: action.payload,
           },
         };
       } else {
@@ -208,20 +214,19 @@ export default (state, action) => {
         })
           .then((res) => res.json())
           .then((formated) => {
-            newTodo._id = formated._id;
-            state.todos[formated._id] = newTodo;
+            console.log(formated);
           });
       } catch (err) {
         console.log(err);
       }
-      state.todos[newTodo._id] = newTodo;
+      state.todos[newTodo.uid] = newTodo;
       return {
         ...state,
         todos: {
           ...state.todos,
           [parentId]: {
             ...state.todos[parentId],
-            subtodos: [...state.todos[parentId].subtodos, { _id: newTodo._id }],
+            subtodos: [...state.todos[parentId].subtodos, { uid: newTodo.uid }],
           },
         },
       };
@@ -231,7 +236,7 @@ export default (state, action) => {
         ...state,
         todoDetailDrawer: {
           open: true,
-          id: action.payload,
+          uid: action.payload,
         },
       };
     }
@@ -241,6 +246,7 @@ export default (state, action) => {
         todoDetailDrawer: {
           ...state.todoDetailDrawer,
           open: false,
+          uid: null,
         },
       };
     }
@@ -250,7 +256,7 @@ export default (state, action) => {
         rightDrawer: {
           open: true,
           type: action.payload.type,
-          id: action.payload.id,
+          uid: action.payload.uid,
         },
       };
     }

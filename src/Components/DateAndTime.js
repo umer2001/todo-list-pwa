@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const DateAndTime = ({ id }) => {
+export const DateAndTime = ({ uid }) => {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState(null);
   const dispatch = useContext(GlobalDispatchContext);
@@ -40,7 +40,7 @@ export const DateAndTime = ({ id }) => {
       dispatch({
         type: "UPDATE_TODO_LOCAL",
         payload: {
-          _id: id,
+          uid,
           property: "reminders",
           data: selectedDate,
         },

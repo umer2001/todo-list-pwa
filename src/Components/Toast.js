@@ -35,7 +35,7 @@ export const Toast = () => {
       dispatch({
         type: "DELETE_TODO",
         payload: {
-          id: toast.id,
+          id: toast.uid,
           parentId: toast.parentId ? toast.parentId : null,
         },
       });

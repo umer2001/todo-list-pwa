@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
 import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 
-export const TodoCheckbox = ({ id, parentId, priority, todo }) => {
+export const TodoCheckbox = ({ uid, parentId, priority, todo }) => {
   const priorities = {
     P1: "#b71c1c",
     P2: "#ffd600",
@@ -20,27 +20,33 @@ export const TodoCheckbox = ({ id, parentId, priority, todo }) => {
         dispatch({
           type: "SHOW_TOAST",
           payload: {
-            id,
+            uid,
             parentId,
           },
         });
         dispatch({
           type: "DELETE_SUB_TODO_TMP",
           payload: {
-            id,
+            uid,
             parentId,
           },
         });
       } else {
         dispatch({
-          type: "SHOW_TOAST",
-          payload: id,
+          type: "CLOSE_TODO_DETAIL",
         });
 
-        dispatch({
-          type: "DELETE_TODO_TMP",
-          payload: todo,
-        });
+        setTimeout(() => {
+          dispatch({
+            type: "SHOW_TOAST",
+            payload: uid,
+          });
+
+          dispatch({
+            type: "DELETE_TODO_TMP",
+            payload: todo,
+          });
+        }, 200);
       }
     }
   };

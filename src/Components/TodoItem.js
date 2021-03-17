@@ -12,7 +12,7 @@ export const TodoItem = ({ todo }) => {
   const openTodoDetail = () => {
     dispatch({
       type: "OPEN_TODO_DETAIL",
-      payload: todo._id,
+      payload: todo.uid,
     });
   };
 
@@ -37,7 +37,8 @@ export const TodoItem = ({ todo }) => {
         }
       />
       <ListItemSecondaryAction style={{ width: "min-content", left: "10px" }}>
-        <TodoCheckbox id={todo._id} priority={todo.priority} todo={todo} />
+        {/* TODO: check if we can remove  priority={todo.priority}*/}
+        <TodoCheckbox uid={todo.uid} priority={todo.priority} todo={todo} />
       </ListItemSecondaryAction>
     </ListItem>
   );

@@ -12,9 +12,9 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import DateAndTime from "./DateAndTime";
 import { displayTime } from "../Context/helperFunctions";
 
-export const ReminderContent = ({ id }) => {
+export const ReminderContent = ({ uid }) => {
   const { todos } = useContext(GlobalStateContext);
-  const reminders = todos[id].reminders;
+  const reminders = todos[uid].reminders;
   return (
     <>
       <List style={{ paddingBottom: "4em" }}>
@@ -43,7 +43,7 @@ export const ReminderContent = ({ id }) => {
           );
         })}
       </List>
-      <DateAndTime id={id} />
+      <DateAndTime uid={uid} />
     </>
   );
 };

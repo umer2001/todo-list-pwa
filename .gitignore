@@ -20,6 +20,8 @@
 .env.production.local
 .env
 .eslintcache
+.notes
+.faunarc
 
 npm-debug.log*
 yarn-debug.log*

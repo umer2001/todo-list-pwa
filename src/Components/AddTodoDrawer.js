@@ -52,7 +52,7 @@ export const AddTodoDrawer = () => {
   const [reminders, setReminders] = useState([]);
 
   const {
-    bottomDrawer: { open, subTodo, id },
+    bottomDrawer: { open, subTodo, uid },
   } = useContext(GlobalStateContext);
   const dispatch = useContext(GlobalDispatchContext);
 
@@ -64,7 +64,7 @@ export const AddTodoDrawer = () => {
       reminders,
       comments,
       subtodos: [],
-      _id: Math.random(),
+      uid: `${Math.random()}`,
     };
     if (subTodo) {
       newTodo.status = true;
@@ -72,7 +72,7 @@ export const AddTodoDrawer = () => {
         type: "ADD_SUB_TODO",
         payload: {
           newTodo,
-          parentId: id,
+          parentId: uid,
         },
       });
     } else {

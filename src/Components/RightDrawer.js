@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const DrawerContent = ({ type, id, todo, date }) => {
+export const DrawerContent = ({ type, uid, todo, date }) => {
   const classes = useStyles();
   const dispatch = useContext(GlobalDispatchContext);
   return (
@@ -92,9 +92,9 @@ export const DrawerContent = ({ type, id, todo, date }) => {
         </div>
       </AppBar>
       {type === "commentContent" ? (
-        <CommentContent id={id} />
+        <CommentContent uid={uid} />
       ) : type === "reminderContent" ? (
-        <ReminderContent id={id} />
+        <ReminderContent uid={uid} />
       ) : (
         ""
       )}
@@ -104,7 +104,7 @@ export const DrawerContent = ({ type, id, todo, date }) => {
 
 export const RightDrawer = () => {
   const {
-    rightDrawer: { open, type, id },
+    rightDrawer: { open, type, uid },
     todos,
   } = useContext(GlobalStateContext);
   const dispatch = useContext(GlobalDispatchContext);
@@ -120,9 +120,9 @@ export const RightDrawer = () => {
     >
       <DrawerContent
         type={type}
-        id={id}
-        todo={todos[id] ? todos[id].todo : ""}
-        date={todos[id] ? todos[id].date : ""}
+        uid={uid}
+        todo={todos[uid] ? todos[uid].todo : ""}
+        date={todos[uid] ? todos[uid].date : ""}
       />
     </Drawer>
   );

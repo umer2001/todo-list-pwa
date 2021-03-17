@@ -24,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CommentContent = ({ id }) => {
+export const CommentContent = ({ uid }) => {
   const classes = useStyles();
   const { todos } = useContext(GlobalStateContext);
-  const comments = todos[id].comments;
+  const comments = todos[uid].comments;
   const lastComment = useRef(null);
   const [isdeleteDialogOpen, setIsdeleteDialogOpen] = useState(false);
 
@@ -65,7 +65,7 @@ export const CommentContent = ({ id }) => {
           </ListItem>
         ))}
       </List>
-      <AddComment id={id} />
+      <AddComment uid={uid} />
       <Dialog
         open={isdeleteDialogOpen}
         onClose={() => setIsdeleteDialogOpen(false)}
