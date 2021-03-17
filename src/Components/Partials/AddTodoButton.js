@@ -12,7 +12,6 @@ export const AddTodoButton = () => {
       className="fab"
       onClick={() => {
         dispatch({ type: "OPEN_BOTTOM_DRAWER" });
-        window.history.pushState({}, "Add New Todo", "/add-todo");
       }}
     >
       <AddIcon />
