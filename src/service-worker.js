@@ -13,6 +13,7 @@ import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate, NetworkFirst } from "workbox-strategies";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
+// import { Queue } from "workbox-background-sync";
 
 clientsClaim();
 
@@ -86,3 +87,12 @@ registerRoute(
     ],
   })
 );
+
+// for creade update and delete
+
+// const queue = new Queue("myQueueName");
+
+self.addEventListener("fetch", (event) => {
+  // const reqUrl = new URL(event.request.url);
+  console.log(event.request);
+});
