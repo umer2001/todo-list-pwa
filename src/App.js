@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Appbar from "./Components/Partials/Appbar";
 import GlobalProvider from "./Context/GlobalContext";
 import "./App.css";
@@ -10,6 +10,15 @@ import TodoDetailDrawer from "./Components/TodoDetailDrawer";
 import AddTodoButton from "./Components/Partials/AddTodoButton";
 
 function App() {
+  useEffect(() => {
+    window.addEventListener("load", function () {
+      window.history.pushState({}, "");
+    });
+
+    window.addEventListener("popstate", function () {
+      window.history.pushState({}, "");
+    });
+  }, []);
   return (
     <div className="App">
       <Appbar />
