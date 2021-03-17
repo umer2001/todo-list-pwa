@@ -1,6 +1,6 @@
 {
   ref: Function("deleteTodo"),
-  ts: 1615638507990000,
+  ts: 1615647751600000,
   name: "deleteTodo",
   body: Query(
     Lambda(
@@ -22,20 +22,19 @@
           Call(Function("recursiveDelete"), Var("todoId")),
           Let(
             {
-              parentSubTodos: Select(
-                ["data", "subtodos"],
-                Get(Ref(Collection("Todo"), Var("parentTodoId"))),
-                []
-              ),
               parentData: Select(
                 ["data"],
                 Get(Ref(Collection("Todo"), Var("parentTodoId")))
-              )
+              ),
+              parentSubTodos: Select(["subtodos"], Var("parentData"), []),
+              updatedSubTodosArray: Difference(Var("parentSubTodos"), [
+                Ref(Collection("Todo"), Var("todoId"))
+              ])
             },
             Do(
               Update(Ref(Collection("Todo"), Var("parentTodoId")), {
                 data: Merge(Var("parentData"), {
-                  subtodos: Difference(Var("parentSubTodos"), [Var("todoId")])
+                  subtodos: Var("updatedSubTodosArray")
                 })
               }),
               Call(Function("recursiveDelete"), Var("todoId")),
@@ -45,5 +44,24 @@
         )
       )
     )
-  )
+  ),
+  data: {
+    gql: {
+      ts: Time("2021-03-13T14:18:35.906527Z"),
+      meta: {
+        location: "Mutation",
+        field: {
+          name: "deleteTodo",
+          directives: [
+            { name: "resolver", args: { name: "deleteTodo", paginated: false } }
+          ],
+          type: { NotNull: { Named: "Todo" } },
+          arguments: [
+            { name: "id", type: { NotNull: { Named: "ID" } } },
+            { name: "parentId", type: { Named: "ID" } }
+          ]
+        }
+      }
+    }
+  }
 }
