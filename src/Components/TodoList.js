@@ -19,7 +19,9 @@ export const TodoList = () => {
   const classes = useStyles();
 
   const dispatch = useContext(GlobalDispatchContext);
-  const { todos } = useContext(GlobalStateContext);
+  const { todos, bottomDrawer, todoDetailDrawer, rightDrawer } = useContext(
+    GlobalStateContext
+  );
 
   useEffect(() => {
     const getTodos = async () => {
@@ -34,7 +36,24 @@ export const TodoList = () => {
         console.log(err);
       }
     };
-    getTodos();
+    getTodos().then(() => {
+      // add initial drawer states
+      window.history.pushState(
+        {
+          bottomDrawer,
+          todoDetailDrawer,
+          rightDrawer,
+        },
+        ""
+      );
+
+      window.addEventListener("popstate", function () {
+        //dispatch to previous drawer states
+        dispatch({
+          type: "POP_STATE",
+        });
+      });
+    });
     //TODO: eslint
     // eslint-disable-next-line
   }, []);

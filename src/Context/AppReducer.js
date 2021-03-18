@@ -178,7 +178,21 @@ export default (state, action) => {
       };
     }
     case "OPEN_BOTTOM_DRAWER": {
+      const { todoDetailDrawer, rightDrawer } = state;
       if (action.payload) {
+        window.history.pushState(
+          {
+            rightDrawer,
+            todoDetailDrawer,
+            bottomDrawer: {
+              open: true,
+              subTodo: true,
+              uid: action.payload,
+            },
+          },
+          "",
+          "/AddNew"
+        );
         return {
           ...state,
           bottomDrawer: {
@@ -188,6 +202,17 @@ export default (state, action) => {
           },
         };
       } else {
+        window.history.pushState(
+          {
+            rightDrawer,
+            todoDetailDrawer,
+            bottomDrawer: {
+              open: true,
+            },
+          },
+          "",
+          "/AddNew"
+        );
         return {
           ...state,
           bottomDrawer: {
@@ -197,6 +222,7 @@ export default (state, action) => {
       }
     }
     case "CLOSE_BOTTOM_DRAWER": {
+      window.history.back();
       return {
         ...state,
         bottomDrawer: {
@@ -232,6 +258,19 @@ export default (state, action) => {
       };
     }
     case "OPEN_TODO_DETAIL": {
+      const { bottomDrawer, rightDrawer } = state;
+      window.history.pushState(
+        {
+          bottomDrawer,
+          rightDrawer,
+          todoDetailDrawer: {
+            open: true,
+            uid: action.payload,
+          },
+        },
+        "",
+        "/TodoDetail"
+      );
       return {
         ...state,
         todoDetailDrawer: {
@@ -241,6 +280,7 @@ export default (state, action) => {
       };
     }
     case "CLOSE_TODO_DETAIL": {
+      window.history.back();
       return {
         ...state,
         todoDetailDrawer: {
@@ -251,6 +291,20 @@ export default (state, action) => {
       };
     }
     case "OPEN_RIGHT_DRAWER": {
+      const { bottomDrawer, todoDetailDrawer } = state;
+      window.history.pushState(
+        {
+          bottomDrawer,
+          todoDetailDrawer,
+          rightDrawer: {
+            open: true,
+            type: action.payload.type,
+            uid: action.payload.uid,
+          },
+        },
+        "",
+        `/${action.payload.type}`
+      );
       return {
         ...state,
         rightDrawer: {
@@ -261,12 +315,26 @@ export default (state, action) => {
       };
     }
     case "CLOSE_RIGHT_DRAWER": {
+      window.history.back();
       return {
         ...state,
         rightDrawer: {
           ...state.rightDrawer,
           open: false,
         },
+      };
+    }
+    case "POP_STATE": {
+      const {
+        bottomDrawer,
+        rightDrawer,
+        todoDetailDrawer,
+      } = window.history.state;
+      return {
+        ...state,
+        bottomDrawer,
+        rightDrawer,
+        todoDetailDrawer,
       };
     }
     default: {

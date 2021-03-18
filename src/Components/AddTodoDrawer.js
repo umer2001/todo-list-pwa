@@ -90,14 +90,12 @@ export const AddTodoDrawer = () => {
       createTodo();
     }
     dispatch({ type: "CLOSE_BOTTOM_DRAWER" });
-    window.history.back();
   };
 
   const todoform = (anchor) => (
     <ClickAwayListener
       onClickAway={() => {
         dispatch({ type: "CLOSE_BOTTOM_DRAWER" });
-        window.history.back();
       }}
     >
       <div

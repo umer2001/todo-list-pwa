@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Appbar from "./Components/Partials/Appbar";
 import GlobalProvider from "./Context/GlobalContext";
 import "./App.css";
@@ -16,20 +15,10 @@ function App() {
       <Appbar />
       <GlobalProvider>
         <TodoList />
-        {/*  */}
-        <Router>
-          <Link to="/add-new">
-            <AddTodoButton />
-          </Link>
-
-          <Route path="/add-new">
-            <AddTodoDrawer />
-          </Route>
-
-          <RightDrawer />
-          <TodoDetailDrawer />
-        </Router>
-        {/*  */}
+        <AddTodoButton />
+        <AddTodoDrawer />
+        <RightDrawer />
+        <TodoDetailDrawer />
         <Toast />
       </GlobalProvider>
     </div>
