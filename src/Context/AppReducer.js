@@ -325,17 +325,19 @@ export default (state, action) => {
       };
     }
     case "POP_STATE": {
-      const {
-        bottomDrawer,
-        rightDrawer,
-        todoDetailDrawer,
-      } = window.history.state;
-      return {
-        ...state,
-        bottomDrawer,
-        rightDrawer,
-        todoDetailDrawer,
-      };
+      if (window.history.state !== null) {
+        const {
+          bottomDrawer,
+          rightDrawer,
+          todoDetailDrawer,
+        } = window.history.state;
+        return {
+          ...state,
+          bottomDrawer,
+          rightDrawer,
+          todoDetailDrawer,
+        };
+      }
     }
     default: {
       return state;
