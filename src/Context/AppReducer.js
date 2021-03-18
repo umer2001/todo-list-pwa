@@ -280,7 +280,10 @@ export default (state, action) => {
       };
     }
     case "CLOSE_TODO_DETAIL": {
-      window.history.back();
+      if (action.payload !== "noWimdowHistoryBack") {
+        window.history.back();
+      }
+
       return {
         ...state,
         todoDetailDrawer: {
@@ -337,6 +340,8 @@ export default (state, action) => {
           rightDrawer,
           todoDetailDrawer,
         };
+      } else {
+        break;
       }
     }
     default: {

@@ -34,6 +34,7 @@ export const TodoCheckbox = ({ uid, parentId, priority, todo }) => {
       } else {
         dispatch({
           type: "CLOSE_TODO_DETAIL",
+          payload: "noWimdowHistoryBack",
         });
 
         setTimeout(() => {
