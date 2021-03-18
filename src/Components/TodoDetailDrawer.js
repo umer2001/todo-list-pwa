@@ -206,10 +206,6 @@ export const TodoDetailDrawer = () => {
     dispatch({
       type: "CLOSE_TODO_DETAIL",
     });
-    dispatch({
-      type: "UPDATE_TODO",
-      payload: todos[uid],
-    });
   };
   return (
     <Drawer anchor="bottom" open={open} onClose={closeTodoDetailDrawer}>

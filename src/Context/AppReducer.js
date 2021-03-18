@@ -112,7 +112,7 @@ export default (state, action) => {
     }
     case "UPDATE_TODO_LOCAL": {
       const { uid, property, data } = action.payload;
-      return {
+      const updatedstate = {
         ...state,
         todos: {
           ...state.todos,
@@ -124,37 +124,23 @@ export default (state, action) => {
                 : [...state.todos[uid][property], data],
           },
         },
-        todoDetailDrawer: {
-          ...state.todoDetailDrawer,
-          detailsChanged: true,
-        },
       };
-    }
-    case "UPDATE_TODO": {
       try {
-        console.log("updating");
-        if (state.todoDetailDrawer.detailsChanged) {
-          fetch("/.netlify/functions/updateTodo", {
-            method: "PUT",
-            body: JSON.stringify(action.payload),
-          })
-            .then((res) => res.json())
-            .then((todo) => {
-              console.log(todo);
-            });
-        }
+        console.log("updating", action.payload);
+
+        fetch("/.netlify/functions/updateTodo", {
+          method: "PUT",
+          body: JSON.stringify(updatedstate.todos[uid]),
+        })
+          .then((res) => res.json())
+          .then((todo) => {
+            console.log(todo);
+          });
       } catch (err) {
         console.log(err);
       }
-      state.todos[action.payload.uid] = action.payload;
-      return {
-        ...state,
-        todos: state.todos,
-        todoDetailDrawer: {
-          ...state.todoDetailDrawer,
-          detailsChanged: false,
-        },
-      };
+      console.log(updatedstate);
+      return updatedstate;
     }
     case "SHOW_TOAST": {
       return {
