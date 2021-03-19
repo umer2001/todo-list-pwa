@@ -57,9 +57,13 @@ export const DateAndTime = ({ uid }) => {
       //   },
       // });
       if ("showTrigger" in Notification.prototype) {
-        console.log("available");
+        console.log(+new Date(selectedDate));
         Notification.requestPermission();
-        await createScheduledNotification("test", "Test", selectedDate);
+        await createScheduledNotification(
+          "test",
+          "Test",
+          +new Date(selectedDate)
+        );
       }
     }
     setSelectedDate(null);
