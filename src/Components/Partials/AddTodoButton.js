@@ -10,7 +10,9 @@ export const AddTodoButton = () => {
       color="primary"
       aria-label="add"
       className="fab"
-      onClick={() => dispatch({ type: "OPEN_BOTTOM_DRAWER" })}
+      onClick={() => {
+        dispatch({ type: "OPEN_BOTTOM_DRAWER" });
+      }}
     >
       <AddIcon />
     </Fab>

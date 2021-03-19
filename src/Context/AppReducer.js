@@ -112,7 +112,7 @@ export default (state, action) => {
     }
     case "UPDATE_TODO_LOCAL": {
       const { uid, property, data } = action.payload;
-      return {
+      const updatedstate = {
         ...state,
         todos: {
           ...state.todos,
@@ -124,37 +124,23 @@ export default (state, action) => {
                 : [...state.todos[uid][property], data],
           },
         },
-        todoDetailDrawer: {
-          ...state.todoDetailDrawer,
-          detailsChanged: true,
-        },
       };
-    }
-    case "UPDATE_TODO": {
       try {
-        console.log("updating");
-        if (state.todoDetailDrawer.detailsChanged) {
-          fetch("/.netlify/functions/updateTodo", {
-            method: "PUT",
-            body: JSON.stringify(action.payload),
-          })
-            .then((res) => res.json())
-            .then((todo) => {
-              console.log(todo);
-            });
-        }
+        console.log("updating", action.payload);
+
+        fetch("/.netlify/functions/updateTodo", {
+          method: "PUT",
+          body: JSON.stringify(updatedstate.todos[uid]),
+        })
+          .then((res) => res.json())
+          .then((todo) => {
+            console.log(todo);
+          });
       } catch (err) {
         console.log(err);
       }
-      state.todos[action.payload.uid] = action.payload;
-      return {
-        ...state,
-        todos: state.todos,
-        todoDetailDrawer: {
-          ...state.todoDetailDrawer,
-          detailsChanged: false,
-        },
-      };
+      console.log(updatedstate);
+      return updatedstate;
     }
     case "SHOW_TOAST": {
       return {
@@ -178,7 +164,21 @@ export default (state, action) => {
       };
     }
     case "OPEN_BOTTOM_DRAWER": {
+      const { todoDetailDrawer, rightDrawer } = state;
       if (action.payload) {
+        window.history.pushState(
+          {
+            rightDrawer,
+            todoDetailDrawer,
+            bottomDrawer: {
+              open: true,
+              subTodo: true,
+              uid: action.payload,
+            },
+          },
+          "",
+          "/AddNew"
+        );
         return {
           ...state,
           bottomDrawer: {
@@ -188,6 +188,17 @@ export default (state, action) => {
           },
         };
       } else {
+        window.history.pushState(
+          {
+            rightDrawer,
+            todoDetailDrawer,
+            bottomDrawer: {
+              open: true,
+            },
+          },
+          "",
+          "/AddNew"
+        );
         return {
           ...state,
           bottomDrawer: {
@@ -197,6 +208,7 @@ export default (state, action) => {
       }
     }
     case "CLOSE_BOTTOM_DRAWER": {
+      window.history.back();
       return {
         ...state,
         bottomDrawer: {
@@ -232,6 +244,19 @@ export default (state, action) => {
       };
     }
     case "OPEN_TODO_DETAIL": {
+      const { bottomDrawer, rightDrawer } = state;
+      window.history.pushState(
+        {
+          bottomDrawer,
+          rightDrawer,
+          todoDetailDrawer: {
+            open: true,
+            uid: action.payload,
+          },
+        },
+        "",
+        "/TodoDetail"
+      );
       return {
         ...state,
         todoDetailDrawer: {
@@ -241,6 +266,10 @@ export default (state, action) => {
       };
     }
     case "CLOSE_TODO_DETAIL": {
+      if (action.payload !== "noWimdowHistoryBack") {
+        window.history.back();
+      }
+
       return {
         ...state,
         todoDetailDrawer: {
@@ -251,6 +280,20 @@ export default (state, action) => {
       };
     }
     case "OPEN_RIGHT_DRAWER": {
+      const { bottomDrawer, todoDetailDrawer } = state;
+      window.history.pushState(
+        {
+          bottomDrawer,
+          todoDetailDrawer,
+          rightDrawer: {
+            open: true,
+            type: action.payload.type,
+            uid: action.payload.uid,
+          },
+        },
+        "",
+        `/${action.payload.type}`
+      );
       return {
         ...state,
         rightDrawer: {
@@ -261,6 +304,7 @@ export default (state, action) => {
       };
     }
     case "CLOSE_RIGHT_DRAWER": {
+      window.history.back();
       return {
         ...state,
         rightDrawer: {
@@ -268,6 +312,23 @@ export default (state, action) => {
           open: false,
         },
       };
+    }
+    case "POP_STATE": {
+      if (window.history.state !== null) {
+        const {
+          bottomDrawer,
+          rightDrawer,
+          todoDetailDrawer,
+        } = window.history.state;
+        return {
+          ...state,
+          bottomDrawer,
+          rightDrawer,
+          todoDetailDrawer,
+        };
+      } else {
+        break;
+      }
     }
     default: {
       return state;

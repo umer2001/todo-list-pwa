@@ -94,7 +94,9 @@ export const AddTodoDrawer = () => {
 
   const todoform = (anchor) => (
     <ClickAwayListener
-      onClickAway={() => dispatch({ type: "CLOSE_BOTTOM_DRAWER" })}
+      onClickAway={() => {
+        dispatch({ type: "CLOSE_BOTTOM_DRAWER" });
+      }}
     >
       <div
         className={clsx(classes.todoform, {
