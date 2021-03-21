@@ -82,12 +82,22 @@ export const AddTodoDrawer = () => {
         payload: newTodo,
       });
     }
+    return newTodo;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (todo !== "") {
-      createTodo();
+      const { uid, reminders } = createTodo();
+      reminders.forEach((reminder) => {
+        dispatch({
+          type: "SET_REMINDER",
+          payload: {
+            uid,
+            data: reminder,
+          },
+        });
+      });
     }
     dispatch({ type: "CLOSE_BOTTOM_DRAWER" });
   };
@@ -139,9 +149,11 @@ export const AddTodoDrawer = () => {
             />
             <QuickReminder
               onReminder={(reminder) => setReminders([...reminders, reminder])}
+              numberOfReminders={reminders.length}
             />
             <Quickcomment
               onComment={(comment) => setComments([...comments, comment])}
+              numberOfComments={comments.length}
             />
             <IconButton
               type="submit"

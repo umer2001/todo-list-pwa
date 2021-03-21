@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Badge from "@material-ui/core/Badge";
 import AccessAlarmRoundedIcon from "@material-ui/icons/AccessAlarmRounded";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -14,7 +15,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export const QuickReminder = ({ onReminder }) => {
+export const QuickReminder = ({ onReminder, numberOfReminders }) => {
   const [open, setOpen] = useState(false);
   const [reminder, setReminder] = useState(null);
 
@@ -34,7 +35,9 @@ export const QuickReminder = ({ onReminder }) => {
   return (
     <>
       <IconButton color="inherit" onClick={handleClickOpen}>
-        <AccessAlarmRoundedIcon />
+        <Badge color="primary" badgeContent={numberOfReminders}>
+          <AccessAlarmRoundedIcon />
+        </Badge>
       </IconButton>
       <Dialog
         open={open}

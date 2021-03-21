@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-//import { useContext } from "react";
-// import { GlobalDispatchContext } from "../Context/GlobalContext";
+import React, { useState, useContext } from "react";
+import { GlobalDispatchContext } from "../Context/GlobalContext";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -29,42 +28,31 @@ const useStyles = makeStyles((theme) => ({
 export const DateAndTime = ({ uid }) => {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState(null);
-  // const dispatch = useContext(GlobalDispatchContext);
+  const dispatch = useContext(GlobalDispatchContext);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const createScheduledNotification = async (tag, title, timestamp) => {
-    const registration = await window.navigator.serviceWorker.getRegistration();
-    console.log(registration);
-    registration.showNotification(title, {
-      tag: tag,
-      body: "This notification was scheduled 30 seconds ago",
-      showTrigger: new window.TimestampTrigger(timestamp + 30 * 1000),
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (selectedDate !== null) {
-      // dispatch({
-      //   type: "UPDATE_TODO_LOCAL",
-      //   payload: {
-      //     uid,
-      //     property: "reminders",
-      //     data: selectedDate,
-      //   },
-      // });
-      if ("showTrigger" in Notification.prototype) {
-        console.log(+new Date(selectedDate));
-        Notification.requestPermission();
-        await createScheduledNotification(
-          "test",
-          "Test",
-          +new Date(selectedDate)
-        );
-      }
+      dispatch({
+        type: "UPDATE_TODO_LOCAL",
+        payload: {
+          uid,
+          property: "reminders",
+          data: selectedDate,
+        },
+      });
+
+      dispatch({
+        type: "SET_REMINDER",
+        payload: {
+          uid,
+          data: selectedDate,
+        },
+      });
     }
     setSelectedDate(null);
   };

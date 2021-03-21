@@ -55,3 +55,13 @@ export const displayTime = (udate) => {
   minutes = minutes < 10 ? "0" + minutes : minutes;
   return `${hours}:${minutes}${ampm}`;
 };
+
+export const createScheduledNotification = async (tag, title, timestamp) => {
+  const registration = await window.navigator.serviceWorker.getRegistration();
+  console.log(registration);
+  registration.showNotification(title, {
+    tag: tag,
+    body: "Notification from Todo Task",
+    showTrigger: new window.TimestampTrigger(timestamp),
+  });
+};

@@ -1,4 +1,4 @@
-import { addToObject } from "./helperFunctions";
+import { addToObject, createScheduledNotification } from "./helperFunctions";
 //TODO: eslint
 // eslint-disable-next-line
 export default (state, action) => {
@@ -312,6 +312,22 @@ export default (state, action) => {
           open: false,
         },
       };
+    }
+    case "SET_REMINDER": {
+      try {
+        const { uid, data } = action.payload;
+        const { todo, priority } = state.todos[uid];
+        if ("showTrigger" in Notification.prototype) {
+          Notification.requestPermission();
+          createScheduledNotification(priority, todo, +new Date(data));
+        } else {
+          // TODO: go to chrome://flags/#enable-experimental-web-platform-features and enable
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+      break;
     }
     case "POP_STATE": {
       if (window.history.state !== null) {
