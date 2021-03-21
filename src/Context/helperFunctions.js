@@ -56,12 +56,29 @@ export const displayTime = (udate) => {
   return `${hours}:${minutes}${ampm}`;
 };
 
-export const createScheduledNotification = async (tag, title, timestamp) => {
+export const createScheduledNotification = async (uid, title, timestamp) => {
   const registration = await window.navigator.serviceWorker.getRegistration();
   console.log(registration);
   registration.showNotification(title, {
-    tag: tag,
+    tag: uid,
     body: "Notification from Todo Task",
-    showTrigger: new window.TimestampTrigger(timestamp),
+    showTrigger: new window.TimestampTrigger(+new Date(timestamp)),
+    onshow: () => {
+      try {
+        fetch("/.netlify/functions/updateRemindersList", {
+          method: "PUT",
+          body: JSON.stringify({
+            uid,
+            reminder: timestamp,
+          }),
+        })
+          .then((res) => res.json())
+          .then((todo) => {
+            console.log(todo);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    },
   });
 };

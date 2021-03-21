@@ -315,10 +315,10 @@ export default (state, action) => {
     }
     case "SET_REMINDER": {
       const { uid, data } = action.payload;
-      const { todo, priority } = state.todos[uid];
+      const { todo } = state.todos[uid];
       if ("showTrigger" in Notification.prototype) {
         Notification.requestPermission();
-        createScheduledNotification(priority, todo, +new Date(data));
+        createScheduledNotification(uid, todo, data);
       } else {
         // TODO: go to chrome://flags/#enable-experimental-web-platform-features and enable
       }
