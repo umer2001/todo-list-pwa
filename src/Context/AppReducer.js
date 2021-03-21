@@ -314,20 +314,17 @@ export default (state, action) => {
       };
     }
     case "SET_REMINDER": {
-      try {
-        const { uid, data } = action.payload;
-        const { todo, priority } = state.todos[uid];
-        if ("showTrigger" in Notification.prototype) {
-          Notification.requestPermission();
-          createScheduledNotification(priority, todo, +new Date(data));
-        } else {
-          // TODO: go to chrome://flags/#enable-experimental-web-platform-features and enable
-        }
-      } catch (e) {
-        console.log(e);
+      const { uid, data } = action.payload;
+      const { todo, priority } = state.todos[uid];
+      if ("showTrigger" in Notification.prototype) {
+        Notification.requestPermission();
+        createScheduledNotification(priority, todo, +new Date(data));
+      } else {
+        // TODO: go to chrome://flags/#enable-experimental-web-platform-features and enable
       }
-
-      break;
+      return {
+        ...state,
+      };
     }
     case "POP_STATE": {
       if (window.history.state !== null) {
