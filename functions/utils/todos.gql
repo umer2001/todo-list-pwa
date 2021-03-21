@@ -37,5 +37,7 @@ type Query {
 type Mutation {
   createSubTodo(parentId: ID!, newData: TodoInput!): Todo!
     @resolver(name: "create_sub_todo")
+  updateRemindersList(todoUid: ID!, reminder: String!): String!
+    @resolver(name: "updateRemindersList")
   deleteTodo(id: ID!, parentId: ID): Todo! @resolver(name: "deleteTodo")
 }
