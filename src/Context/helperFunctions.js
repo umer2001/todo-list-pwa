@@ -63,22 +63,8 @@ export const createScheduledNotification = async (uid, title, timestamp) => {
     tag: uid,
     body: "Notification from Todo Task",
     showTrigger: new window.TimestampTrigger(+new Date(timestamp)),
-    onshow: function () {
-      try {
-        fetch("/.netlify/functions/updateRemindersList", {
-          method: "PUT",
-          body: JSON.stringify({
-            uid,
-            reminder: timestamp,
-          }),
-        })
-          .then((res) => res.json())
-          .then((todo) => {
-            console.log(todo);
-          });
-      } catch (err) {
-        console.log(err);
-      }
-    },
+    badge: "/paper128x128.png",
+    vibrate: [100, 50, 100, 50, 500, 100, 500, 50, 100, 50, 100],
+    sound: "/alarm.mp3",
   });
 };
