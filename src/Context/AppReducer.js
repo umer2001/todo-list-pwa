@@ -110,7 +110,7 @@ export default (state, action) => {
         todos: state.todos,
       };
     }
-    case "UPDATE_TODO_LOCAL": {
+    case "UPDATE_TODO": {
       const { uid, property, data } = action.payload;
       const updatedstate = {
         ...state,
