@@ -13,6 +13,7 @@ import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate, NetworkFirst } from "workbox-strategies";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
+import { BroadcastUpdatePlugin } from "workbox-broadcast-update";
 import { Queue } from "workbox-background-sync";
 
 clientsClaim();
@@ -84,6 +85,7 @@ registerRoute(
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
+      new BroadcastUpdatePlugin(),
     ],
   })
 );
@@ -106,5 +108,16 @@ self.addEventListener("fetch", (event) => {
     });
 
     event.waitUntil(promiseChain);
+  }
+});
+
+// listen for cache update
+
+self.addEventListener("message", async (event) => {
+  // Optional: ensure the message came from workbox-broadcast-update
+  if (event.data.meta === "workbox-broadcast-update") {
+    const { cacheName, updatedUrl } = event.data.payload;
+    console.log("cacheName :", cacheName);
+    console.log("updatedUrl : ", updatedUrl);
   }
 });
