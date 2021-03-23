@@ -164,10 +164,11 @@ export default (state, action) => {
       };
     }
     case "OPEN_BOTTOM_DRAWER": {
-      const { todoDetailDrawer, rightDrawer } = state;
+      const { isPermissionDialogOpen, todoDetailDrawer, rightDrawer } = state;
       if (action.payload) {
         window.history.pushState(
           {
+            isPermissionDialogOpen,
             rightDrawer,
             todoDetailDrawer,
             bottomDrawer: {
@@ -190,6 +191,7 @@ export default (state, action) => {
       } else {
         window.history.pushState(
           {
+            isPermissionDialogOpen,
             rightDrawer,
             todoDetailDrawer,
             bottomDrawer: {
@@ -244,9 +246,10 @@ export default (state, action) => {
       };
     }
     case "OPEN_TODO_DETAIL": {
-      const { bottomDrawer, rightDrawer } = state;
+      const { isPermissionDialogOpen, bottomDrawer, rightDrawer } = state;
       window.history.pushState(
         {
+          isPermissionDialogOpen,
           bottomDrawer,
           rightDrawer,
           todoDetailDrawer: {
@@ -280,9 +283,10 @@ export default (state, action) => {
       };
     }
     case "OPEN_RIGHT_DRAWER": {
-      const { bottomDrawer, todoDetailDrawer } = state;
+      const { isPermissionDialogOpen, bottomDrawer, todoDetailDrawer } = state;
       window.history.pushState(
         {
+          isPermissionDialogOpen,
           bottomDrawer,
           todoDetailDrawer,
           rightDrawer: {
@@ -320,10 +324,31 @@ export default (state, action) => {
         Notification.requestPermission();
         createScheduledNotification(uid, todo, data);
       } else {
-        // TODO: go to chrome://flags/#enable-experimental-web-platform-features and enable
+        const { rightDrawer, bottomDrawer, todoDetailDrawer } = state;
+        window.history.pushState(
+          {
+            bottomDrawer,
+            todoDetailDrawer,
+            rightDrawer,
+            isPermissionDialogOpen: true,
+          },
+          "",
+          "/PermissionRequest"
+        );
+        return {
+          ...state,
+          isPermissionDialogOpen: true,
+        };
       }
       return {
         ...state,
+      };
+    }
+    case "CLOSE_PERMISSION_DIALOG": {
+      window.history.back();
+      return {
+        ...state,
+        isPermissionDialogOpen: false,
       };
     }
     case "POP_STATE": {

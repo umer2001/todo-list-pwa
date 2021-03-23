@@ -8,6 +8,7 @@ import Toast from "./Components/Toast";
 import RightDrawer from "./Components/RightDrawer";
 import TodoDetailDrawer from "./Components/TodoDetailDrawer";
 import AddTodoButton from "./Components/Partials/AddTodoButton";
+import PermissionDialog from "./Components/PermissionDialog";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <RightDrawer />
         <TodoDetailDrawer />
         <Toast />
+        <PermissionDialog />
       </GlobalProvider>
     </div>
   );
