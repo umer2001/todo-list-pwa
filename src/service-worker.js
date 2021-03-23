@@ -83,8 +83,10 @@ registerRoute(
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
-      }).cacheWillUpdate((e) => {
-        console.log("will update", e);
+      }).cacheWillUpdate({
+        event: () => {
+          console.log("me...");
+        },
       }),
     ],
   })
