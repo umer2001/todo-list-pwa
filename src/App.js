@@ -55,8 +55,8 @@ function App() {
           if (status.state === "granted") {
             try {
               // Register new sync every 24 hours
-              await registration.periodicSync.register("news", {
-                minInterval: 60 * 1000, // 1 sec
+              await registration.periodicSync.register("todos", {
+                minInterval: 24 * 60 * 60 * 1000, // 1 day
               });
               console.log("Periodic background sync registered!");
             } catch (e) {

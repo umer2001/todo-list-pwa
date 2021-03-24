@@ -114,7 +114,7 @@ self.addEventListener("fetch", (event) => {
 // periodic sync
 
 self.addEventListener("periodicsync", (event) => {
-  if (event.tag === "news") {
+  if (event.tag === "todos") {
     console.log("Fetching news in the background!");
     event.waitUntil(
       (async () => {
