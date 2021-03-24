@@ -60,7 +60,7 @@ export const createScheduledNotification = async (uid, title, timestamp) => {
   const registration = await window.navigator.serviceWorker.getRegistration();
   console.log(registration);
   registration.showNotification(title, {
-    tag: uid,
+    tag: `${uid}/${title.replace(/ /g, "-")}`,
     body: "Notification from Todo Task",
     showTrigger: new window.TimestampTrigger(+new Date(timestamp)),
     badge: "/paper128x128.png",

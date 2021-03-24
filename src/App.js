@@ -9,6 +9,7 @@ import RightDrawer from "./Components/RightDrawer";
 import TodoDetailDrawer from "./Components/TodoDetailDrawer";
 import AddTodoButton from "./Components/Partials/AddTodoButton";
 import PermissionDialog from "./Components/PermissionDialog";
+import { createScheduledNotification } from "./Context/helperFunctions";
 
 function App() {
   useEffect(() => {
@@ -27,9 +28,17 @@ function App() {
           const todos = JSON.parse(await updatedResponse.text());
           // get sheduled notifications
           const reg = await navigator.serviceWorker.getRegistration();
-          const sheduled = await reg.getNotifications();
           console.log(todos);
-          console.log(sheduled);
+
+          // setting reminders
+          Object.keys(todos).map((todo) => {
+            const { uid, todo: title } = todos[todo];
+            todos[todo].reminders.forEach((reminder) => {
+              if (new Date(reminder) > new Date()) {
+                createScheduledNotification(uid, title, reminder);
+              }
+            });
+          });
         }
         const { cacheName, updatedURL } = event.data.payload;
         sheduleReminders(cacheName, updatedURL);
