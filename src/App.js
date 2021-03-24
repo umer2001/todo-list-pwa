@@ -27,11 +27,10 @@ function App() {
           const updatedResponse = await cache.match(updatedURL);
           const todos = JSON.parse(await updatedResponse.text());
           // get sheduled notifications
-          const reg = await navigator.serviceWorker.getRegistration();
           console.log(todos);
 
           // setting reminders
-          Object.keys(todos).map((todo) => {
+          Object.keys(todos).forEach((todo) => {
             const { uid, todo: title } = todos[todo];
             todos[todo].reminders.forEach((reminder) => {
               if (new Date(reminder) > new Date()) {
