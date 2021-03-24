@@ -11,21 +11,25 @@ import AddTodoButton from "./Components/Partials/AddTodoButton";
 import PermissionDialog from "./Components/PermissionDialog";
 
 function App() {
-  useEffect(() => {
+  useEffect(async () => {
     navigator.serviceWorker.addEventListener("message", async (event) => {
       // Optional: ensure the message came from workbox-broadcast-update
-      console.log(event);
       if (event.data.meta === "workbox-broadcast-update") {
-        console.log("from workbox");
-        const { cacheName, updatedUrl } = event.data.payload;
+        const { cacheName, updatedURL } = event.data.payload;
         console.log(cacheName);
-        console.log(updatedUrl);
-        // Do something with cacheName and updatedUrl.
+        console.log(updatedURL);
+
+        // Do something with cacheName and updatedURL.
         // For example, get the cached content and update
         // the content on the page.
-        // const cache = await caches.open(cacheName);
-        // const updatedResponse = await cache.match(updatedUrl);
-        // const updatedText = await updatedResponse.text();
+        const cache = await caches.open(cacheName);
+        const updatedResponse = await cache.match(updatedURL);
+        const todos = JSON.parse(await updatedResponse.text());
+        // get sheduled notifications
+        const reg = await navigator.serviceWorker.getRegistration();
+        const sheduled = await reg.getNotifications();
+        console.log(todos);
+        console.log(sheduled);
       }
     });
   }, []);
