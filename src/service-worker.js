@@ -13,6 +13,7 @@ import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate, NetworkFirst } from "workbox-strategies";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
+import { BroadcastUpdatePlugin } from "workbox-broadcast-update";
 import { Queue } from "workbox-background-sync";
 
 clientsClaim();
@@ -83,11 +84,8 @@ registerRoute(
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
-      }).cacheWillUpdate({
-        event: () => {
-          console.log("me...");
-        },
       }),
+      new BroadcastUpdatePlugin(),
     ],
   })
 );
