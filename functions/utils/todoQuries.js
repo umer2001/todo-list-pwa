@@ -138,6 +138,15 @@ mutation(
             _id
           }
 }`;
+
+const UPDATE_REMINDERS_LIST = `
+mutation(
+  $todoUid: ID!
+  $reminder: String!
+) {
+  updateRemindersList(todoUid: $todoUid, reminder: $reminder) 
+}`;
+
 module.exports = {
   CREATE_TODO,
   CREATE_SUB_TODO,
@@ -146,4 +155,5 @@ module.exports = {
   DELETE_TODO,
   DELETE_SUB_TODO,
   GET_TODO_BY_ID,
+  UPDATE_REMINDERS_LIST,
 };

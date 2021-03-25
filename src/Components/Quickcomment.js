@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Badge from "@material-ui/core/Badge";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -9,7 +10,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function Quickcomment({ onComment }) {
+export default function Quickcomment({ onComment, numberOfComments }) {
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
 
@@ -25,7 +26,9 @@ export default function Quickcomment({ onComment }) {
   return (
     <>
       <IconButton color="inherit" onClick={handleClickOpen}>
-        <ChatBubbleOutlineIcon />
+        <Badge color="primary" badgeContent={numberOfComments}>
+          <ChatBubbleOutlineIcon />
+        </Badge>
       </IconButton>
       <Dialog
         open={open}

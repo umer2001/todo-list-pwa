@@ -4,6 +4,7 @@ import AppReducer from "./AppReducer";
 //initial state
 const initialState = {
   todos: {},
+  isPermissionDialogOpen: false,
   bottomDrawer: {
     open: false,
     subTodo: false,

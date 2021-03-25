@@ -13,6 +13,7 @@ import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate, NetworkFirst } from "workbox-strategies";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
+import { BroadcastUpdatePlugin } from "workbox-broadcast-update";
 import { Queue } from "workbox-background-sync";
 
 clientsClaim();
@@ -84,6 +85,7 @@ registerRoute(
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
+      new BroadcastUpdatePlugin(),
     ],
   })
 );
@@ -106,5 +108,20 @@ self.addEventListener("fetch", (event) => {
     });
 
     event.waitUntil(promiseChain);
+  }
+});
+
+// periodic sync
+
+self.addEventListener("periodicsync", (event) => {
+  if (event.tag === "todos") {
+    console.log("Fetching news in the background!");
+    event.waitUntil(
+      (async () => {
+        const todosCache = await caches.open("todos");
+        await todosCache.add("/.netlify/functions/getTodos");
+        console.log(`In periodicsync handler, updated`);
+      })()
+    );
   }
 });

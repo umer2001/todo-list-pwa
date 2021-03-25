@@ -27,7 +27,7 @@ export const AddComment = ({ uid }) => {
     e.preventDefault();
     if (comment !== "") {
       dispatch({
-        type: "UPDATE_TODO_LOCAL",
+        type: "UPDATE_TODO",
         payload: {
           uid,
           property: "comments",

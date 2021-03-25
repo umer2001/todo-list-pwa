@@ -1,4 +1,4 @@
-import { addToObject } from "./helperFunctions";
+import { addToObject, createScheduledNotification } from "./helperFunctions";
 //TODO: eslint
 // eslint-disable-next-line
 export default (state, action) => {
@@ -110,7 +110,7 @@ export default (state, action) => {
         todos: state.todos,
       };
     }
-    case "UPDATE_TODO_LOCAL": {
+    case "UPDATE_TODO": {
       const { uid, property, data } = action.payload;
       const updatedstate = {
         ...state,
@@ -164,10 +164,11 @@ export default (state, action) => {
       };
     }
     case "OPEN_BOTTOM_DRAWER": {
-      const { todoDetailDrawer, rightDrawer } = state;
+      const { isPermissionDialogOpen, todoDetailDrawer, rightDrawer } = state;
       if (action.payload) {
         window.history.pushState(
           {
+            isPermissionDialogOpen,
             rightDrawer,
             todoDetailDrawer,
             bottomDrawer: {
@@ -190,6 +191,7 @@ export default (state, action) => {
       } else {
         window.history.pushState(
           {
+            isPermissionDialogOpen,
             rightDrawer,
             todoDetailDrawer,
             bottomDrawer: {
@@ -244,9 +246,10 @@ export default (state, action) => {
       };
     }
     case "OPEN_TODO_DETAIL": {
-      const { bottomDrawer, rightDrawer } = state;
+      const { isPermissionDialogOpen, bottomDrawer, rightDrawer } = state;
       window.history.pushState(
         {
+          isPermissionDialogOpen,
           bottomDrawer,
           rightDrawer,
           todoDetailDrawer: {
@@ -280,9 +283,10 @@ export default (state, action) => {
       };
     }
     case "OPEN_RIGHT_DRAWER": {
-      const { bottomDrawer, todoDetailDrawer } = state;
+      const { isPermissionDialogOpen, bottomDrawer, todoDetailDrawer } = state;
       window.history.pushState(
         {
+          isPermissionDialogOpen,
           bottomDrawer,
           todoDetailDrawer,
           rightDrawer: {
@@ -311,6 +315,40 @@ export default (state, action) => {
           ...state.rightDrawer,
           open: false,
         },
+      };
+    }
+    case "SET_REMINDER": {
+      const { uid, data } = action.payload;
+      const { todo } = state.todos[uid];
+      if ("showTrigger" in Notification.prototype) {
+        Notification.requestPermission();
+        createScheduledNotification(uid, todo, data);
+      } else {
+        const { rightDrawer, bottomDrawer, todoDetailDrawer } = state;
+        window.history.pushState(
+          {
+            bottomDrawer,
+            todoDetailDrawer,
+            rightDrawer,
+            isPermissionDialogOpen: true,
+          },
+          "",
+          "/PermissionRequest"
+        );
+        return {
+          ...state,
+          isPermissionDialogOpen: true,
+        };
+      }
+      return {
+        ...state,
+      };
+    }
+    case "CLOSE_PERMISSION_DIALOG": {
+      window.history.back();
+      return {
+        ...state,
+        isPermissionDialogOpen: false,
       };
     }
     case "POP_STATE": {

@@ -93,7 +93,7 @@ export const Details = ({
           priority={priority}
           onPrioritySelection={(priorityType) =>
             dispatch({
-              type: "UPDATE_TODO_LOCAL",
+              type: "UPDATE_TODO",
               payload: {
                 uid,
                 property: "priority",

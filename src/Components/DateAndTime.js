@@ -34,14 +34,24 @@ export const DateAndTime = ({ uid }) => {
     setSelectedDate(date);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (selectedDate !== null) {
+      if ("showTrigger" in Notification.prototype) {
+        dispatch({
+          type: "UPDATE_TODO",
+          payload: {
+            uid,
+            property: "reminders",
+            data: selectedDate,
+          },
+        });
+      }
+
       dispatch({
-        type: "UPDATE_TODO_LOCAL",
+        type: "SET_REMINDER",
         payload: {
           uid,
-          property: "reminders",
           data: selectedDate,
         },
       });
