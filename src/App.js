@@ -2,14 +2,11 @@ import React, { useEffect } from "react";
 import Appbar from "./Components/Partials/Appbar";
 import GlobalProvider from "./Context/GlobalContext";
 import "./App.css";
-import TodoList from "./Components/TodoList";
-import AddTodoDrawer from "./Components/AddTodoDrawer";
-import Toast from "./Components/Toast";
-import RightDrawer from "./Components/RightDrawer";
-import TodoDetailDrawer from "./Components/TodoDetailDrawer";
-import AddTodoButton from "./Components/Partials/AddTodoButton";
-import PermissionDialog from "./Components/PermissionDialog";
 import { createScheduledNotification } from "./Context/helperFunctions";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./Home";
+import Setting from "./Setting";
+import Theme from "./Theme";
 
 function App() {
   useEffect(() => {
@@ -69,18 +66,18 @@ function App() {
     registerPeriodicSync();
   }, []);
   return (
-    <div className="App">
-      <Appbar />
-      <GlobalProvider>
-        <TodoList />
-        <AddTodoButton />
-        <AddTodoDrawer />
-        <RightDrawer />
-        <TodoDetailDrawer />
-        <Toast />
-        <PermissionDialog />
-      </GlobalProvider>
-    </div>
+    <GlobalProvider>
+      <Router>
+        <div className="App">
+          <Appbar />
+          <Switch>
+            <Route path="/setting" exect component={Setting} />
+            <Route path="/theme" exect component={Theme} />
+            <Route path="/" component={Home} />
+          </Switch>
+        </div>
+      </Router>
+    </GlobalProvider>
   );
 }
 
