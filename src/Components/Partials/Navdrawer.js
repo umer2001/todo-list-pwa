@@ -12,6 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   list: {
@@ -71,12 +72,14 @@ export default function Navdrawer() {
       </Container>
       <Divider />
       <List>
-        <ListItem button key="Settings">
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Setings" />
-        </ListItem>
+        <Link to="/setting" className="link">
+          <ListItem button key="Settings">
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Setings" />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
