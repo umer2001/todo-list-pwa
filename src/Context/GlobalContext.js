@@ -3,6 +3,7 @@ import AppReducer from "./AppReducer";
 
 //initial state
 const initialState = {
+  theme: "default",
   todos: {},
   isPermissionDialogOpen: false,
   bottomDrawer: {

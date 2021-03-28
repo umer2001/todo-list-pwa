@@ -368,6 +368,13 @@ export default (state, action) => {
         break;
       }
     }
+    case "CHANGE_THEME": {
+      localStorage.setItem("theme", action.payload);
+      return {
+        ...state,
+        theme: action.payload,
+      };
+    }
     default: {
       return state;
     }

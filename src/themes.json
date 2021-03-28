@@ -1,0 +1,67 @@
+{
+  "default": {
+    "palette": {
+      "type": "light",
+      "primary": {
+        "main": "#151244"
+      },
+      "secondary": {
+        "main": "#151244"
+      },
+      "background": {
+        "paper": "#fff",
+        "default": "#fafafa"
+      }
+    }
+  },
+  "brown": {
+    "palette": {
+      "type": "light",
+      "primary": {
+        "main": "#5d4848"
+      },
+      "secondary": {
+        "main": "#420100"
+      },
+      "background": {
+        "paper": "#fff",
+        "default": "#fafafa"
+      }
+    }
+  },
+  "Test": {
+    "palette": {
+      "type": "dark",
+      "primary": {
+        "main": "#282828",
+        "contrastText": "#fff"
+      },
+      "secondary": {
+        "main": "#fe7168",
+        "contrastText": "#fff"
+      },
+      "background": {
+        "paper": "#1d1d1d",
+        "default": "#000"
+      },
+      "common": {
+        "black": "#000",
+        "white": "#fff"
+      },
+      "text": {
+        "primary": "#e9e9e9",
+        "secondary": "#1d1d1d",
+        "disabled": "rgb(0 0 0 / 38%)",
+        "hint": "rgb(209 209 209 / 38%)",
+        "divider": "#3e3e3e"
+      }
+    },
+    "overrides": {
+      "MuiButton": {
+        "textPrimary": {
+          "color": "#e9e9e9"
+        }
+      }
+    }
+  }
+}
