@@ -52,7 +52,7 @@ const ThemeCard = ({ onClick, themeName, selected, themePalette }) => {
             name="radio-button-demo"
             inputProps={{ "aria-label": "A" }}
           />
-          <img src={Dummy} className="pera-dummy" />
+          <img src={Dummy} alt="dummy-img" className="pera-dummy" />
         </div>
       </Paper>
     </ButtonBase>
