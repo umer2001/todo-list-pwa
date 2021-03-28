@@ -24,6 +24,7 @@ import FilterListRoundedIcon from "@material-ui/icons/FilterListRounded";
 import AddIcon from "@material-ui/icons/Add";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import { displayWhat } from "../Context/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export const Details = ({
   todo,
   uid,
+  date,
   priority,
   numberOfComments,
   numberOfReminders,
@@ -80,10 +82,10 @@ export const Details = ({
         className={classes.dateAndSecondries}
         size="small"
         variant="outlined"
-        color="primary"
+        color="secondary"
         startIcon={<LocalLaundryServiceOutlinedIcon />}
       >
-        Today
+        {displayWhat(date)}
       </Button>
       <div className={classes.dateAndSecondries}>
         <IconButton color="inherit">
@@ -140,7 +142,7 @@ export const Details = ({
           <MoreVertIcon />
         </IconButton>
       </div>
-      <hr />
+      <hr className="divider" />
       <div className={classes.subTaskHead}>
         <FilterListRoundedIcon style={{ margin: "0px 10px" }} />
         <h4>Sub-tasks</h4>
@@ -216,6 +218,7 @@ export const TodoDetailDrawer = () => {
           numberOfComments={todos[uid].comments.length}
           numberOfReminders={todos[uid].reminders.length}
           subTodos={todos[uid].subtodos}
+          date={todos[uid].date}
           uid={uid}
         />
       ) : (

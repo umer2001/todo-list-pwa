@@ -25,7 +25,7 @@ export const TodoItem = ({ todo }) => {
       onClick={openTodoDetail}
     >
       <ListItemText
-        disableTypography
+        primaryTypographyProps={{ color: "textPrimary" }}
         primary={todo.todo}
         style={{ paddingLeft: "45px" }}
         secondary={

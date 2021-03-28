@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: 0,
     width: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: theme.palette.background.paper,
   },
   margin: {
     padding: theme.spacing(1, 0, 1, 2),

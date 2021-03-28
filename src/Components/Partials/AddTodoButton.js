@@ -7,7 +7,7 @@ export const AddTodoButton = () => {
   const dispatch = useContext(GlobalDispatchContext);
   return (
     <Fab
-      color="primary"
+      color="secondary"
       aria-label="add"
       className="fab"
       onClick={() => {

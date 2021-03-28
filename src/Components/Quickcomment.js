@@ -9,8 +9,20 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  inputLabel: {
+    color: theme.palette.text.primary,
+    "&.Mui-focused": {
+      color: theme.palette.text.primary,
+    },
+  },
+}));
 
 export default function Quickcomment({ onComment, numberOfComments }) {
+  const classes = useStyles();
+
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
 
@@ -47,6 +59,7 @@ export default function Quickcomment({ onComment, numberOfComments }) {
             label="Comment"
             type="email"
             fullWidth
+            InputLabelProps={{ className: classes.inputLabel }}
             onChange={(e) => setComment(e.target.value)}
           />
         </DialogContent>

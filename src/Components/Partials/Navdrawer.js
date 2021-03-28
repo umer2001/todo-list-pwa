@@ -14,12 +14,12 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
   profile: {
-    backgroundColor: "#3f51b5",
+    backgroundColor: theme.palette.primary.main,
     minHeight: 80,
     display: "flex",
     justifyContent: "left",
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     display: "inline",
     color: "#fff",
   },
-});
+}));
 
 export default function Navdrawer() {
   const classes = useStyles();

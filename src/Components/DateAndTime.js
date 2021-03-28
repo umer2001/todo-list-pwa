@@ -15,13 +15,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: "fixed",
     bottom: 0,
-    backgroundColor: "#fff",
+    backgroundColor: theme.palette.background.paper,
     paddingRight: theme.spacing(1),
     paddingLeft: theme.spacing(1),
   },
   dateTime: {
     width: "40%",
     marginRight: theme.spacing(1),
+  },
+
+  inputLabel: {
+    color: theme.palette.text.primary,
   },
 }));
 
@@ -65,11 +69,12 @@ export const DateAndTime = ({ uid }) => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             className={classes.dateTime}
+            InputLabelProps={{ className: classes.inputLabel }}
+            InputProps={{ disableUnderline: true }}
             margin="normal"
             id="date-picker-dialog"
             label="Pick date"
             disablePast={true}
-            InputProps={{ disableUnderline: true }}
             format="MM/dd/yyyy"
             value={selectedDate}
             onChange={handleDateChange}
@@ -79,11 +84,12 @@ export const DateAndTime = ({ uid }) => {
           />
           <KeyboardTimePicker
             className={classes.dateTime}
+            InputLabelProps={{ className: classes.inputLabel }}
+            InputProps={{ disableUnderline: true }}
             margin="normal"
             id="time-picker"
             label="Pick time"
             keyboardIcon={<AccessTimeIcon />}
-            InputProps={{ disableUnderline: true }}
             value={selectedDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{
