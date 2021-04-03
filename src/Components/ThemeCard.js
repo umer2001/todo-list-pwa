@@ -27,7 +27,7 @@ const ThemeCard = ({ onClick, themeName, selected, themePalette }) => {
       alignItems: "center",
       padding: "0px 10px",
       backgroundColor: themePalette.palette.primary.main,
-      color: "#ffffff",
+      color: themePalette.palette.primary.contrastText,
     },
     themeBody: {
       height: 65,

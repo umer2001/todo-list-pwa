@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   userName: {
     display: "inline",
-    color: "#fff",
+    color: theme.palette.primary.contrastText,
   },
 }));
 
