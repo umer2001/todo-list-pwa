@@ -35,6 +35,13 @@
       "background": {
         "paper": "#fff",
         "default": "#fafafa"
+      },
+      "text": {
+        "primary": "#212121",
+        "secondary": "rgba(0, 0, 0, 0.54)",
+        "disabled": "rgb(0 0 0 / 38%)",
+        "hint": "rgb(209 209 209 / 38%)",
+        "divider": "rgba(0, 0, 0, 0.12)"
       }
     }
   },

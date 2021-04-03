@@ -54,6 +54,7 @@
 .empty-img {
   width: 80%;
   max-height: 80%;
+  height: auto;
 }
 
 .App-logo {

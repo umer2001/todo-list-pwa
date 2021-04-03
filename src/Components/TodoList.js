@@ -28,10 +28,10 @@ export const TodoList = () => {
       try {
         const res = await fetch("/.netlify/functions/getTodos");
         const todos = await res.json();
-        dispatch({
-          type: "SET_TODOS",
-          payload: todos,
-        });
+        // dispatch({
+        //   type: "SET_TODOS",
+        //   payload: todos,
+        // });
       } catch (err) {
         console.log(err);
       }
