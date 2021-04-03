@@ -3,7 +3,8 @@
     "palette": {
       "type": "light",
       "primary": {
-        "main": "#151244"
+        "main": "#151244",
+        "contrastText": "#fff"
       },
       "secondary": {
         "main": "#151244"
@@ -11,6 +12,13 @@
       "background": {
         "paper": "#fff",
         "default": "#fafafa"
+      },
+      "text": {
+        "primary": "#212121",
+        "secondary": "rgba(0, 0, 0, 0.54)",
+        "disabled": "rgb(0 0 0 / 38%)",
+        "hint": "rgb(209 209 209 / 38%)",
+        "divider": "rgba(0, 0, 0, 0.12)"
       }
     }
   },
@@ -18,7 +26,8 @@
     "palette": {
       "type": "light",
       "primary": {
-        "main": "#5d4848"
+        "main": "#5d4848",
+        "contrastText": "#fff"
       },
       "secondary": {
         "main": "#420100"
@@ -29,7 +38,7 @@
       }
     }
   },
-  "Test": {
+  "Dark": {
     "palette": {
       "type": "dark",
       "primary": {
@@ -44,10 +53,6 @@
         "paper": "#1d1d1d",
         "default": "#000"
       },
-      "common": {
-        "black": "#000",
-        "white": "#fff"
-      },
       "text": {
         "primary": "#e9e9e9",
         "secondary": "#1d1d1d",
@@ -60,6 +65,37 @@
       "MuiButton": {
         "textPrimary": {
           "color": "#e9e9e9"
+        }
+      }
+    }
+  },
+  "Noir": {
+    "palette": {
+      "type": "light",
+      "primary": {
+        "main": "#f7f7f7",
+        "contrastText": "#202020"
+      },
+      "secondary": {
+        "main": "#fe7168",
+        "contrastText": "#fff"
+      },
+      "background": {
+        "paper": "#fff",
+        "default": "#fff"
+      },
+      "text": {
+        "primary": "#212121",
+        "secondary": "#1d1d1d",
+        "disabled": "rgb(0 0 0 / 38%)",
+        "hint": "rgb(209 209 209 / 38%)",
+        "divider": "#3e3e3e"
+      }
+    },
+    "overrides": {
+      "MuiButton": {
+        "textPrimary": {
+          "color": "#212121"
         }
       }
     }
