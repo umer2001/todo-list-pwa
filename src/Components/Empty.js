@@ -28,9 +28,9 @@ export const Empty = () => {
               y2="429.81"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0" stop-color="gray" stop-opacity="0.25" />
-              <stop offset="0.54" stop-color="gray" stop-opacity="0.12" />
-              <stop offset="1" stop-color="gray" stop-opacity="0.1" />
+              <stop offset="0" stopColor="gray" stopOpacity="0.25" />
+              <stop offset="0.54" stopColor="gray" stopOpacity="0.12" />
+              <stop offset="1" stopColor="gray" stopOpacity="0.1" />
             </linearGradient>
           </defs>
           <title>to do</title>
@@ -111,8 +111,8 @@ export const Empty = () => {
             transform="translate(-27.15 -41.19)"
             fill="none"
             stroke={primary}
-            stroke-miterlimit="10"
-            stroke-width="3"
+            strokeMiterlimit="10"
+            strokeWidth="3"
             opacity="0.1"
           />
           <path
@@ -120,8 +120,8 @@ export const Empty = () => {
             transform="translate(-27.15 -41.19)"
             fill="none"
             stroke={primary}
-            stroke-miterlimit="10"
-            stroke-width="3"
+            strokeMiterlimit="10"
+            strokeWidth="3"
             opacity="0.1"
           />
           <path
@@ -129,8 +129,8 @@ export const Empty = () => {
             transform="translate(-27.15 -41.19)"
             fill="none"
             stroke={primary}
-            stroke-miterlimit="10"
-            stroke-width="3"
+            strokeMiterlimit="10"
+            strokeWidth="3"
             opacity="0.1"
           />
           <path
@@ -264,7 +264,7 @@ export const Empty = () => {
             transform="translate(-27.15 -41.19)"
             fill="none"
             stroke="#000"
-            stroke-miterlimit="10"
+            strokeMiterlimit="10"
             opacity="0.1"
           />
           <ellipse
