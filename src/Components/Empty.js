@@ -1,12 +1,23 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import { GlobalStateContext } from "../Context/GlobalContext";
 import themes from "../themes.json";
 
 export const Empty = () => {
   const { theme: themeName } = useContext(GlobalStateContext);
-  var primary = themes[themeName].palette.secondary.main;
-  var textPrimary = themes[themeName].palette.text.primary;
+  const [primary, setPrimary] = useState("#151244");
+  const [textPrimary, setTextPrimary] = useState("#212121");
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      setPrimary(themes[themeName].palette.secondary.main);
+      setTextPrimary(themes[themeName].palette.text.primary);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [themeName]);
+
   return (
     <Grid container className="container">
       <Grid item className="grid-item">

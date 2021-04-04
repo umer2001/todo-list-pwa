@@ -30,11 +30,11 @@ function App() {
 
   useEffect(() => {
     // retriving theme from localStorage
-    const themeLicalStorage = localStorage.getItem("theme");
-    if (themeLicalStorage !== "default") {
+    const themeLocalStorage = localStorage.getItem("theme");
+    if (themeLocalStorage !== "default" && themeLocalStorage !== "null") {
       dispatch({
         type: "CHANGE_THEME",
-        payload: themeLicalStorage,
+        payload: themeLocalStorage,
       });
     }
     if (navigator.serviceWorker) {
