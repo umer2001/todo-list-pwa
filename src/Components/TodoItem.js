@@ -25,9 +25,10 @@ export const TodoItem = ({ todo }) => {
       onClick={openTodoDetail}
     >
       <ListItemText
-        disableTypography
+        primaryTypographyProps={{ color: "textPrimary" }}
         primary={todo.todo}
         style={{ paddingLeft: "45px" }}
+        secondaryTypographyProps={{ component: "div" }}
         secondary={
           <Secondries
             date={todo.date}

@@ -9,7 +9,7 @@ export const TodoCheckbox = ({ uid, parentId, priority, todo }) => {
     P1: "#b71c1c",
     P2: "#ffd600",
     P3: "blue",
-    P4: "inherit",
+    P4: "#e9e9e9",
   };
 
   const dispatch = useContext(GlobalDispatchContext);

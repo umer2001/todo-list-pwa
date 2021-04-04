@@ -19,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  icon: {
+    color: theme.palette.text.primary,
+    fontSize: 18,
+  },
+
   number: {
     display: "inline-block",
   },
@@ -34,6 +39,7 @@ export const Secondries = ({
   return (
     <div className={classes.root}>
       <Chip
+        color="secondary"
         label={displayWhat(date)}
         icon={<LocalLaundryServiceOutlinedIcon />}
         size="small"
@@ -41,24 +47,28 @@ export const Secondries = ({
       />
       {numberOfSubTodos ? (
         <>
-          <FilterListRoundedIcon style={{ fontSize: 18 }} />
-          <Typography className={classes.number}>{numberOfSubTodos}</Typography>
+          <FilterListRoundedIcon className={classes.icon} />
+          <Typography color="textPrimary" className={classes.number}>
+            {numberOfSubTodos}
+          </Typography>
         </>
       ) : (
         ""
       )}
       {numberOfComments ? (
         <>
-          <ChatBubbleOutlineIcon style={{ fontSize: 18 }} />
-          <Typography className={classes.number}>{numberOfComments}</Typography>
+          <ChatBubbleOutlineIcon className={classes.icon} />
+          <Typography color="textPrimary" className={classes.number}>
+            {numberOfComments}
+          </Typography>
         </>
       ) : (
         ""
       )}
       {numberOfReminders ? (
         <>
-          <AccessAlarmRoundedIcon style={{ fontSize: 18 }} />
-          <Typography className={classes.number}>
+          <AccessAlarmRoundedIcon className={classes.icon} />
+          <Typography color="textPrimary" className={classes.number}>
             {numberOfReminders}
           </Typography>
         </>
@@ -68,7 +78,7 @@ export const Secondries = ({
       <Chip
         label="Inbox"
         size="small"
-        color="primary"
+        color="default"
         variant="outlined"
         style={{ marginLeft: "auto" }}
       />

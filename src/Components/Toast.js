@@ -53,7 +53,7 @@ export const Toast = () => {
       onClose={handleClose}
       message="completed"
       action={
-        <Button color="primary" size="small" onClick={undoClicked}>
+        <Button color="secondary" size="small" onClick={undoClicked}>
           UNDO
         </Button>
       }

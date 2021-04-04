@@ -36,6 +36,7 @@ export const TodoList = () => {
         console.log(err);
       }
     };
+    let mounted = true;
     getTodos().then(() => {
       // add initial drawer states
       window.history.pushState(
@@ -48,12 +49,17 @@ export const TodoList = () => {
       );
 
       window.addEventListener("popstate", function () {
-        //dispatch to previous drawer states
-        dispatch({
-          type: "POP_STATE",
-        });
+        if (mounted) {
+          //dispatch to previous drawer states
+          dispatch({
+            type: "POP_STATE",
+          });
+        }
       });
     });
+    return function cleanup() {
+      mounted = false;
+    };
     //TODO: eslint
     // eslint-disable-next-line
   }, []);

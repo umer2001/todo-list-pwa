@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   comment: {
     width: "fit-content",
     backgroundColor: "#e8e7ec",
+    color: theme.palette.text.secondary,
     padding: "12px",
     borderRadius: "30px",
   },

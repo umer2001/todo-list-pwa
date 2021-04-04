@@ -126,7 +126,7 @@ export const AddTodoDrawer = () => {
           <Button
             size="small"
             variant="outlined"
-            color="primary"
+            color="secondary"
             startIcon={<LocalLaundryServiceOutlinedIcon />}
           >
             Today
@@ -134,7 +134,7 @@ export const AddTodoDrawer = () => {
           <Button
             size="small"
             variant="outlined"
-            color="secondary"
+            color="default"
             startIcon={<InboxOutlinedIcon />}
           >
             Inbox
