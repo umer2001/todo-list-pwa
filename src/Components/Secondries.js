@@ -47,7 +47,7 @@ export const Secondries = ({
       />
       {numberOfSubTodos ? (
         <>
-          <FilterListRoundedIcon color="textPrimary" className={classes.icon} />
+          <FilterListRoundedIcon className={classes.icon} />
           <Typography color="textPrimary" className={classes.number}>
             {numberOfSubTodos}
           </Typography>
@@ -57,7 +57,7 @@ export const Secondries = ({
       )}
       {numberOfComments ? (
         <>
-          <ChatBubbleOutlineIcon color="textPrimary" className={classes.icon} />
+          <ChatBubbleOutlineIcon className={classes.icon} />
           <Typography color="textPrimary" className={classes.number}>
             {numberOfComments}
           </Typography>
@@ -67,10 +67,7 @@ export const Secondries = ({
       )}
       {numberOfReminders ? (
         <>
-          <AccessAlarmRoundedIcon
-            color="textPrimary"
-            className={classes.icon}
-          />
+          <AccessAlarmRoundedIcon className={classes.icon} />
           <Typography color="textPrimary" className={classes.number}>
             {numberOfReminders}
           </Typography>
