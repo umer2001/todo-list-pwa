@@ -10,6 +10,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
+import HomeIcon from "@material-ui/icons/Home";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
@@ -72,6 +73,14 @@ export default function Navdrawer() {
       </Container>
       <Divider />
       <List>
+        <Link to="/" className="link">
+          <ListItem button key="home">
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
         <Link to="/setting" className="link">
           <ListItem button key="Settings">
             <ListItemIcon>
