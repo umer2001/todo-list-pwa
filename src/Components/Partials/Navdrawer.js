@@ -9,8 +9,9 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import MenuIcon from "@material-ui/icons/Menu";
 import HomeIcon from "@material-ui/icons/Home";
+import MenuIcon from "@material-ui/icons/Menu";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navdrawer() {
+export default function Navdrawer({ isHome }) {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,7 +50,11 @@ export default function Navdrawer() {
       return;
     }
 
-    setIsOpen(!isOpen);
+    if (isHome) {
+      setIsOpen(!isOpen);
+    } else {
+      window.history.back();
+    }
   };
 
   const list = () => (
@@ -102,7 +107,7 @@ export default function Navdrawer() {
         aria-label="open drawer"
         onClick={toggleDrawer}
       >
-        <MenuIcon />
+        {isHome ? <MenuIcon /> : <ArrowBackIcon />}
       </IconButton>
       <SwipeableDrawer
         anchor={"left"}

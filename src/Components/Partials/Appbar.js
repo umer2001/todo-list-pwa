@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -62,14 +63,37 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Appbar() {
   const classes = useStyles();
+  const location = useLocation();
+  const [isHome, setIsHome] = useState(false);
+  const [title, setTitle] = useState("Home");
+
+  useEffect(() => {
+    const path = location.pathname;
+    if (
+      path === "/" ||
+      path === "/AddNew" ||
+      path === "/TodoDetail" ||
+      path === "commentContent" ||
+      path === "/reminderContent"
+    ) {
+      setIsHome(true);
+      setTitle("Home");
+    } else {
+      setIsHome(false);
+      const titleWithOutSlash = location.pathname.replace("/", "");
+      setTitle(
+        titleWithOutSlash.charAt(0).toUpperCase() + titleWithOutSlash.slice(1)
+      );
+    }
+  }, [location]);
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Navdrawer />
+          <Navdrawer isHome={isHome} />
           <Typography className={classes.title} variant="h6" noWrap>
-            Today
+            {title}
           </Typography>
           <IconButton aria-label="search" color="inherit">
             <SearchIcon />
