@@ -31,7 +31,6 @@ function App() {
   useEffect(() => {
     // retriving theme from localStorage
     const themeLocalStorage = localStorage.getItem("theme");
-    console.log(typeof themeLocalStorage);
     if (
       themeLocalStorage &&
       themeLocalStorage !== "default" &&
