@@ -1,0 +1,45 @@
+{
+  ref: Function("updateTodo"),
+  ts: 1618671664610000,
+  name: "updateTodo",
+  body: Query(
+    Lambda(
+      ["userId", "todoUid", "newTodoData"],
+      If(
+        Call(Function("canOperate"), [Var("userId"), Var("todoUid")]),
+        Let(
+          {
+            todoId: Select(
+              [0, "ref", "id"],
+              Call(Function("findByUid"), Var("todoUid"))
+            )
+          },
+          Update(Ref(Collection("Todo"), Var("todoId")), {
+            data: Var("newTodoData")
+          })
+        ),
+        '{ statusCode: "401", error: "can not perform this operation" }'
+      )
+    )
+  ),
+  data: {
+    gql: {
+      ts: Time("2021-04-17T15:00:33.305670Z"),
+      meta: {
+        location: "Mutation",
+        field: {
+          name: "updateTodo",
+          directives: [
+            { name: "resolver", args: { name: "updateTodo", paginated: false } }
+          ],
+          type: { Named: "Todo", NotNull: { Named: "Todo" } },
+          arguments: [
+            { name: "userId", type: { NotNull: { Named: "ID" } } },
+            { name: "uId", type: { NotNull: { Named: "ID" } } },
+            { name: "data", type: { NotNull: { Named: "TodoInput" } } }
+          ]
+        }
+      }
+    }
+  }
+}

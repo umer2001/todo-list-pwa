@@ -1,0 +1,47 @@
+{
+  ref: Function("todosByUserId"),
+  ts: 1618671633730000,
+  name: "todosByUserId",
+  body: Query(
+    Lambda(
+      ["userId"],
+      Let(
+        {
+          refs: Select(
+            "data",
+            Map(
+              Paginate(
+                Match(
+                  Index("todo_owner_by_user"),
+                  Ref(Collection("User"), Var("userId"))
+                )
+              ),
+              Lambda("x", Get(Var("x")))
+            ),
+            []
+          )
+        },
+        Var("refs")
+      )
+    )
+  ),
+  data: {
+    gql: {
+      ts: Time("2021-04-17T15:00:33.305670Z"),
+      meta: {
+        location: "Query",
+        field: {
+          name: "todosByUserId",
+          directives: [
+            {
+              name: "resolver",
+              args: { name: "todosByUserId", paginated: false }
+            }
+          ],
+          type: { NotNull: { List: { NotNull: { Named: "Todo" } } } },
+          arguments: [{ name: "userId", type: { NotNull: { Named: "ID" } } }]
+        }
+      }
+    }
+  }
+}
