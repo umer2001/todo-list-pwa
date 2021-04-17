@@ -26,7 +26,11 @@ export const TodoList = () => {
   useEffect(() => {
     const getTodos = async () => {
       try {
-        const res = await fetch("/.netlify/functions/getTodos");
+        const res = await fetch("/.netlify/functions/getTodos", {
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
+        });
         const todos = await res.json();
         dispatch({
           type: "SET_TODOS",
