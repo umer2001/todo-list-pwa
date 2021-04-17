@@ -1,5 +1,6 @@
 const CREATE_TODO = `
 mutation(
+        $userId: ID!,
         $todo: String!,
         $description: String!,
         $status: Boolean!,
@@ -10,7 +11,7 @@ mutation(
         $comments: [String!],
         $reminders: [String!]
     ) {
-    createTodo(data: {
+    createTodo(userId: $userId, data: {
         todo: $todo,
         description: $description,
         status: $status,
@@ -48,24 +49,42 @@ query {
     }
 }`;
 
+const GET_TODOS_BY_USER_ID = `
+query($userId: ID!) {
+  todosByUserId(userId: $userId) {
+      todo
+      date
+      status
+      _id
+      uid
+      priority
+      description
+      subtodos {
+        uid
+      }
+      comments
+      reminders
+    }
+}`;
+
 const UPDATE_TODO = `
 mutation(
-    $id: ID!,
+    $userId: ID!,
+    $uId: ID!,
     $todo: String!,
     $description: String!,
     $status: Boolean!,
     $date:  String!,
-    $uid:  ID!,
     $priority: Priority,
     $comments: [String!],
     $reminders: [String!]
   ) {
-      updateTodo(id: $id, data: {
+      updateTodo(userId: $userId, uId: $uId, data: {
       todo: $todo,
       description: $description,
       status: $status,
       date: $date,
-      uid: $uid,
+      uid: $uId,
       priority: $priority,
       comments: $comments,
       reminders: $reminders 
@@ -76,18 +95,13 @@ mutation(
 }`;
 
 const DELETE_TODO = `
-mutation($uid: ID!) {
-  deleteTodo(id: $uid) {
-    todo
-    _id
-  }
+mutation($userId: ID!, $uid: ID!) {
+  deleteTodo(userId: $userId, uId: $uid)
 }`;
 
 const DELETE_SUB_TODO = `
-mutation($uid: ID!, $parentUid: ID) {
-  deleteTodo(id: $uid, parentId: $parentUid) {
-    uid
-  }
+mutation($userId: ID!, $uid: ID!, $parentUid: ID) {
+  deleteTodo(userId: $userId, uId: $uid, parentId: $parentUid)
 }`;
 
 const GET_TODO_BY_ID = `
@@ -108,6 +122,7 @@ query($id: ID!) {
 
 const CREATE_SUB_TODO = `
 mutation(
+          $userId: ID!,
           $parentId: ID!,
           $todo: String!,
           $description: String!,
@@ -120,6 +135,7 @@ mutation(
           $reminders: [String!]
         ) {
         createSubTodo(
+          userId: $userId,
           parentId: $parentId,
           newData: {
             todo: $todo,
@@ -151,6 +167,7 @@ module.exports = {
   CREATE_TODO,
   CREATE_SUB_TODO,
   GET_ALLTODOS,
+  GET_TODOS_BY_USER_ID,
   UPDATE_TODO,
   DELETE_TODO,
   DELETE_SUB_TODO,
