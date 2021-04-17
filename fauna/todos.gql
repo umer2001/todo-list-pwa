@@ -5,6 +5,13 @@ enum Priority {
   P4
 }
 
+type User {
+  name: String!
+  email: String! @unique
+  password: String!
+  todos: [Todo!] @relation
+}
+
 type Todo {
   todo: String!
   description: String!
@@ -15,6 +22,7 @@ type Todo {
   subtodos: [Todo!]
   comments: [String!]
   reminders: [String!]
+  owner: User!
 }
 
 input TodoInput {
@@ -31,13 +39,20 @@ input TodoInput {
 
 type Query {
   allTodos: [Todo!]!
+  todosByUserId(userId: ID!): [Todo!]! @resolver(name: "todosByUserId")
   findTodoByUid(uid: ID!): Todo!
+  userExists(email: String!): Boolean! @resolver(name: "userExists")
+  userByEmail(email: String!): User! @resolver(name: "userByEmail")
 }
 
 type Mutation {
-  createSubTodo(parentId: ID!, newData: TodoInput!): Todo!
+  createTodo(userId: ID!, data: TodoInput!): Todo! @resolver(name: "createTodo")
+  updateTodo(userId: ID!, uId: ID!, data: TodoInput!): Todo!
+    @resolver(name: "updateTodo")
+  deleteTodo(userId: ID!, uId: ID!, parentId: ID): String!
+    @resolver(name: "deleteTodo")
+  createSubTodo(userId: ID!, parentId: ID!, newData: TodoInput!): Todo!
     @resolver(name: "create_sub_todo")
   updateRemindersList(todoUid: ID!, reminder: String!): String!
     @resolver(name: "updateRemindersList")
-  deleteTodo(id: ID!, parentId: ID): Todo! @resolver(name: "deleteTodo")
 }
