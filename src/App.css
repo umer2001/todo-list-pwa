@@ -57,6 +57,11 @@
   height: auto;
 }
 
+.signORligin-logo {
+  width: 20%;
+  min-width: 100px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

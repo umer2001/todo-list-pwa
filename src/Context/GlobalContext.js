@@ -1,8 +1,10 @@
 import React, { createContext, useReducer } from "react";
+import logger from "use-reducer-logger";
 import AppReducer from "./AppReducer";
 
 //initial state
 const initialState = {
+  name: null,
   theme: "default",
   todos: {},
   isPermissionDialogOpen: false,
@@ -38,7 +40,12 @@ export const GlobalDispatchContext = createContext();
 
 //provider component
 export const GlobalProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AppReducer, initialState);
+  const [state, dispatch] = useReducer(
+    process.env.REACT_APP_ENVIRONMENT === "development"
+      ? logger(AppReducer)
+      : AppReducer,
+    initialState
+  );
 
   return (
     <GlobalStateContext.Provider value={state}>

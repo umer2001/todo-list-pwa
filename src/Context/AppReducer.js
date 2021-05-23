@@ -205,6 +205,8 @@ export default (state, action) => {
             todoDetailDrawer,
             bottomDrawer: {
               open: true,
+              subTodo: false,
+              id: null,
             },
           },
           "",
@@ -213,6 +215,7 @@ export default (state, action) => {
         return {
           ...state,
           bottomDrawer: {
+            ...state.bottomDrawer,
             open: true,
           },
         };
@@ -223,6 +226,7 @@ export default (state, action) => {
       return {
         ...state,
         bottomDrawer: {
+          ...state.bottomDrawer,
           open: false,
         },
       };
@@ -365,11 +369,8 @@ export default (state, action) => {
     }
     case "POP_STATE": {
       if (window.history.state !== null) {
-        const {
-          bottomDrawer,
-          rightDrawer,
-          todoDetailDrawer,
-        } = window.history.state;
+        const { bottomDrawer, rightDrawer, todoDetailDrawer } =
+          window.history.state;
         return {
           ...state,
           bottomDrawer,
@@ -385,6 +386,16 @@ export default (state, action) => {
       return {
         ...state,
         theme: action.payload,
+      };
+    }
+    case "SIGN_IN_COMPLETE":
+    case "SIGN_UP_COMPLETE": {
+      const { token, name } = action.payload;
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", name);
+      return {
+        ...state,
+        name,
       };
     }
     default: {

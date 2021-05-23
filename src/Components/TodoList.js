@@ -19,9 +19,8 @@ export const TodoList = () => {
   const classes = useStyles();
 
   const dispatch = useContext(GlobalDispatchContext);
-  const { todos, bottomDrawer, todoDetailDrawer, rightDrawer } = useContext(
-    GlobalStateContext
-  );
+  const { todos, bottomDrawer, todoDetailDrawer, rightDrawer } =
+    useContext(GlobalStateContext);
 
   useEffect(() => {
     const getTodos = async () => {
@@ -32,10 +31,12 @@ export const TodoList = () => {
           },
         });
         const todos = await res.json();
-        dispatch({
-          type: "SET_TODOS",
-          payload: todos,
-        });
+        if (!todos.err) {
+          dispatch({
+            type: "SET_TODOS",
+            payload: todos,
+          });
+        }
       } catch (err) {
         console.log(err);
       }

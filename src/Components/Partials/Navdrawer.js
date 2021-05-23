@@ -73,7 +73,7 @@ export default function Navdrawer({ isHome }) {
           R
         </Avatar>
         <Typography variant="h6" className={classes.userName}>
-          Raheel Khan
+          {localStorage.getItem("name")}
         </Typography>
       </Container>
       <Divider />
