@@ -11,7 +11,7 @@ exports.handler = async (event) => {
     // check & decode auth token
     const decoded = decode(event);
     if (!decoded) {
-      formattedResponse(401, { err: "No Token, can not authorize" });
+      return formattedResponse(401, { err: "No Token, can not authorize" });
     }
 
     console.log(decoded);
