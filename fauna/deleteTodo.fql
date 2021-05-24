@@ -1,10 +1,10 @@
 {
   ref: Function("deleteTodo"),
-  ts: 1615647751600000,
+  ts: 1618671633730000,
   name: "deleteTodo",
   body: Query(
     Lambda(
-      ["uId", "parentUid"],
+      ["userId", "uId", "parentUid"],
       Let(
         {
           todoId: Select(
@@ -18,36 +18,43 @@
           )
         },
         If(
-          Equals(Var("parentTodoId"), 0),
-          Call(Function("recursiveDelete"), Var("todoId")),
-          Let(
-            {
-              parentData: Select(
-                ["data"],
-                Get(Ref(Collection("Todo"), Var("parentTodoId")))
-              ),
-              parentSubTodos: Select(["subtodos"], Var("parentData"), []),
-              updatedSubTodosArray: Difference(Var("parentSubTodos"), [
-                Ref(Collection("Todo"), Var("todoId"))
-              ])
-            },
+          Call(Function("canOperate"), [Var("userId"), Var("uId")]),
+          If(
+            Equals(Var("parentTodoId"), 0),
             Do(
-              Update(Ref(Collection("Todo"), Var("parentTodoId")), {
-                data: Merge(Var("parentData"), {
-                  subtodos: Var("updatedSubTodosArray")
-                })
-              }),
               Call(Function("recursiveDelete"), Var("todoId")),
-              Get(Ref(Collection("Todo"), Var("parentTodoId")))
+              '{ "statusCode": 200, "msg": "deleted"}'
+            ),
+            Let(
+              {
+                parentData: Select(
+                  ["data"],
+                  Get(Ref(Collection("Todo"), Var("parentTodoId")))
+                ),
+                parentSubTodos: Select(["subtodos"], Var("parentData"), []),
+                updatedSubTodosArray: Difference(Var("parentSubTodos"), [
+                  Ref(Collection("Todo"), Var("todoId"))
+                ])
+              },
+              Do(
+                Update(Ref(Collection("Todo"), Var("parentTodoId")), {
+                  data: Merge(Var("parentData"), {
+                    subtodos: Var("updatedSubTodosArray")
+                  })
+                }),
+                Call(Function("recursiveDelete"), Var("todoId")),
+                '{ "statusCode": 200, "msg": "deleted"}'
+              )
             )
-          )
+          ),
+          '{ "statusCode": 401, "msg": "cannot perform this operation" }'
         )
       )
     )
   ),
   data: {
     gql: {
-      ts: Time("2021-03-13T14:18:35.906527Z"),
+      ts: Time("2021-04-17T15:00:33.305670Z"),
       meta: {
         location: "Mutation",
         field: {
@@ -55,8 +62,9 @@
           directives: [
             { name: "resolver", args: { name: "deleteTodo", paginated: false } }
           ],
-          type: { NotNull: { Named: "Todo" } },
+          type: { NotNull: { Named: "String" } },
           arguments: [
+            { name: "userId", type: { NotNull: { Named: "ID" } } },
             { name: "id", type: { NotNull: { Named: "ID" } } },
             { name: "parentId", type: { Named: "ID" } }
           ]

@@ -66,6 +66,7 @@ export default function Appbar() {
   const location = useLocation();
   const [isHome, setIsHome] = useState(false);
   const [title, setTitle] = useState("Home");
+  const path = location.pathname;
 
   useEffect(() => {
     const path = location.pathname;
@@ -87,7 +88,7 @@ export default function Appbar() {
     }
   }, [location]);
 
-  return (
+  return !path.startsWith("/sign") ? (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
@@ -108,5 +109,7 @@ export default function Appbar() {
         </Toolbar>
       </AppBar>
     </div>
+  ) : (
+    ""
   );
 }

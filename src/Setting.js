@@ -7,6 +7,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import PaletteOutlinedIcon from "@material-ui/icons/PaletteOutlined";
+import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +26,20 @@ const Setting = () => {
             <PaletteOutlinedIcon />
           </ListItemIcon>
           <ListItemText primary="Theme" className={classes.listItemText} />
+        </ListItem>
+      </Link>
+      <Link to="/sign-in" className="link">
+        <ListItem
+          button
+          onClick={() => {
+            localStorage.clear();
+          }}
+          key="logout"
+        >
+          <ListItemIcon>
+            <ExitToAppOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" className={classes.listItemText} />
         </ListItem>
       </Link>
     </List>

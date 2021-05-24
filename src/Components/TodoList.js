@@ -19,19 +19,24 @@ export const TodoList = () => {
   const classes = useStyles();
 
   const dispatch = useContext(GlobalDispatchContext);
-  const { todos, bottomDrawer, todoDetailDrawer, rightDrawer } = useContext(
-    GlobalStateContext
-  );
+  const { todos, bottomDrawer, todoDetailDrawer, rightDrawer } =
+    useContext(GlobalStateContext);
 
   useEffect(() => {
     const getTodos = async () => {
       try {
-        const res = await fetch("/.netlify/functions/getTodos");
-        const todos = await res.json();
-        dispatch({
-          type: "SET_TODOS",
-          payload: todos,
+        const res = await fetch("/.netlify/functions/getTodos", {
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
         });
+        const todos = await res.json();
+        if (!todos.err) {
+          dispatch({
+            type: "SET_TODOS",
+            payload: todos,
+          });
+        }
       } catch (err) {
         console.log(err);
       }

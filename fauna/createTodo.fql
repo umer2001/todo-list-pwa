@@ -1,0 +1,38 @@
+{
+  ref: Function("createTodo"),
+  ts: 1618671633730000,
+  name: "createTodo",
+  body: Query(
+    Lambda(
+      ["userId", "TodoData"],
+      Let(
+        {
+          addOwnerToData: Merge(Var("TodoData"), {
+            owner: Ref(Collection("User"), Var("userId"))
+          }),
+          newTodo: Create(Collection("Todo"), { data: Var("addOwnerToData") })
+        },
+        Var("newTodo")
+      )
+    )
+  ),
+  data: {
+    gql: {
+      ts: Time("2021-04-17T15:00:33.305670Z"),
+      meta: {
+        location: "Mutation",
+        field: {
+          name: "createTodo",
+          directives: [
+            { name: "resolver", args: { name: "createTodo", paginated: false } }
+          ],
+          type: { NotNull: { Named: "Todo" } },
+          arguments: [
+            { name: "userId", type: { NotNull: { Named: "ID" } } },
+            { name: "data", type: { NotNull: { Named: "TodoInput" } } }
+          ]
+        }
+      }
+    }
+  }
+}

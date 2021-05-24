@@ -34,6 +34,9 @@ export default (state, action) => {
       try {
         fetch("/.netlify/functions/deleteTodo", {
           method: "DELETE",
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
           body: JSON.stringify(action.payload),
         })
           .then((res) => res.json())
@@ -95,6 +98,9 @@ export default (state, action) => {
       try {
         fetch("/.netlify/functions/createTodo", {
           method: "POST",
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
           body: JSON.stringify(action.payload),
         })
           .then((res) => res.json())
@@ -130,6 +136,9 @@ export default (state, action) => {
 
         fetch("/.netlify/functions/updateTodo", {
           method: "PUT",
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
           body: JSON.stringify(updatedstate.todos[uid]),
         })
           .then((res) => res.json())
@@ -196,6 +205,8 @@ export default (state, action) => {
             todoDetailDrawer,
             bottomDrawer: {
               open: true,
+              subTodo: false,
+              id: null,
             },
           },
           "",
@@ -204,6 +215,7 @@ export default (state, action) => {
         return {
           ...state,
           bottomDrawer: {
+            ...state.bottomDrawer,
             open: true,
           },
         };
@@ -214,6 +226,7 @@ export default (state, action) => {
       return {
         ...state,
         bottomDrawer: {
+          ...state.bottomDrawer,
           open: false,
         },
       };
@@ -224,6 +237,9 @@ export default (state, action) => {
       try {
         fetch("/.netlify/functions/addSubTodo", {
           method: "POST",
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
           body: JSON.stringify(action.payload),
         })
           .then((res) => res.json())
@@ -353,11 +369,8 @@ export default (state, action) => {
     }
     case "POP_STATE": {
       if (window.history.state !== null) {
-        const {
-          bottomDrawer,
-          rightDrawer,
-          todoDetailDrawer,
-        } = window.history.state;
+        const { bottomDrawer, rightDrawer, todoDetailDrawer } =
+          window.history.state;
         return {
           ...state,
           bottomDrawer,
@@ -373,6 +386,16 @@ export default (state, action) => {
       return {
         ...state,
         theme: action.payload,
+      };
+    }
+    case "SIGN_IN_COMPLETE":
+    case "SIGN_UP_COMPLETE": {
+      const { token, name } = action.payload;
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", name);
+      return {
+        ...state,
+        name,
       };
     }
     default: {
