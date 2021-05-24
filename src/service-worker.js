@@ -103,11 +103,16 @@ self.addEventListener("fetch", (event) => {
       event.request.method === "PUT" ||
       event.request.method === "DELETE")
   ) {
-    const promiseChain = fetch(event.request.clone()).catch((err) => {
-      return queue.pushRequest({ request: event.request });
-    });
+    event.respondWith(
+      (async function () {
+        const promiseChain = fetch(event.request.clone()).catch((err) => {
+          return queue.pushRequest({ request: event.request });
+        });
 
-    event.waitUntil(promiseChain);
+        event.waitUntil(promiseChain);
+        return promiseChain;
+      })()
+    );
   }
 });
 
