@@ -1,0 +1,27 @@
+{
+  ref: Function("userByEmail"),
+  ts: 1618679473035000,
+  name: "userByEmail",
+  body: Query(
+    Lambda("email", Get(Match(Index("unique_User_email"), Var("email"))))
+  ),
+  data: {
+    gql: {
+      ts: Time("2021-04-17T17:11:12.752973Z"),
+      meta: {
+        location: "Query",
+        field: {
+          name: "userByEmail",
+          directives: [
+            {
+              name: "resolver",
+              args: { name: "userByEmail", paginated: false }
+            }
+          ],
+          type: { NotNull: { Named: "User" } },
+          arguments: [{ name: "email", type: { NotNull: { Named: "String" } } }]
+        }
+      }
+    }
+  }
+}
