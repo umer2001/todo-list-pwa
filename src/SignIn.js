@@ -68,11 +68,11 @@ const SignIn = () => {
 
   const [values, setValues] = useState({
     email:
-      process.env.REACT_APP_MODE === "guest"
+      process.env.REACT_APP_MODE.toLowerCase() === "guest"
         ? process.env.REACT_APP_GUEST_EMAIL
         : "",
     password:
-      process.env.REACT_APP_MODE === "guest"
+      process.env.REACT_APP_MODE.toLowerCase() === "guest"
         ? process.env.REACT_APP_GUEST_PASSWORD
         : "",
     showPassword: false,
