@@ -58,6 +58,8 @@
     ]
   },
   "devDependencies": {
+    "fauna-shell": "^0.12.4",
+    "faunadb": "^4.3.0",
     "use-reducer-logger": "^1.0.2"
   }
 }
