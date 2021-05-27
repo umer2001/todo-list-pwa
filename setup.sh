@@ -120,7 +120,7 @@ then
 
         echo -e "${YELLOW}creating guest user account....${ENDCOLOR}"
         echo "const bcrypt = require('bcrypt');require('dotenv').config();(async (password) => {const salt = await bcrypt.genSalt(10);const hash = await bcrypt.hash(password, salt);console.log(hash);})('$guest_password');" >> hash.js
-        hashed_password=node hash.js
+        hashed_password=$(node hash.js)
         rm hash.js
 
         curl -u $fauna_db_key: https://graphql.fauna.com/graphql \
@@ -128,7 +128,7 @@ then
 
         #make env till this point
 
-        echo -e "${BLUE}Do you want to start local dev server [y/n]?${ENDCOLOR}"
+        echo -e "${BLUE}\nDo you want to start local dev server [y/n]?${ENDCOLOR}"
         read ans
         if [[ ( $ans -eq "y" || $ans  -eq "Y" ) ]]
         then
