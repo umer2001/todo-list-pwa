@@ -17,7 +17,7 @@
         "primary": "#212121",
         "secondary": "rgba(0, 0, 0, 0.54)",
         "disabled": "rgb(0 0 0 / 38%)",
-        "hint": "rgb(209 209 209 / 38%)",
+        "hint": "#757575",
         "divider": "rgba(0, 0, 0, 0.12)"
       }
     }
@@ -40,7 +40,7 @@
         "primary": "#212121",
         "secondary": "rgba(0, 0, 0, 0.54)",
         "disabled": "rgb(0 0 0 / 38%)",
-        "hint": "rgb(209 209 209 / 38%)",
+        "hint": "#757575",
         "divider": "rgba(0, 0, 0, 0.12)"
       }
     }
@@ -95,7 +95,7 @@
         "primary": "#212121",
         "secondary": "#1d1d1d",
         "disabled": "rgb(0 0 0 / 38%)",
-        "hint": "rgb(209 209 209 / 38%)",
+        "hint": "#757575",
         "divider": "#3e3e3e"
       }
     },
