@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useSnackbar } from "notistack";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { GlobalDispatchContext } from "./Context/GlobalContext";
@@ -20,6 +21,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import SnackBarContent from "./Components/SnackBarContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
+    color: theme.palette.text.primary,
   },
   center: {
     textAlign: "center",
@@ -42,10 +45,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   fieldIcon: {
-    color: "rgba(0, 0, 0, 0.54)",
+    color: theme.palette.text.hint,
   },
   eye: {
     padding: "0px",
+    color: theme.palette.text.hint,
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -64,11 +68,16 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  secondaryActon: {
+    color: theme.palette.secondary.main,
+    textDecoration: "none",
+  },
 }));
 
 const SignUp = () => {
   const classes = useStyles();
   const dispatch = useContext(GlobalDispatchContext);
+  const { enqueueSnackbar } = useSnackbar();
   const [redirect, setRedirect] = useState(false);
 
   const [values, setValues] = useState({
@@ -133,22 +142,54 @@ const SignUp = () => {
           }),
         })
           .then((res) => res.json())
-          .then(({ token, user: { name } }) => {
-            dispatch({
-              type: "SIGN_UP_COMPLETE",
-              payload: {
+          .then((parsedRes) => {
+            if (parsedRes.err) {
+              enqueueSnackbar(parsedRes.err, {
+                content: (
+                  <SnackBarContent
+                    id={Math.random}
+                    message={parsedRes.err}
+                    variant="error"
+                  />
+                ),
+              });
+            } else {
+              const {
                 token,
-                name,
-              },
-            });
-            setRedirect(true);
+                user: { name },
+              } = parsedRes;
+              dispatch({
+                type: "SIGN_UP_COMPLETE",
+                payload: {
+                  token,
+                  name,
+                },
+              });
+              setRedirect(true);
+            }
           });
       } else {
         // validation error
-        console.log(" validation error");
+        enqueueSnackbar("Validation error", {
+          content: (
+            <SnackBarContent
+              id={Math.random}
+              message="Validation error"
+              variant="error"
+            />
+          ),
+        });
       }
     } else {
-      console.log("somthing is empty");
+      enqueueSnackbar("Somthing is empty", {
+        content: (
+          <SnackBarContent
+            id={Math.random}
+            message="Somthing is empty"
+            variant="error"
+          />
+        ),
+      });
     }
   };
   return (
@@ -259,7 +300,7 @@ const SignUp = () => {
                   control={
                     <Checkbox
                       value="allowExtraEmails"
-                      color="primary"
+                      color="secondary"
                       checked
                     />
                   }
@@ -278,7 +319,11 @@ const SignUp = () => {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link to="/sign-in" variant="body2">
+                <Link
+                  to="/sign-in"
+                  variant="body2"
+                  className={classes.secondaryActon}
+                >
                   Already have an account? Sign in
                 </Link>
               </Grid>
