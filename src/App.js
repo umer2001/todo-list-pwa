@@ -14,12 +14,12 @@ import {
   GlobalDispatchContext,
 } from "./Context/GlobalContext";
 import Appbar from "./Components/Partials/Appbar";
-import Home from "./Home";
-import Setting from "./Setting";
-import Theme from "./Theme";
+import Home from "./Pages/Home";
+import Setting from "./Pages/Setting";
+import Theme from "./Pages/Theme";
 import Themes from "./themes";
-import SignUp from "./SignUp";
-import SignIn from "./SignIn";
+import SignUp from "./Pages/SignUp";
+import SignIn from "./Pages/SignIn";
 
 function App() {
   const [redirect, setRedirect] = useState(false);

@@ -12,10 +12,15 @@ import {
   Grid,
   IconButton,
 } from "@material-ui/core";
-import { AlternateEmail, Visibility, VisibilityOff } from "@material-ui/icons";
-import { GlobalDispatchContext } from "./Context/GlobalContext";
-import logo from "./Images/logo512.png";
-import SnackBarContent from "./Components/SnackBarContent";
+import {
+  AccountCircle,
+  AlternateEmail,
+  Visibility,
+  VisibilityOff,
+} from "@material-ui/icons";
+import { GlobalDispatchContext } from "../Context/GlobalContext";
+import logo from "../Images/logo512.png";
+import SnackBarContent from "../Components/SnackBarContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,36 +73,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = () => {
+const SignUp = () => {
   const classes = useStyles();
   const dispatch = useContext(GlobalDispatchContext);
   const { enqueueSnackbar } = useSnackbar();
   const [redirect, setRedirect] = useState(false);
 
   const [values, setValues] = useState({
-    email:
-      process.env.REACT_APP_MODE.toLowerCase() === "guest"
-        ? process.env.REACT_APP_GUEST_EMAIL
-        : "",
-    password:
-      process.env.REACT_APP_MODE.toLowerCase() === "guest"
-        ? process.env.REACT_APP_GUEST_PASSWORD
-        : "",
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     showPassword: false,
+    showConfirmPassword: false,
   });
 
   const [fieldErrors, setFieldErrors] = useState({
     email: false,
-    password: false,
+    confirmPassword: false,
   });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
-    if (prop === "password") {
-      if (event.target.value === "") {
-        setFieldErrors({ ...fieldErrors, password: true });
+    if (prop === "confirmPassword") {
+      if (values.password === event.target.value) {
+        setFieldErrors({ ...fieldErrors, confirmPassword: false });
       } else {
-        setFieldErrors({ ...fieldErrors, password: false });
+        setFieldErrors({ ...fieldErrors, confirmPassword: true });
       }
     } else if (prop === "email") {
       var re = /\S+@\S+\.\S+/;
@@ -109,8 +111,8 @@ const SignIn = () => {
     }
   };
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
+  const handleClickShowPassword = (which) => () => {
+    setValues({ ...values, [which]: !values[which] });
   };
 
   const handleMouseDownPassword = (event) => {
@@ -119,15 +121,21 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = values;
-    if (email !== "" && password !== "") {
+    const { name, email, password, confirmPassword } = values;
+    if (
+      name !== "" &&
+      email !== "" &&
+      password !== "" &&
+      confirmPassword !== ""
+    ) {
       const { email, confirmPassword } = fieldErrors;
       if (!email && !confirmPassword) {
         //submit req
         console.log("submit req");
-        fetch("/.netlify/functions/auth", {
+        fetch("/.netlify/functions/signup", {
           method: "POST",
           body: JSON.stringify({
+            name: values.name,
             email: values.email,
             password: values.password,
           }),
@@ -150,7 +158,7 @@ const SignIn = () => {
                 user: { name },
               } = parsedRes;
               dispatch({
-                type: "SIGN_IN_COMPLETE",
+                type: "SIGN_UP_COMPLETE",
                 payload: {
                   token,
                   name,
@@ -183,7 +191,6 @@ const SignIn = () => {
       });
     }
   };
-
   return (
     <>
       {redirect ? <Redirect push to="/" /> : ""}
@@ -191,18 +198,33 @@ const SignIn = () => {
         <Container maxWidth="sm" className={classes.center}>
           <img className="signORligin-logo" src={logo} alt="logo" />
           <h2>Todo Task</h2>
-          <h3>Welcome back, let's sign you in...</h3>
+          <h3>Welcome, let's sign you up...</h3>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  required
+                  label="Name"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle className={classes.fieldIcon} />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={handleChange("name")}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   required
                   error={fieldErrors.email}
                   helperText="email not valid"
                   FormHelperTextProps={{ hidden: !fieldErrors.email }}
+                  type="email"
                   label="Email"
-                  value={values.email}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="start">
@@ -217,11 +239,7 @@ const SignIn = () => {
                 <TextField
                   fullWidth
                   required
-                  error={fieldErrors.password}
-                  helperText="password can not be empty"
-                  FormHelperTextProps={{ hidden: !fieldErrors.password }}
                   label="Password"
-                  value={values.password}
                   type={values.showPassword ? "text" : "password"}
                   InputProps={{
                     endAdornment: (
@@ -229,7 +247,7 @@ const SignIn = () => {
                         <IconButton
                           aria-label="toggle password visibility"
                           className={classes.eye}
-                          onClick={handleClickShowPassword}
+                          onClick={handleClickShowPassword("showPassword")}
                           onMouseDown={handleMouseDownPassword}
                         >
                           {values.showPassword ? (
@@ -242,6 +260,38 @@ const SignIn = () => {
                     ),
                   }}
                   onChange={handleChange("password")}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  required
+                  error={fieldErrors.confirmPassword}
+                  helperText="password not matched"
+                  FormHelperTextProps={{ hidden: !fieldErrors.confirmPassword }}
+                  label="Confirm Password"
+                  type={values.showConfirmPassword ? "text" : "password"}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          className={classes.eye}
+                          onClick={handleClickShowPassword(
+                            "showConfirmPassword"
+                          )}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {values.showConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={handleChange("confirmPassword")}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -264,16 +314,16 @@ const SignIn = () => {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Sign Up
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
                 <Link
-                  to="/sign-up"
+                  to="/sign-in"
                   variant="body2"
                   className={classes.secondaryActon}
                 >
-                  Don't have an account? Sign up
+                  Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
@@ -284,4 +334,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
