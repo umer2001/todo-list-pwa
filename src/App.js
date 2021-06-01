@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Appbar from "./Components/Partials/Appbar";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { SnackbarProvider } from "notistack";
 import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import { createScheduledNotification } from "./Context/helperFunctions";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./Home";
-import Setting from "./Setting";
-import Theme from "./Theme";
 import {
   GlobalStateContext,
   GlobalDispatchContext,
 } from "./Context/GlobalContext";
+import Home from "./Home";
+import Setting from "./Setting";
+import Theme from "./Theme";
 import Themes from "./themes";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
@@ -111,19 +112,24 @@ function App() {
   }, [dispatch]);
   return (
     <ThemeProvider theme={currentTheme}>
-      <Router>
-        {redirect ? <Redirect push to="/sign-in" /> : ""}
-        <div className={classes.bg}>
-          <Appbar />
-          <Switch>
-            <Route path="/sign-up" exect component={SignUp} />
-            <Route path="/sign-in" exect component={SignIn} />
-            <Route path="/setting" exect component={Setting} />
-            <Route path="/theme" exect component={Theme} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </div>
-      </Router>
+      <SnackbarProvider
+        anchorOrigin={{ horizontal: "left", vertical: "top" }}
+        autoHideDuration={1200}
+      >
+        <Router>
+          {redirect ? <Redirect push to="/sign-in" /> : ""}
+          <div className={classes.bg}>
+            <Appbar />
+            <Switch>
+              <Route path="/sign-up" exect component={SignUp} />
+              <Route path="/sign-in" exect component={SignIn} />
+              <Route path="/setting" exect component={Setting} />
+              <Route path="/theme" exect component={Theme} />
+              <Route path="/" component={Home} />
+            </Switch>
+          </div>
+        </Router>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }
