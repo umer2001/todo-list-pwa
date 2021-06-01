@@ -1,26 +1,25 @@
 import React, { useState, useContext } from "react";
 import { useSnackbar } from "notistack";
-import { Redirect } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { GlobalDispatchContext } from "./Context/GlobalContext";
-import Container from "@material-ui/core/Container";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Button from "@material-ui/core/Button";
-import logo from "./Images/logo512.png";
+import { Redirect, Link } from "react-router-dom";
+import {
+  makeStyles,
+  Container,
+  TextField,
+  InputAdornment,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+} from "@material-ui/core";
 import {
   AccountCircle,
   AlternateEmail,
   Visibility,
   VisibilityOff,
 } from "@material-ui/icons";
-import {
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  IconButton,
-} from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { GlobalDispatchContext } from "./Context/GlobalContext";
+import logo from "./Images/logo512.png";
 import SnackBarContent from "./Components/SnackBarContent";
 
 const useStyles = makeStyles((theme) => ({

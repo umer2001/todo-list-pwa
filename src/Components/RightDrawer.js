@@ -1,18 +1,20 @@
 import React, { useContext } from "react";
 import {
+  makeStyles,
+  Drawer,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
+import {
   GlobalDispatchContext,
   GlobalStateContext,
 } from "../Context/GlobalContext";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { displayWhat, displayTime } from "../Context/helperFunctions";
 import ReminderContent from "./ReminderContent";
 import CommentContent from "./CommentContent";
-import { displayWhat, displayTime } from "../Context/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   root: {

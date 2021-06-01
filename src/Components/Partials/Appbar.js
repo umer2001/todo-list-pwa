@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import { fade, makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
+import {
+  fade,
+  makeStyles,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
+import { MoreVert as MoreIcon, Search as SearchIcon } from "@material-ui/icons";
 import Navdrawer from "./Navdrawer";
 
 const useStyles = makeStyles((theme) => ({

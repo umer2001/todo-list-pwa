@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react";
+import { makeStyles, InputBase, IconButton } from "@material-ui/core";
 import { GlobalDispatchContext } from "../Context/GlobalContext";
-import { makeStyles } from "@material-ui/core/styles";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 
 const useStyles = makeStyles((theme) => ({

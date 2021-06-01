@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-
+import {
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+} from "@material-ui/core";
 import { GlobalDispatchContext } from "../Context/GlobalContext";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import { Secondries } from "./Secondries";
 import TodoCheckbox from "./TodoCheckbox";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 export const TodoItem = ({ todo }) => {
   const dispatch = useContext(GlobalDispatchContext);

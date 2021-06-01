@@ -1,11 +1,12 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
-import FilterListRoundedIcon from "@material-ui/icons/FilterListRounded";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import AccessAlarmRoundedIcon from "@material-ui/icons/AccessAlarmRounded";
-import LocalLaundryServiceOutlinedIcon from "@material-ui/icons/LocalLaundryServiceOutlined";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles, Chip, Typography } from "@material-ui/core";
+import {
+  FilterListRounded,
+  ChatBubbleOutline,
+  AccessAlarmRounded,
+  LocalLaundryServiceOutlined,
+} from "@material-ui/icons";
+
 import { displayWhat } from "../Context/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,13 +42,13 @@ export const Secondries = ({
       <Chip
         color="secondary"
         label={displayWhat(date)}
-        icon={<LocalLaundryServiceOutlinedIcon />}
+        icon={<LocalLaundryServiceOutlined />}
         size="small"
         variant="outlined"
       />
       {numberOfSubTodos ? (
         <>
-          <FilterListRoundedIcon className={classes.icon} />
+          <FilterListRounded className={classes.icon} />
           <Typography color="textPrimary" className={classes.number}>
             {numberOfSubTodos}
           </Typography>
@@ -57,7 +58,7 @@ export const Secondries = ({
       )}
       {numberOfComments ? (
         <>
-          <ChatBubbleOutlineIcon className={classes.icon} />
+          <ChatBubbleOutline className={classes.icon} />
           <Typography color="textPrimary" className={classes.number}>
             {numberOfComments}
           </Typography>
@@ -67,7 +68,7 @@ export const Secondries = ({
       )}
       {numberOfReminders ? (
         <>
-          <AccessAlarmRoundedIcon className={classes.icon} />
+          <AccessAlarmRounded className={classes.icon} />
           <Typography color="textPrimary" className={classes.number}>
             {numberOfReminders}
           </Typography>

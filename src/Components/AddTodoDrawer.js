@@ -1,22 +1,24 @@
 import React, { useState, useContext } from "react";
-import Quickcomment from "./Quickcomment";
-import Priority from "./Priority";
-import Button from "@material-ui/core/Button";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  Button,
+  Drawer,
+  InputBase,
+  ClickAwayListener,
+  IconButton,
+} from "@material-ui/core";
 import {
   GlobalStateContext,
   GlobalDispatchContext,
 } from "../Context/GlobalContext";
-import Drawer from "@material-ui/core/Drawer";
-import InputBase from "@material-ui/core/InputBase";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import IconButton from "@material-ui/core/IconButton";
+import clsx from "clsx";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import InboxOutlinedIcon from "@material-ui/icons/InboxOutlined";
 import LocalLaundryServiceOutlinedIcon from "@material-ui/icons/LocalLaundryServiceOutlined";
 import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 import QuickReminder from "./QuickReminder";
+import Quickcomment from "./Quickcomment";
+import Priority from "./Priority";
 
 const useStyles = makeStyles((theme) => ({
   root: {

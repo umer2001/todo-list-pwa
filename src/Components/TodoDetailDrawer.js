@@ -1,30 +1,33 @@
 import React, { useContext } from "react";
 import {
+  makeStyles,
+  Drawer,
+  Button,
+  Typography,
+  Badge,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+} from "@material-ui/core";
+import {
+  ChatBubbleOutline,
+  MoreVert,
+  LocalLaundryServiceOutlined,
+  AccessAlarmRounded,
+  LocalOfferOutlined,
+  FilterListRounded,
+  Add,
+  FiberManualRecord,
+} from "@material-ui/icons";
+import {
   GlobalDispatchContext,
   GlobalStateContext,
 } from "../Context/GlobalContext";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Badge from "@material-ui/core/Badge";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import { displayWhat } from "../Context/helperFunctions";
 import Priority from "./Priority";
 import TodoCheckbox from "./TodoCheckbox";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import LocalLaundryServiceOutlinedIcon from "@material-ui/icons/LocalLaundryServiceOutlined";
-import AccessAlarmRoundedIcon from "@material-ui/icons/AccessAlarmRounded";
-import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
-import FilterListRoundedIcon from "@material-ui/icons/FilterListRounded";
-import AddIcon from "@material-ui/icons/Add";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import { displayWhat } from "../Context/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "60px",
     width: "auto",
   },
-  addIcon: {
+  add: {
     margin: theme.spacing(0, 1),
   },
   catHead: {
     display: "flex",
     alignItems: "center",
   },
-  pointIcon: {
+  point: {
     padding: "0px 5px 0px 12px",
     color: "#d7d8dc",
     fontSize: "0.85rem",
@@ -71,7 +74,7 @@ export const Details = ({
   return (
     <div className={classes.root}>
       <Typography variant="subtitle1" gutterBottom className={classes.catHead}>
-        <FiberManualRecordIcon className={classes.pointIcon} />
+        <FiberManualRecord className={classes.point} />
         hello jani
       </Typography>
       <Typography variant="h5" gutterBottom>
@@ -83,14 +86,14 @@ export const Details = ({
         size="small"
         variant="outlined"
         color="secondary"
-        startIcon={<LocalLaundryServiceOutlinedIcon />}
+        start={<LocalLaundryServiceOutlined />}
       >
         {displayWhat(date)}
       </Button>
       <div className={classes.dateAndSecondries}>
-        <IconButton color="inherit">
-          <LocalOfferOutlinedIcon />
-        </IconButton>
+        <Button color="inherit">
+          <LocalOfferOutlined />
+        </Button>
         <Priority
           priority={priority}
           onPrioritySelection={(priorityType) =>
@@ -104,7 +107,7 @@ export const Details = ({
             })
           }
         />
-        <IconButton
+        <Button
           color="inherit"
           onClick={() =>
             dispatch({
@@ -117,11 +120,11 @@ export const Details = ({
           }
         >
           <Badge color="primary" badgeContent={numberOfReminders}>
-            <AccessAlarmRoundedIcon />
+            <AccessAlarmRounded />
           </Badge>
-        </IconButton>
+        </Button>
 
-        <IconButton
+        <Button
           color="inherit"
           onClick={() =>
             dispatch({
@@ -134,17 +137,17 @@ export const Details = ({
           }
         >
           <Badge color="primary" badgeContent={numberOfComments}>
-            <ChatBubbleOutlineIcon />
+            <ChatBubbleOutline />
           </Badge>
-        </IconButton>
+        </Button>
 
-        <IconButton type="submit" color="inherit" style={{ float: "right" }}>
-          <MoreVertIcon />
-        </IconButton>
+        <Button type="submit" color="inherit" style={{ float: "right" }}>
+          <MoreVert />
+        </Button>
       </div>
       <hr className="divider" />
       <div className={classes.subTaskHead}>
-        <FilterListRoundedIcon style={{ margin: "0px 10px" }} />
+        <FilterListRounded style={{ margin: "0px 10px" }} />
         <h4>Sub-tasks</h4>
       </div>
       <List className={classes.subTaskList}>
@@ -189,7 +192,7 @@ export const Details = ({
           className={classes.listItem}
           onClick={() => dispatch({ type: "OPEN_BOTTOM_DRAWER", payload: uid })}
         >
-          <AddIcon className={classes.addIcon} />
+          <Add className={classes.add} />
           <ListItemText primary="Add sub-task" />
         </ListItem>
       </List>

@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Redirect } from "react-router-dom";
-import Appbar from "./Components/Partials/Appbar";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import {
+  Redirect,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
+import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { SnackbarProvider } from "notistack";
-import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import { createScheduledNotification } from "./Context/helperFunctions";
 import {
   GlobalStateContext,
   GlobalDispatchContext,
 } from "./Context/GlobalContext";
+import Appbar from "./Components/Partials/Appbar";
 import Home from "./Home";
 import Setting from "./Setting";
 import Theme from "./Theme";

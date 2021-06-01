@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import Popover from "@material-ui/core/Popover";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import {
+  Popover,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+} from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
-import IconButton from "@material-ui/core/IconButton";
 
 export default function Priority({ onPrioritySelection, priority }) {
   const priorities = {

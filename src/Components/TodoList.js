@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
+import { makeStyles, List } from "@material-ui/core";
 import {
   GlobalDispatchContext,
   GlobalStateContext,

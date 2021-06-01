@@ -1,15 +1,13 @@
 import React, { useState, useContext } from "react";
 import { GlobalDispatchContext } from "../Context/GlobalContext";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, IconButton } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import IconButton from "@material-ui/core/IconButton";
-import SendRoundedIcon from "@material-ui/icons/SendRounded";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import { SendRounded, AccessTime } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +87,7 @@ export const DateAndTime = ({ uid }) => {
             margin="normal"
             id="time-picker"
             label="Pick time"
-            keyboardIcon={<AccessTimeIcon />}
+            keyboardIcon={<AccessTime />}
             value={selectedDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{
@@ -102,7 +100,7 @@ export const DateAndTime = ({ uid }) => {
           color="inherit"
           style={{ float: "right", marginTop: "24px" }}
         >
-          <SendRoundedIcon />
+          <SendRounded />
         </IconButton>
       </form>
     </div>

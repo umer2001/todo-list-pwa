@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
+  Avatar,
+  IconButton,
+} from "@material-ui/core";
 import { GlobalStateContext } from "../Context/GlobalContext";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import DateAndTime from "./DateAndTime";
+import { AccessTime, MoreVert } from "@material-ui/icons";
 import { displayTime } from "../Context/helperFunctions";
+import DateAndTime from "./DateAndTime";
 
 export const ReminderContent = ({ uid }) => {
   const { todos } = useContext(GlobalStateContext);
@@ -28,7 +29,7 @@ export const ReminderContent = ({ uid }) => {
             <ListItem key={index}>
               <ListItemAvatar>
                 <Avatar>
-                  <AccessTimeIcon />
+                  <AccessTime />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
@@ -36,7 +37,7 @@ export const ReminderContent = ({ uid }) => {
               />
               <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="delete">
-                  <MoreIcon />
+                  <MoreVert />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
