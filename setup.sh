@@ -132,6 +132,11 @@ then
         read ans
         if [[ ( $ans -eq "y" || $ans  -eq "Y" ) ]]
         then
+          if ! command -v netlify &> /dev/null
+          then
+            echo -e "${YELLOW}installing netlify cli...${ENDCOLOR}"
+            npm install -g netlify-cli
+          fi
           echo -e "${YELLOW}starting local dev server...${ENDCOLOR}"
           netlify dev
         fi
