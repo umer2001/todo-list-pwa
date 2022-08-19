@@ -1,0 +1,178 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Todo pwa",
+		"_postman_id": "601c9f6a-8c91-3c98-350c-c860ce1614de",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getTodos",
+			"request": {
+				"url": "{{url}}/.netlify/functions/getTodos",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTodo",
+			"request": {
+				"url": "{{url}}/.netlify/functions/deleteTodo",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"id\": \"1234596\",\r\n      \"parentId\": \"4454664354\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "createTodo",
+			"request": {
+				"url": "{{url}}/.netlify/functions/createTodo",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"todo\": \"\",\r\n      \"date\": \"new Date()\",\r\n      \"priority\": \"P1\",\r\n      \"reminders\": [],\r\n      \"comments\": [],\r\n      \"subtodos\": [],\r\n      \"uid\": \"12344155541\"\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"request": {
+				"url": "{{url}}/.netlify/functions/auth",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"email\": \"\",\r\n      \"password\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"url": "{{url}}/.netlify/functions/signup",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"name\": \"\",\r\n      \"email\": \"\",\r\n      \"password\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "addSubTodo",
+			"request": {
+				"url": "{{url}}/.netlify/functions/addSubTodo",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"todo\": \"\",\r\n      \"date\": \"new Date()\",\r\n      \"priority\": \"P1\",\r\n      \"reminders\": [],\r\n      \"comments\": [],\r\n      \"subtodos\": [],\r\n      \"uid\": \"12344155541\"\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "updateTodo",
+			"request": {
+				"url": "{{url}}/.netlify/functions/updateTodo",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"todo\": \"\",\r\n      \"date\": \"new Date()\",\r\n      \"priority\": \"P1\",\r\n      \"reminders\": [],\r\n      \"comments\": [],\r\n      \"subtodos\": [],\r\n      \"uid\": \"12344155541\"\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
