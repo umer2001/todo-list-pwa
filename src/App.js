@@ -1,11 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import {
-  Redirect,
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from "react-router-dom";
-import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import React, { useEffect, useContext } from "react";
+import Router from "./routes";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import { SnackbarProvider } from "notistack";
 import "./App.css";
 import { createScheduledNotification } from "./Context/helperFunctions";
@@ -13,28 +8,12 @@ import {
   GlobalStateContext,
   GlobalDispatchContext,
 } from "./Context/GlobalContext";
-import Appbar from "./Components/Partials/Appbar";
-import Home from "./Pages/Home";
-import Setting from "./Pages/Setting";
-import Theme from "./Pages/Theme";
 import Themes from "./themes";
-import SignUp from "./Pages/SignUp";
-import SignIn from "./Pages/SignIn";
 
 function App() {
-  const [redirect, setRedirect] = useState(false);
   const { theme } = useContext(GlobalStateContext);
   const dispatch = useContext(GlobalDispatchContext);
-  const currentTheme = createMuiTheme(Themes[theme]);
-
-  const useStyles = makeStyles((theme) => ({
-    bg: {
-      minHeight: "100vh",
-      backgroundColor: currentTheme.palette.background.paper,
-    },
-  }));
-
-  const classes = useStyles();
+  const currentTheme = createTheme(Themes[theme]);
 
   useEffect(() => {
     async function registerPeriodicSync() {
@@ -76,7 +55,6 @@ function App() {
     // checking if user is logged in
     if (!localStorage.getItem("token")) {
       console.error("No Token (not logged in...)");
-      setRedirect(true);
     } else {
       if (navigator.serviceWorker) {
         navigator.serviceWorker.addEventListener("message", async (event) => {
@@ -119,19 +97,7 @@ function App() {
         anchorOrigin={{ horizontal: "left", vertical: "top" }}
         autoHideDuration={1200}
       >
-        <Router>
-          {redirect ? <Redirect push to="/sign-in" /> : ""}
-          <div className={classes.bg}>
-            <Appbar />
-            <Switch>
-              <Route path="/sign-up" exect component={SignUp} />
-              <Route path="/sign-in" exect component={SignIn} />
-              <Route path="/setting" exect component={Setting} />
-              <Route path="/theme" exect component={Theme} />
-              <Route path="/" component={Home} />
-            </Switch>
-          </div>
-        </Router>
+        <Router />
       </SnackbarProvider>
     </ThemeProvider>
   );
