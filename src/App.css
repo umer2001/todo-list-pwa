@@ -51,7 +51,13 @@
   }
 }
 
+.container:has(.empty-img) {
+  justify-content: center;
+  align-items: center;
+}
+
 .empty-img {
+  display: block;
   width: 80%;
   max-height: 80%;
   height: auto;
