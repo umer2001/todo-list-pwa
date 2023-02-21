@@ -368,7 +368,7 @@ export default (state, action) => {
       };
     }
     case "POP_STATE": {
-      if (window.history.state !== null) {
+      if (window.history.state.hasOwnProperty("bottomDrawer")) {
         const { bottomDrawer, rightDrawer, todoDetailDrawer } =
           window.history.state;
         return {
@@ -377,9 +377,22 @@ export default (state, action) => {
           rightDrawer,
           todoDetailDrawer,
         };
-      } else {
-        break;
       }
+      return {
+        ...state,
+        bottomDrawer: {
+          ...state.bottomDrawer,
+          open: false,
+        },
+        rightDrawer: {
+          ...state.rightDrawer,
+          open: false,
+        },
+        todoDetailDrawer: {
+          ...state.todoDetailDrawer,
+          open: false,
+        },
+      };
     }
     case "CHANGE_THEME": {
       localStorage.setItem("theme", action.payload);
