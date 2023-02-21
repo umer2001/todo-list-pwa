@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useSnackbar } from "notistack";
-import { Redirect, Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import {
   makeStyles,
   Container,
@@ -186,7 +186,7 @@ const SignIn = () => {
 
   return (
     <>
-      {redirect ? <Redirect push to="/" /> : ""}
+      {redirect ? <Navigate push to="/" /> : ""}
       <div className={classes.root}>
         <Container maxWidth="sm" className={classes.center}>
           <img className="signORligin-logo" src={logo} alt="logo" />
