@@ -1,5 +1,9 @@
 node_modules
+build
+.git
 .dockerignore
 .env
+.env.*
 Dockerfile
 Dockerfile.prod
+.netlify

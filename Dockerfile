@@ -1,24 +1,23 @@
-FROM node:14.17-alpine3.11 as build
+FROM node:20-alpine AS build
 
 ENV REACT_APP_ENVIRONMENT=production
 
 WORKDIR /app
 
-COPY ./package.json .
+RUN apk add --no-cache python3 make g++
 
-RUN npm install
+COPY package.json yarn.lock ./
+
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
 # production environment
-
 FROM nginx:stable-alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
-
-# new
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
