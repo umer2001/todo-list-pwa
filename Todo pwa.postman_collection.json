@@ -1,176 +1,331 @@
 {
-	"variables": [],
 	"info": {
-		"name": "Todo pwa",
 		"_postman_id": "601c9f6a-8c91-3c98-350c-c860ce1614de",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"name": "Todo PWA (Neon)",
+		"description": "Netlify Functions API collection for Todo List PWA backed by Neon PostgreSQL.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": [
+	"variable": [
 		{
-			"name": "getTodos",
-			"request": {
-				"url": "{{url}}/.netlify/functions/getTodos",
-				"method": "GET",
-				"header": [
-					{
-						"key": "x-auth-token",
-						"value": "{{x-auth-token}}",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+			"key": "url",
+			"value": "http://localhost:8888",
+			"type": "string"
 		},
 		{
-			"name": "deleteTodo",
+			"key": "x-auth-token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    const json = pm.response.json();",
+							"    if (json.token) {",
+							"        pm.collectionVariables.set('x-auth-token', json.token);",
+							"    }",
+							"}"
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "{{url}}/.netlify/functions/deleteTodo",
-				"method": "DELETE",
+				"method": "POST",
 				"header": [
 					{
-						"key": "x-auth-token",
-						"value": "{{x-auth-token}}",
-						"description": ""
-					},
-					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n      \"id\": \"1234596\",\r\n      \"parentId\": \"4454664354\"\r\n}"
+					"raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"password\": \"StrongPassword123!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url}}/.netlify/functions/signup",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"signup"
+					]
+				},
+				"description": "Register a new user and return a JWT token (auto-saved to x-auth-token collection variable)."
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    const json = pm.response.json();",
+							"    if (json.token) {",
+							"        pm.collectionVariables.set('x-auth-token', json.token);",
+							"    }",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"StrongPassword123!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/.netlify/functions/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"auth"
+					]
+				},
+				"description": "Authenticate an existing user and return a JWT token (auto-saved to x-auth-token collection variable)."
+			},
+			"response": []
+		},
+		{
+			"name": "getTodos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/.netlify/functions/getTodos",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"getTodos"
+					]
+				},
+				"description": "Fetch all todos for the authenticated user, keyed by uid."
 			},
 			"response": []
 		},
 		{
 			"name": "createTodo",
 			"request": {
-				"url": "{{url}}/.netlify/functions/createTodo",
 				"method": "POST",
 				"header": [
 					{
 						"key": "x-auth-token",
-						"value": "{{x-auth-token}}",
-						"description": ""
+						"value": "{{x-auth-token}}"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n      \"todo\": \"\",\r\n      \"date\": \"new Date()\",\r\n      \"priority\": \"P1\",\r\n      \"reminders\": [],\r\n      \"comments\": [],\r\n      \"subtodos\": [],\r\n      \"uid\": \"12344155541\"\r\n    }"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "auth",
-			"request": {
-				"url": "{{url}}/.netlify/functions/auth",
-				"method": "POST",
-				"header": [
-					{
-						"key": "x-auth-token",
-						"value": "{{x-auth-token}}",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+					"raw": "{\n  \"uid\": \"todo-1001\",\n  \"todo\": \"Buy groceries\",\n  \"description\": \"Milk, eggs, bread\",\n  \"status\": false,\n  \"date\": \"2026-11-22T12:00:00.000Z\",\n  \"priority\": \"P1\",\n  \"comments\": [\n    \"Check discounts\"\n  ],\n  \"reminders\": [\n    \"2026-11-23T09:00:00.000Z\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
 					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n      \"email\": \"\",\r\n      \"password\": \"\"\r\n}"
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "signup",
-			"request": {
-				"url": "{{url}}/.netlify/functions/signup",
-				"method": "POST",
-				"header": [
-					{
-						"key": "x-auth-token",
-						"value": "{{x-auth-token}}",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n      \"name\": \"\",\r\n      \"email\": \"\",\r\n      \"password\": \"\"\r\n}"
+				"url": {
+					"raw": "{{url}}/.netlify/functions/createTodo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"createTodo"
+					]
 				},
-				"description": ""
+				"description": "Create a new top-level todo."
 			},
 			"response": []
 		},
 		{
 			"name": "addSubTodo",
 			"request": {
-				"url": "{{url}}/.netlify/functions/addSubTodo",
 				"method": "POST",
 				"header": [
 					{
 						"key": "x-auth-token",
-						"value": "{{x-auth-token}}",
-						"description": ""
+						"value": "{{x-auth-token}}"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n      \"todo\": \"\",\r\n      \"date\": \"new Date()\",\r\n      \"priority\": \"P1\",\r\n      \"reminders\": [],\r\n      \"comments\": [],\r\n      \"subtodos\": [],\r\n      \"uid\": \"12344155541\"\r\n    }"
+					"raw": "{\n  \"parentId\": \"todo-1001\",\n  \"newTodo\": {\n    \"uid\": \"subtodo-1002\",\n    \"todo\": \"Buy organic milk\",\n    \"description\": \"\",\n    \"status\": true,\n    \"date\": \"2026-11-22T12:05:00.000Z\",\n    \"priority\": \"P2\",\n    \"comments\": [],\n    \"reminders\": []\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url}}/.netlify/functions/addSubTodo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"addSubTodo"
+					]
+				},
+				"description": "Create a sub-todo attached to an existing parent todo (parentId = parent's uid)."
 			},
 			"response": []
 		},
 		{
 			"name": "updateTodo",
 			"request": {
-				"url": "{{url}}/.netlify/functions/updateTodo",
 				"method": "PUT",
 				"header": [
 					{
 						"key": "x-auth-token",
-						"value": "{{x-auth-token}}",
-						"description": ""
+						"value": "{{x-auth-token}}"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n      \"todo\": \"\",\r\n      \"date\": \"new Date()\",\r\n      \"priority\": \"P1\",\r\n      \"reminders\": [],\r\n      \"comments\": [],\r\n      \"subtodos\": [],\r\n      \"uid\": \"12344155541\"\r\n    }"
+					"raw": "{\n  \"uid\": \"todo-1001\",\n  \"todo\": \"Buy groceries (updated)\",\n  \"description\": \"Milk, eggs, bread, coffee\",\n  \"status\": false,\n  \"date\": \"2026-11-22T12:00:00.000Z\",\n  \"priority\": \"P2\",\n  \"comments\": [\n    \"Check discounts\",\n    \"Added coffee\"\n  ],\n  \"reminders\": [\n    \"2026-11-23T09:00:00.000Z\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url}}/.netlify/functions/updateTodo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"updateTodo"
+					]
+				},
+				"description": "Update an existing todo or sub-todo owned by the authenticated user."
+			},
+			"response": []
+		},
+		{
+			"name": "updateRemindersList",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uid\": \"todo-1001\",\n  \"reminder\": \"2026-11-23T09:00:00.000Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/.netlify/functions/updateRemindersList",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"updateRemindersList"
+					]
+				},
+				"description": "Remove a specific reminder timestamp from a todo's reminders array."
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTodo",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{x-auth-token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"todo-1001\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/.netlify/functions/deleteTodo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"deleteTodo"
+					]
+				},
+				"description": "Delete a todo by uid (automatically cascades to all nested sub-todos via ON DELETE CASCADE)."
 			},
 			"response": []
 		}
