@@ -1,43 +1,61 @@
-const { CREATE_TODO } = require("./utils/todoQuries");
-const sendQuery = require("./utils/sendQuries");
+const { createTodo } = require("./utils/todoQueries");
+const { parseJsonBody, isNonEmptyString } = require("./utils/db");
 const formattedResponse = require("./utils/formattedResponse");
 const decode = require("./utils/decode");
 
 exports.handler = async (event) => {
-  console.log(JSON.parse(event.body));
   try {
     const decoded = decode(event);
     if (!decoded) {
       return formattedResponse(401, { err: "No Token, can not authorize" });
     }
-    console.log(decoded);
+
+    const parsed = parseJsonBody(event);
+    if (!parsed.ok) {
+      return formattedResponse(400, { err: parsed.error });
+    }
+
     const {
       todo,
       description,
       uid,
       status,
+      date,
       priority,
-      subtodos,
       comments,
       reminders,
-    } = JSON.parse(event.body);
-    const variables = {
+    } = parsed.data;
+
+    if (!isNonEmptyString(todo) || !isNonEmptyString(uid)) {
+      return formattedResponse(400, {
+        err: "Todo title and uid are required",
+      });
+    }
+
+    const createdTodo = await createTodo({
       userId: decoded.id,
       todo,
-      description: "",
+      description: typeof description === "string" ? description : "",
       uid,
-      status,
-      date: new Date(),
+      status: Boolean(status),
+      date: date || new Date().toISOString(),
       priority,
-      subtodos,
       comments,
       reminders,
-    };
-
-    const { createTodo: createdTodo } = await sendQuery(CREATE_TODO, variables);
+    });
 
     return formattedResponse(200, createdTodo);
   } catch (err) {
+    if (err && err.code === "23505") {
+      return formattedResponse(409, {
+        err: "Todo with this uid already exists",
+      });
+    }
+    if (err && err.code === "23503") {
+      return formattedResponse(401, {
+        err: "User account not found, please sign in again",
+      });
+    }
     console.error(err);
     return formattedResponse(500, { err: "Something went wrong" });
   }

@@ -1,51 +1,57 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { USER_EXISTS, CREATE_USER } = require("./utils/userQuries");
-const sendQuery = require("./utils/sendQuries");
+const { userExists, createUser } = require("./utils/userQueries");
+const { parseJsonBody, isNonEmptyString } = require("./utils/db");
 const formattedResponse = require("./utils/formattedResponse");
 require("dotenv").config();
 
 exports.handler = async (event) => {
-  const { name, email, password } = JSON.parse(event.body);
+  const parsed = parseJsonBody(event);
+  if (!parsed.ok) {
+    return formattedResponse(400, { err: parsed.error });
+  }
 
-  if (!email || !password || !name) {
+  const { name, email, password } = parsed.data;
+
+  if (
+    !isNonEmptyString(email) ||
+    !isNonEmptyString(name) ||
+    typeof password !== "string" ||
+    !password
+  ) {
     return formattedResponse(400, {
       err: "Name, Email or Password not provided",
     });
   }
 
-  var variables = {
-    email,
-  };
-
   try {
-    // user already exists
-    const { userExists } = await sendQuery(USER_EXISTS, variables);
-    console.log("res", userExists);
-    if (userExists) {
+    const exists = await userExists(email);
+    if (exists) {
       return formattedResponse(400, {
         err: `Email ${email} already exists`,
       });
     }
 
-    // create user
-    variables.name = name;
-    variables.password = password;
-
     const salt = await bcrypt.genSalt(10);
-    console.log("salt : ", salt);
-    const hash = await bcrypt.hash(variables.password, salt);
-    console.log("hash : ", hash);
-    variables.password = hash;
-    const { createUser: createdUser } = await sendQuery(CREATE_USER, variables);
-    console.log("createdUser :", createdUser);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    const createdUser = await createUser({
+      name: name.trim(),
+      email,
+      passwordHash,
+    });
     const token = jwt.sign({ id: createdUser._id }, process.env.JWT_SECRET);
-    console.log("token : ", token);
+
     return formattedResponse(200, {
       token,
       user: createdUser,
     });
   } catch (err) {
+    if (err && err.code === "23505") {
+      return formattedResponse(400, {
+        err: `Email ${email} already exists`,
+      });
+    }
     console.error(err);
     return formattedResponse(500, { err: "Something went wrong" });
   }

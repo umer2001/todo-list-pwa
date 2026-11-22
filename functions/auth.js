@@ -1,49 +1,44 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { USER_EXISTS, USER_BY_EMAIL } = require("./utils/userQuries");
-const sendQuery = require("./utils/sendQuries");
+const { getUserByEmail } = require("./utils/userQueries");
+const { parseJsonBody, isNonEmptyString } = require("./utils/db");
 const formattedResponse = require("./utils/formattedResponse");
 require("dotenv").config();
 
 exports.handler = async (event) => {
-  const { email, password } = JSON.parse(event.body);
+  const parsed = parseJsonBody(event);
+  if (!parsed.ok) {
+    return formattedResponse(400, { err: parsed.error });
+  }
 
-  if (!email || !password) {
+  const { email, password } = parsed.data;
+
+  if (!isNonEmptyString(email) || typeof password !== "string" || !password) {
     return formattedResponse(400, {
       err: "Email or Password not provided",
     });
   }
 
-  var variables = {
-    email,
-  };
-
   try {
-    // user already exists
-    const { userExists } = await sendQuery(USER_EXISTS, variables);
-    console.log("res", userExists);
-    if (!userExists) {
+    const user = await getUserByEmail(email);
+    if (!user) {
       return formattedResponse(400, {
         err: `Email ${email} does not exists`,
       });
     }
 
-    // get user info
-    const { userByEmail } = await sendQuery(USER_BY_EMAIL, variables);
-
-    const isMatched = await bcrypt.compare(password, userByEmail.password);
+    const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched) {
       return formattedResponse(400, { err: "invalid password" });
     }
 
-    const token = jwt.sign({ id: userByEmail._id }, process.env.JWT_SECRET);
-    console.log("token : ", token);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     return formattedResponse(200, {
       token,
       user: {
-        name: userByEmail.name,
-        email: userByEmail.email,
-        _id: userByEmail._id,
+        name: user.name,
+        email: user.email,
+        _id: user._id,
       },
     });
   } catch (err) {

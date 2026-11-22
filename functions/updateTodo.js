@@ -1,5 +1,5 @@
-const { UPDATE_TODO } = require("./utils/todoQuries");
-const sendQuery = require("./utils/sendQuries");
+const { updateTodo } = require("./utils/todoQueries");
+const { parseJsonBody, isNonEmptyString } = require("./utils/db");
 const formattedResponse = require("./utils/formattedResponse");
 const decode = require("./utils/decode");
 
@@ -7,39 +7,52 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "PUT") {
     return formattedResponse(405, { err: "Method not supported" });
   }
-  console.log(event.body);
 
   try {
     const decoded = decode(event);
     if (!decoded) {
       return formattedResponse(401, { err: "No Token, can not authorize" });
     }
-    console.log(decoded);
+
+    const parsed = parseJsonBody(event);
+    if (!parsed.ok) {
+      return formattedResponse(400, { err: parsed.error });
+    }
 
     const {
-      _id: id,
       todo,
       description,
       status,
       uid: uId,
       date,
       priority,
-      subtodos,
       comments,
       reminders,
-    } = JSON.parse(event.body);
-    const variables = {
+    } = parsed.data;
+
+    if (!isNonEmptyString(uId) || !isNonEmptyString(todo)) {
+      return formattedResponse(400, {
+        err: "Todo uid and title are required",
+      });
+    }
+
+    const updatedTodo = await updateTodo({
       userId: decoded.id,
       uId,
       todo,
-      description: "",
-      status,
+      description: typeof description === "string" ? description : "",
+      status: status === undefined ? undefined : Boolean(status),
       date,
       priority,
       comments,
       reminders,
-    };
-    const { updateTodo: updatedTodo } = await sendQuery(UPDATE_TODO, variables);
+    });
+
+    if (!updatedTodo) {
+      return formattedResponse(401, {
+        err: "cannot perform this operation",
+      });
+    }
 
     return formattedResponse(200, updatedTodo);
   } catch (err) {

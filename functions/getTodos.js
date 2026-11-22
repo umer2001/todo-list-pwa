@@ -1,5 +1,4 @@
-const { GET_ALLTODOS, GET_TODOS_BY_USER_ID } = require("./utils/todoQuries");
-const sendQuery = require("./utils/sendQuries");
+const { getTodosByUserId } = require("./utils/todoQueries");
 const reducerFunction = require("./utils/reducerFunction");
 const formattedResponse = require("./utils/formattedResponse");
 const decode = require("./utils/decode");
@@ -10,19 +9,10 @@ exports.handler = async (event) => {
     if (!decoded) {
       return formattedResponse(401, { err: "No Token, can not authorize" });
     }
-    console.log(decoded);
-    const variables = {
-      userId: decoded.id,
-    };
-    const res = await sendQuery(GET_TODOS_BY_USER_ID, variables);
-    console.log(res);
-    const data = res.todosByUserId;
-    const convertedData = data.reduce(reducerFunction, {});
 
-    console.log(convertedData);
-    // const res = await sendQuery(GET_ALLTODOS);
-    // const data = res.allTodos.data;
-    // const convertedData = data.reduce(reducerFunction, {});
+    const todos = await getTodosByUserId(decoded.id);
+    const convertedData = todos.reduce(reducerFunction, {});
+
     return formattedResponse(200, convertedData);
   } catch (err) {
     console.error(err);

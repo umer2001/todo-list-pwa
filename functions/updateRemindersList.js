@@ -1,20 +1,35 @@
-const { UPDATE_REMINDERS_LIST } = require("./utils/todoQuries");
-const sendQuery = require("./utils/sendQuries");
+const { removeReminder } = require("./utils/todoQueries");
+const { parseJsonBody, isNonEmptyString } = require("./utils/db");
 const formattedResponse = require("./utils/formattedResponse");
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "PUT") {
     return formattedResponse(405, { err: "Method not supported" });
   }
-  console.log(event.body);
-  const { uid, reminder } = JSON.parse(event.body);
-  const variables = {
-    todoUid: uid,
-    reminder,
-  };
+
+  const parsed = parseJsonBody(event);
+  if (!parsed.ok) {
+    return formattedResponse(400, { err: parsed.error });
+  }
+
+  const { uid, reminder } = parsed.data;
+  if (!isNonEmptyString(uid) || !isNonEmptyString(reminder)) {
+    return formattedResponse(400, {
+      err: "Todo uid and reminder are required",
+    });
+  }
+
   try {
-    const res = await sendQuery(UPDATE_REMINDERS_LIST, variables);
-    return formattedResponse(200, res);
+    const updated = await removeReminder({
+      todoUid: uid,
+      reminder,
+    });
+
+    if (!updated) {
+      return formattedResponse(404, { err: "Todo not found" });
+    }
+
+    return formattedResponse(200, { updateRemindersList: "ok" });
   } catch (err) {
     console.error(err);
     return formattedResponse(500, { err: "Something went wrong" });

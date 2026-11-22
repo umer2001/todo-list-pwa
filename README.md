@@ -8,26 +8,47 @@ https://umer2001-todo-pwa.netlify.app/
 
 - Cross platform (PWA)
 - Offline Capabilities (PWA)
-- User Auth
+- User Auth (JWT + bcrypt)
+- Nested Sub-tasks, Comments, Priorities, and Reminders
 - Different Themes
-- Automated Backend setup
+- Neon PostgreSQL backend with Netlify Functions
 - Dockerized
 - Android feel
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+Copy `.env.example` to `.env` (and configure the same variables in your Netlify site settings):
 
-`REACT_APP_ENVIRONMENT` development/production
+- `DATABASE_URL` — Neon PostgreSQL connection string (from Neon Console -> Connection Details)
+- `JWT_SECRET` — Secret string used to sign JWT tokens
+- `REACT_APP_ENVIRONMENT` — `development` or `production`
+- `REACT_APP_MODE` — `guest` or `normal`
 
-`FAUNA_DB_SECRET` DB secret, obtained manually or by setup script
+If you set `REACT_APP_MODE=guest`, also set:
 
-`JWT_SECRET` Any String example : hello_world, abcd, etc
+- `REACT_APP_GUEST_EMAIL` — Email address for the guest account
+- `REACT_APP_GUEST_PASSWORD` — Password for the guest account
 
-`REACT_APP_MODE` guest/normal
+## Database Setup (Neon)
 
-If you set `REACT_APP_MODE=guest` then you also have to add environment variables listed below :
-
-`REACT_APP_GUEST_EMAIL` email address for guest account, obtained manually or by setup script
-
-`REACT_APP_GUEST_PASSWORD` password for guest account, obtained manually or by setup script
+1. Create a project in [Neon](https://neon.tech) and copy its pooled connection string into `DATABASE_URL` in `.env`.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the idempotent database schema migration:
+   ```bash
+   npm run db:migrate
+   ```
+4. (Optional) If using `REACT_APP_MODE=guest`, seed the guest account:
+   ```bash
+   npm run db:seed-guest
+   ```
+5. (Optional) Run the live Neon end-to-end verification suite:
+   ```bash
+   npm run test:neon
+   ```
+6. Start the local dev server (React + Netlify Functions):
+   ```bash
+   netlify dev
+   ```

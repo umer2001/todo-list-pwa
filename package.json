@@ -7,6 +7,7 @@
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/pickers": "^3.2.10",
+    "@neondatabase/serverless": "^1.0.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -38,7 +39,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "db:migrate": "node db/migrate.js",
+    "db:seed-guest": "node db/seedGuest.js",
+    "test:functions": "node --test tests/*.test.js",
+    "test:neon": "node scripts/test-neon-e2e.js"
   },
   "eslintConfig": {
     "extends": [
@@ -59,8 +64,6 @@
     ]
   },
   "devDependencies": {
-    "fauna-shell": "^0.12.4",
-    "faunadb": "^4.3.0",
     "use-reducer-logger": "^1.0.2"
   }
 }
